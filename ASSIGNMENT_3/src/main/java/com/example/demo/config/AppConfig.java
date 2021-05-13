@@ -31,7 +31,7 @@ public class AppConfig {
         return new StudentService();
     }*/
 
-    @Bean
+    @Bean(name="entityManagerFactory")
     public LocalSessionFactoryBean sessionFactory(){
 
         Properties properties = new Properties();
@@ -44,7 +44,7 @@ public class AppConfig {
 
         LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
 
-        sessionFactoryBean.setPackagesToScan("com.example.demo.com.example.demo.model");
+        sessionFactoryBean.setPackagesToScan("com.example.demo.model");
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
