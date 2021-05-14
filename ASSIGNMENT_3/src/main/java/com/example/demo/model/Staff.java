@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Table(name = "staff")
@@ -17,6 +18,9 @@ public class Staff implements Serializable {
 
     @Column(name = "lastname")
     private String lastName;
+
+    @OneToMany(mappedBy = "staff")
+    private Collection<ReceivingNote> receivingNotes;
 
 
 
