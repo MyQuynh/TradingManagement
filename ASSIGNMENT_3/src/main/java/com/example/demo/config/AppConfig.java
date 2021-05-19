@@ -1,58 +1,60 @@
-//package com.example.demo.config;
-//
-//import org.hibernate.SessionFactory;
-//import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.jdbc.datasource.DriverManagerDataSource;
-//import org.springframework.orm.hibernate5.HibernateTransactionManager;
-//import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
-//import org.springframework.transaction.annotation.EnableTransactionManagement;
-//import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-//
-//
-//import java.util.Properties;
-//
-//
-//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
-//@Configuration
-//@EnableTransactionManagement
-//@EnableWebMvc
-//public class AppConfig {
-//
-//    // AppConfig
-//    @Bean(name="entityManagerFactory")
-//    public LocalSessionFactoryBean sessionFactory(){
-//
-//        Properties properties = new Properties();
-//        //For Postgresql
-//        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-//        //For mysql
-//        //properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-//        properties.put("hibernate.show_sql", true);
-//        properties.put("hibernate.hbm2ddl.auto", "update");
-//
-//        LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-//
-//        sessionFactoryBean.setPackagesToScan("com.example.demo.model");
-//
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName("org.postgresql.Driver");
-//        dataSource.setUrl("jdbc:postgresql://localhost:5432/trading");
-//        dataSource.setUsername("postgres");
-//        dataSource.setPassword("ngomyquynh");
-//
-//        sessionFactoryBean.setDataSource(dataSource);
-//        sessionFactoryBean.setHibernateProperties(properties);
-//        return sessionFactoryBean;
-//    }
-//
-//    @Bean
-//    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory){
-//        HibernateTransactionManager tx = new HibernateTransactionManager(sessionFactory);
-//
-//        return tx;
-//    }
-//
-//}
+package com.example.demo.config;
+
+import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
+@EnableJpaRepositories
+@EnableTransactionManagement
+@ComponentScan("com.example.demo")
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public DataSource dataSource() {
+        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+        dataSourceBuilder.username("postgres");
+        dataSourceBuilder.password("ngomyquynh");
+        dataSourceBuilder.url("jdbc:postgresql://localhost:5432/trading");
+        return dataSourceBuilder.build();
+    }
+
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+        entityManagerFactory.setDataSource(dataSource());
+        entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter());
+        entityManagerFactory.setPackagesToScan("com.example.demo.model");
+        return entityManagerFactory;
+    }
+
+    @Bean
+    public JpaVendorAdapter jpaVendorAdapter() {
+        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+        hibernateJpaVendorAdapter.setShowSql(false);
+        hibernateJpaVendorAdapter.setGenerateDdl(true);
+        hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
+        return hibernateJpaVendorAdapter;
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
+    }
+}
