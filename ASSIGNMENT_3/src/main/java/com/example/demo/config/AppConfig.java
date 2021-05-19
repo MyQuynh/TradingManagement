@@ -30,7 +30,7 @@ public class AppConfig {
     public StudentService studentService(){
         return new StudentService();
     }*/
-
+    // AppConfig
     @Bean(name="entityManagerFactory")
     public LocalSessionFactoryBean sessionFactory(){
 

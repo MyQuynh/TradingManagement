@@ -12,10 +12,10 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "firstname")
+    @Column(name = "firstname",nullable = false)
     private String firstName;
 
-    @Column(name = "lastname")
+    @Column(name = "lastname",nullable = false)
     private String lastName;
 
     protected Customer() {
@@ -30,6 +30,15 @@ public class Customer implements Serializable {
     public String toString() {
         return String.format("Customer[id=%d, firstName='%s', lastName='%s']", id, firstName, lastName);
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
     }

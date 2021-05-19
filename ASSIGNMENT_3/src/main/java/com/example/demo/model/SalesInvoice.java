@@ -18,5 +18,41 @@ public class SalesInvoice {
     @OneToOne
     private Customer customer;
 
+    public SalesInvoice(String date, String staff_name, Customer customer) {
+        this.date = date;
+        this.staff_name = staff_name;
+        this.customer = customer;
+    }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getStaff_name() {
+        return staff_name;
+    }
+
+    public void setStaff_name(String staff_name) {
+        this.staff_name = staff_name;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

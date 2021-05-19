@@ -3,5 +3,5 @@ package com.example.demo.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SalesInvoiceController {
+public class ReceivingNoteController {
 }

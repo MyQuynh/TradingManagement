@@ -4,6 +4,7 @@ public class CustomerUI {
     private String firstName;
     private String lastName;
     protected CustomerUI() {
+
     }
 
     public CustomerUI(String firstName, String lastName) {
