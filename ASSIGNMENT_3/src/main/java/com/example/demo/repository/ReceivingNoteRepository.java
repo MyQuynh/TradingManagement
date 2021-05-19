@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface ReceivingNoteRepository extends JpaRepository<ReceivingNote, Long> {
-    List<ReceivingNote> findByFirstName(String FirstName);
+
     List<ReceivingNote> findAll();
 
     ReceivingNote findReceivingNoteById(Long receivingNoteId);

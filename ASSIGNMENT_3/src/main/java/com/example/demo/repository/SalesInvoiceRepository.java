@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long> {
 
-    List<SalesInvoice> findByFirstName(String FirstName);
+
     List<SalesInvoice> findAll();
 
     SalesInvoice findSalesInvoiceById(Long salesInvoiceId);

@@ -30,10 +30,6 @@ public class DeliveryNoteService {
         return deliveryNoteRepository.findDeliveryNoteById(deliveryNoteId);
     }
 
-    public List<DeliveryNote> findByFirstName(String customerName){
-        return deliveryNoteRepository.findByFirstName(customerName);
-    }
-
     public DeliveryNote save(DeliveryNote deliveryNote){
         deliveryNoteRepository.save(deliveryNote);
         return deliveryNote;

@@ -5,10 +5,11 @@ import java.util.Collection;
 
 
 @Entity
-@Table(name="order")
+@Table(name="orderService")
 public class Order {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(name="date")
@@ -27,7 +28,7 @@ public class Order {
         this.provider_id = provider_id;
     }
 
-    @OneToMany(mappedBy = "order_detail", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Collection<OrderDetail> orderDetails;
 
 

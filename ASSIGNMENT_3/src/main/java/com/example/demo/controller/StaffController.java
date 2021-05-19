@@ -50,7 +50,7 @@ public class StaffController {
 
 
     // Delete the receiving note by id
-    @DeleteMapping("receivingNotes/delete/{id}")
+    @DeleteMapping("staffs/delete/{id}")
     public void deleteStaff(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
 //            Staff staff = staffService.findStaffById(id);

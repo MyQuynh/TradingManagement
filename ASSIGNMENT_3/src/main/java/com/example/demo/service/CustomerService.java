@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Service
 public class CustomerService {
+
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -31,9 +32,6 @@ public class CustomerService {
         return customerRepository.findCustomersById(customerId);
     }
 
-    public List<Customer> findByFirstName(String customerName){
-        return customerRepository.findByFirstName(customerName);
-    }
 
     public Customer save(Customer customer){
         customerRepository.save(customer);

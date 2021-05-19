@@ -12,7 +12,6 @@ import java.util.Optional;
 @Repository
 public interface DeliveryNoteRepository extends JpaRepository<DeliveryNote, Long> {
 
-    List<DeliveryNote> findByFirstName(String FirstName);
     List<DeliveryNote> findAll();
 
     DeliveryNote findDeliveryNoteById(Long deliveryNoteId);

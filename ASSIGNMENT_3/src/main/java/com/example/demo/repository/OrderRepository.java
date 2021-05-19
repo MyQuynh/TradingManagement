@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> findByFirstName(String FirstName);
+
     List<Order> findAll();
 
     Order findOrderById(Long orderId);

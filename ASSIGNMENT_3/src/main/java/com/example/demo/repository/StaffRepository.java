@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface StaffRepository extends JpaRepository<Staff, Long> {
-    List<Staff> findByFirstName(String FirstName);
+
     List<Staff> findAll();
 
     Staff findStaffById(Long staffId);

@@ -15,13 +15,13 @@ public class SalesInvoiceController {
     ReceivingNoteService receivingNoteService;
 
     // Get all the order
-    @GetMapping("receivingNotes")
+    @GetMapping("salesInvoices")
     public List<ReceivingNote> findAll(){
         return receivingNoteService.findAll();
     }
 
     // Get the order by id
-    @GetMapping("receivingNotes/{id}")
+    @GetMapping("salesInvoices/{id}")
     public ReceivingNote findReceivingNoteById(@PathVariable("id") long id) throws ResourcesNotFoundException {
 
         return receivingNoteService.findReceivingNoteById(id);
@@ -30,13 +30,13 @@ public class SalesInvoiceController {
     }
 
     // Create the receiving Note
-    @PostMapping("receivingNotes/add")
+    @PostMapping("salesInvoices/add")
     public ReceivingNote createReceivingNote(@RequestBody ReceivingNote receivingNote){
         return receivingNoteService.save(receivingNote);
     }
 
     // Update the receiving note  by id
-    @PutMapping("receivingNotes/update/{id}")
+    @PutMapping("salesInvoices/update/{id}")
     public ReceivingNote updateReceivingNote(@PathVariable("id") long id) throws ResourcesNotFoundException{
         ReceivingNote receivingNote = receivingNoteService.findReceivingNoteById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
@@ -45,7 +45,7 @@ public class SalesInvoiceController {
 
 
     // Delete the receiving note by id
-    @DeleteMapping("receivingNotes/delete/{id}")
+    @DeleteMapping("salesInvoices/delete/{id}")
     public void deleteReceivingNote(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             ReceivingNote receivingNote = receivingNoteService.findReceivingNoteById(id);

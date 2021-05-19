@@ -18,6 +18,10 @@ public class DeliveryNote {
 
     // Getter, setter and constructor
 
+    public DeliveryNote(){
+        super();
+    }
+
 
     public DeliveryNote(String date, long staff_id) {
         this.date = date;
