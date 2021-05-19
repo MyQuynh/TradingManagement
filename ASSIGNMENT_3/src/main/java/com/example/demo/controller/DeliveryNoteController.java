@@ -40,7 +40,7 @@ public class DeliveryNoteController {
     }
 
     // Update the customer by id
-    @PostMapping("/deliveryNotes/update/{id}")
+    @PutMapping("/deliveryNotes/update/{id}")
     public DeliveryNote updateDelivery(@PathVariable("id") long id) throws ResourcesNotFoundException{
         DeliveryNote deliveryNote = deliveryNoteService.findDeliveryNoteById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
@@ -49,7 +49,7 @@ public class DeliveryNoteController {
 
 
     // Delete the customer by id
-    @PostMapping("/deliveryNotes/delete/{id}")
+    @DeleteMapping("/deliveryNotes/delete/{id}")
     public void deleteCustomer(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             DeliveryNote deliveryNote = deliveryNoteService.findDeliveryNoteById(id);

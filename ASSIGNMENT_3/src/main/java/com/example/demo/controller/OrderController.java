@@ -18,13 +18,13 @@ public class OrderController {
     OrderService orderService;
 
     // Get all the customer
-    @GetMapping("/orderNotes")
+    @GetMapping("orders")
     public List<Order> findAll(){
         return orderService.findAll();
     }
 
     // Get the customer by id
-    @GetMapping("/deliveryNotes/{id}")
+    @GetMapping("orders/{id}")
     public Order findOrderById(@PathVariable("id") long id) throws ResourcesNotFoundException {
 
         return orderService.findOrderById(id);
@@ -33,13 +33,13 @@ public class OrderController {
     }
 
     // Create the customer
-    @PostMapping("/deliveryNotes/add")
+    @PostMapping("orders/add")
     public Order createOrder(@RequestBody Order order){
         return orderService.save(order);
     }
 
     // Update the customer by id
-    @PostMapping("/deliveryNotes/update/{id}")
+    @PutMapping("orders/update/{id}")
     public Order updateOrder(@PathVariable("id") long id) throws ResourcesNotFoundException{
         Order order = orderService.findOrderById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
@@ -48,7 +48,7 @@ public class OrderController {
 
 
     // Delete the customer by id
-    @PostMapping("/deliveryNotes/delete/{id}")
+    @DeleteMapping("orders/delete/{id}")
     public void deleteOrder(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             Order order = orderService.findOrderById(id);

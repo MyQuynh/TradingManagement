@@ -19,6 +19,7 @@ public class Customer implements Serializable {
     private String lastName;
 
     protected Customer() {
+        super();
     }
 
     public Customer(String firstName, String lastName) {

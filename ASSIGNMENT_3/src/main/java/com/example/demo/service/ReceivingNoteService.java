@@ -47,7 +47,7 @@ public class ReceivingNoteService {
         return receivingNoteRepository.existsById(receivingNoteId);
     }
 
-    public ReceivingNote updateOrder(ReceivingNote receivingNote){
+    public ReceivingNote updateReceivingNote(ReceivingNote receivingNote){
         ReceivingNote updateReceivingNote = receivingNoteRepository.findReceivingNoteById((receivingNote.getId()));
         updateReceivingNote.setDate(receivingNote.getDate());
         updateReceivingNote.setStaff(receivingNote.getStaff());

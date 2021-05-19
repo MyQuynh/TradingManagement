@@ -1,8 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ResourcesNotFoundException;
 import com.example.demo.model.Customer;
 import com.example.demo.repository.CustomerRepository;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -49,10 +52,20 @@ public class CustomerService {
         return customerRepository.existsById(customerId);
     }
 
-    public Customer updateCustomer(Customer customer){
-        Customer updateCustomer = customerRepository.findCustomersById(customer.getId());
+    public Customer updateCustomer(Customer customer) throws ResourcesNotFoundException {
+        Customer updateCustomer = customerRepository.findById(customer.getId())
+                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ customer.getId()));
         updateCustomer.setFirstName(customer.getFirstName());
         updateCustomer.setLastName(customer.getLastName());
+
+//        if(updateCustomer.isPresent()) {
+//            Customer existingCustomer = updateCustomer.get();
+//            existingCustomer.setFirstName(customer.getFirstName());
+//            existingCustomer.setLastName(customer.getLastName());
+//        } else {
+//            return null;
+//        }
+
         return customerRepository.save(updateCustomer);
     }
 

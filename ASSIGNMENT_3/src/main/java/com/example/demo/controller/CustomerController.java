@@ -47,17 +47,15 @@ public class CustomerController {
     }
 
     // Update the customer by id
-    @PostMapping("customers/update/{id}")
-    public Customer updateCustomer(@PathVariable("id") long id) throws ResourcesNotFoundException{
+    @PutMapping("customers/update/{id}")
+    public Customer updateCustomer(@PathVariable("id") long id) throws ResourcesNotFoundException {
         Customer customer = customerService.findCustomersById(id);
-//                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
-
         return customerService.updateCustomer(customer);
     }
 
 
     // Delete the customer by id
-    @PostMapping("customers/delete/{id}")
+    @DeleteMapping("customers/delete/{id}")
     public void deleteCustomer(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             Customer customer = customerService.findCustomersById(id);
