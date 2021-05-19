@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -53,6 +54,11 @@ public class OrderService {
         updateOrder.setDate(order.getDate());
         updateOrder.setStaff_id(order.getStaff_id());
         return orderRepository.save(updateOrder);
+    }
+
+    // Filter by date between start date and end date
+    public List<Order> findAllOrdersBetween(Date startDate, Date endDate){
+        return orderRepository.findAllOrderBetween(startDate, endDate);
     }
 
 

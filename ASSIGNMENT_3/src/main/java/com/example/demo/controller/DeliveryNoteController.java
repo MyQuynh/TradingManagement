@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.ResourcesNotFoundException;
+import com.example.demo.model.Customer;
 import com.example.demo.model.DeliveryNote;
 import com.example.demo.service.DeliveryNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -54,6 +56,12 @@ public class DeliveryNoteController {
             System.out.println("The delivery id is not in the database yet");
         }
 
+    }
+
+    // Get list of deliveryNote between start date and end date
+    @RequestMapping("/deliveryNotes/searchbydate/{startDate}-{endDate}")
+    public List<DeliveryNote> fetchDataByLastName(@PathVariable Date startDate, @PathVariable Date endDate){
+        return deliveryNoteService.findAllDeliveryNoteBetween(startDate, endDate);
     }
 
 //    @GetMapping("/customer/bulkcreate")

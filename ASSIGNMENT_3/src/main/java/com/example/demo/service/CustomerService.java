@@ -67,6 +67,16 @@ public class CustomerService {
         return customerRepository.save(updateCustomer);
     }
 
+    // Find by firstname
+    public List<Customer> findByFirstName(String firstName){
+        return customerRepository.findByFirstName(firstName);
+    }
+
+    // Find y lastname
+    public List<Customer> findByLastName(String lastName){
+        return customerRepository.findByLastName(lastName);
+    }
+
 
 
 

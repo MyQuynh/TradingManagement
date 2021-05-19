@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -53,4 +54,11 @@ public class ReceivingNoteService {
         updateReceivingNote.setStaff(receivingNote.getStaff());
         return receivingNoteRepository.save(updateReceivingNote);
     }
+
+    // Filter by date between start date and end date
+    public List<ReceivingNote> findAllReceivingNotesBetween(Date startDate, Date endDate){
+        return receivingNoteRepository.findAllReceivingNoteBetween(startDate, endDate);
+    }
+
+
 }

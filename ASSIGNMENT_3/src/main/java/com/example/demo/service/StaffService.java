@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import com.example.demo.model.Customer;
 import com.example.demo.model.SalesInvoice;
 import com.example.demo.model.Staff;
 import com.example.demo.repository.StaffRepository;
@@ -54,5 +55,19 @@ public class StaffService {
         updateStaff.setLastName(staff.getLastName());
         return staffRepository.save(updateStaff);
     }
+
+    // Find by firstname
+    public List<Staff> findByFirstName(String firstName){
+        return staffRepository.findByFirstName(firstName);
+    }
+
+    // Find y lastname
+    public List<Staff> findByLastName(String lastName){
+        return staffRepository.findByLastName(lastName);
+    }
+
+
+
+
 
 }

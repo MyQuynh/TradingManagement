@@ -8,6 +8,7 @@ import com.example.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -18,13 +19,13 @@ public class OrderController {
     OrderService orderService;
 
     // Get all the customer
-    @GetMapping("orders")
+    @GetMapping("/orders")
     public List<Order> findAll(){
         return orderService.findAll();
     }
 
     // Get the customer by id
-    @GetMapping("orders/{id}")
+    @GetMapping("/orders/{id}")
     public Order findOrderById(@PathVariable("id") long id) throws ResourcesNotFoundException {
 
         return orderService.findOrderById(id);
@@ -33,13 +34,13 @@ public class OrderController {
     }
 
     // Create the customer
-    @PostMapping("orders/add")
+    @PostMapping("/orders/add")
     public Order createOrder(@RequestBody Order order){
         return orderService.save(order);
     }
 
     // Update the customer by id
-    @PutMapping("orders/update/{id}")
+    @PutMapping("/orders/update/{id}")
     public Order updateOrder(@PathVariable("id") long id) throws ResourcesNotFoundException{
         Order order = orderService.findOrderById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
@@ -48,7 +49,7 @@ public class OrderController {
 
 
     // Delete the customer by id
-    @DeleteMapping("orders/delete/{id}")
+    @DeleteMapping("/orders/delete/{id}")
     public void deleteOrder(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             Order order = orderService.findOrderById(id);
@@ -57,6 +58,12 @@ public class OrderController {
             System.out.println("The order id is not in the database yet");
         }
 
+    }
+
+    // List of all the order between start date and end date
+    @RequestMapping("/orders/searchbydate/{startDate}-{endDate}")
+    public List<Order> fetchDataByOrder(@PathVariable Date startDate, @PathVariable Date endDate){
+        return orderService.findAllOrdersBetween(startDate, endDate);
     }
 
 

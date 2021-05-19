@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.ResourcesNotFoundException;
+import com.example.demo.model.Customer;
 import com.example.demo.model.ReceivingNote;
+import com.example.demo.model.SalesInvoice;
 import com.example.demo.model.Staff;
 import com.example.demo.repository.StaffRepository;
 import com.example.demo.service.ReceivingNoteService;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -20,13 +23,13 @@ public class StaffController {
     StaffService staffService;
 
     // Get all the order
-    @GetMapping("staffs")
+    @GetMapping("/staffs")
     public List<Staff> findAll(){
         return staffService.findAll();
     }
 
     // Get the order by id
-    @GetMapping("staffs/{id}")
+    @GetMapping("/staffs/{id}")
     public Staff findStaffById(@PathVariable("id") long id) throws ResourcesNotFoundException {
 
         return staffService.findStaffById(id);
@@ -35,13 +38,13 @@ public class StaffController {
     }
 
     // Create the receiving Note
-    @PostMapping("staffs/add")
+    @PostMapping("/staffs/add")
     public Staff createStaff(@RequestBody Staff staff){
         return staffService.save(staff);
     }
 
     // Update the receiving note  by id
-    @PutMapping("staffs/update/{id}")
+    @PutMapping("/staffs/update/{id}")
     public Staff updateStaff(@PathVariable("id") long id) throws ResourcesNotFoundException{
         Staff staff = staffService.findStaffById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
@@ -50,7 +53,7 @@ public class StaffController {
 
 
     // Delete the receiving note by id
-    @DeleteMapping("staffs/delete/{id}")
+    @DeleteMapping("/staffs/delete/{id}")
     public void deleteStaff(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
 //            Staff staff = staffService.findStaffById(id);
@@ -60,6 +63,21 @@ public class StaffController {
         }
 
     }
+
+    // Search by firstName
+    @RequestMapping("/staffs/searchbyfirstname/{firstname}")
+    public List<Staff> fetchDataByFirstName(@PathVariable String firstname){
+
+        return staffService.findByFirstName(firstname);
+    }
+
+    // Search by lastName
+    @RequestMapping("/staffs/searchbylastname/{lastname}")
+    public List<Staff> fetchDataByLastName(@PathVariable String lastname){
+        return staffService.findByLastName(lastname);
+    }
+
+
 
 //    @GetMapping("/bulkcreate")
 //    public String bulkcreate(){

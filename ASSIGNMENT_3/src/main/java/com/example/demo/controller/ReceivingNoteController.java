@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.ResourcesNotFoundException;
+import com.example.demo.model.Order;
 import com.example.demo.model.ReceivingNote;
 import com.example.demo.service.ReceivingNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -54,6 +56,12 @@ public class ReceivingNoteController {
             System.out.println("The receiving note id is not in the database yet");
         }
 
+    }
+
+    // List of all the order between start date and end date
+    @RequestMapping("/receivingNotes/searchbydate/{startDate}-{endDate}")
+    public List<ReceivingNote> fetchDataByReceivingNotes(@PathVariable Date startDate, @PathVariable Date endDate){
+        return receivingNoteService.findAllReceivingNotesBetween(startDate, endDate);
     }
 
 

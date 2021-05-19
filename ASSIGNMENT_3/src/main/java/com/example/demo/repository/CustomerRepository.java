@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
 
     List<Customer> findByFirstName(String FirstName);
+    List<Customer> findByLastName(String LastName);
+
     List<Customer> findAll();
 
     Customer findCustomersById(Long id);

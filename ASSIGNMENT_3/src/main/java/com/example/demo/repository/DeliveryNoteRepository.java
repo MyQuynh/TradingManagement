@@ -6,6 +6,7 @@ import com.example.demo.model.DeliveryNote;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import java.util.Optional;
 public interface DeliveryNoteRepository extends JpaRepository<DeliveryNote, Long> {
 
     List<DeliveryNote> findAll();
+    List<DeliveryNote> findAllDeliveryNoteBetween(Date deliveryNoteStart, Date deliveryNoteEnd);
 
     DeliveryNote findDeliveryNoteById(Long deliveryNoteId);
 }

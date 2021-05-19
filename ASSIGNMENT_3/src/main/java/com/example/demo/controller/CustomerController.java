@@ -58,5 +58,24 @@ public class CustomerController {
 
     }
 
+    // Search by firstName
+    @RequestMapping("/customers/searchbyfirstname/{firstname}")
+    public List<Customer> fetchDataByFirstName(@PathVariable String firstname){
+
+        return customerService.findByFirstName(firstname);
+    }
+
+    // Search by lastName
+    @RequestMapping("/customers/searchbylastname/{lastname}")
+    public List<Customer> fetchDataByLastName(@PathVariable String lastname){
+        return customerService.findByLastName(lastname);
+    }
+
+    // Search by Address
+
+
+
+
+
 
 }

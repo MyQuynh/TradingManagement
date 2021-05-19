@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="delivery_note")
@@ -11,7 +12,7 @@ public class DeliveryNote {
     private long id;
 
     @Column(name="date")
-    private String date;
+    private Date date;
 
     @Column(name="staff")
     private long staff_id;
@@ -23,7 +24,7 @@ public class DeliveryNote {
     }
 
 
-    public DeliveryNote(String date, long staff_id) {
+    public DeliveryNote(Date date, long staff_id) {
         this.date = date;
         this.staff_id = staff_id;
     }
@@ -36,11 +37,11 @@ public class DeliveryNote {
         this.id = id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
