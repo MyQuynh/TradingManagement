@@ -51,7 +51,7 @@ public class DeliveryNoteService {
     public DeliveryNote updateDeliveryNote(DeliveryNote deliveryNote){
         DeliveryNote updateDeliveryNote = deliveryNoteRepository.findDeliveryNoteById((deliveryNote.getId()));
         updateDeliveryNote.setDate(deliveryNote.getDate());
-        updateDeliveryNote.setStaff_id(deliveryNote.getStaff_id());
+        updateDeliveryNote.setStaff(deliveryNote.getStaff());
         return deliveryNoteRepository.save(updateDeliveryNote);
     }
 

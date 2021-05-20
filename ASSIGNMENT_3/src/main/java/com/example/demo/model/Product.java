@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="product")
@@ -35,21 +36,19 @@ public class Product {
     @JoinColumn(name="category_id", referencedColumnName = "id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name="receivingDetail_id", referencedColumnName = "id")
-    private ReceivingDetail receiving_detail;
+//    @ManyToOne
+//    @JoinColumn(name="receivingDetail_id", referencedColumnName = "id")
+//    private ReceivingDetail receiving_detail;
 
-    public Product(String name, String model, String brand, String company, String description, int quantity, float price, Category category, ReceivingDetail receiving_detail) {
-        this.name = name;
-        this.model = model;
-        this.brand = brand;
-        this.company = company;
-        this.description = description;
-        this.quantity = quantity;
-        this.price = price;
-        this.category = category;
-        this.receiving_detail = receiving_detail;
-    }
+    @OneToMany(mappedBy = "product")
+    private List<ReceivingDetail> receivingDetails;
+
+    @OneToMany(mappedBy = "product")
+    private List<DeliveryDetail> deliveryDetails;
+
+    @OneToMany(mappedBy = "product")
+    private List<SaleDetail> saleDetails;
+
 
     public Product() {
         super();
@@ -127,11 +126,27 @@ public class Product {
         this.category = category;
     }
 
-    public ReceivingDetail getReceiving_detail() {
-        return receiving_detail;
+    public List<ReceivingDetail> getReceivingDetails() {
+        return receivingDetails;
     }
 
-    public void setReceiving_detail(ReceivingDetail receiving_detail) {
-        this.receiving_detail = receiving_detail;
+    public void setReceivingDetails(List<ReceivingDetail> receivingDetails) {
+        this.receivingDetails = receivingDetails;
+    }
+
+    public List<DeliveryDetail> getDeliveryDetails() {
+        return deliveryDetails;
+    }
+
+    public void setDeliveryDetails(List<DeliveryDetail> deliveryDetails) {
+        this.deliveryDetails = deliveryDetails;
+    }
+
+    public List<SaleDetail> getSaleDetails() {
+        return saleDetails;
+    }
+
+    public void setSaleDetails(List<SaleDetail> saleDetails) {
+        this.saleDetails = saleDetails;
     }
 }

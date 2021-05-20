@@ -54,7 +54,7 @@ public class OrderService {
     public Order updateOrder(Order order){
         Order updateOrder = orderRepository.findOrderById((order.getId()));
         updateOrder.setDate(order.getDate());
-        updateOrder.setStaff_id(order.getStaff_id());
+        updateOrder.setStaff(order.getStaff());
         return orderRepository.save(updateOrder);
     }
 

@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="provider")
@@ -27,17 +28,10 @@ public class Provider {
     @Column(name="contact_person")
     private String contact_person;
 
+    @OneToMany(mappedBy = "provider")
+    private List<Order> orderList;
+
     // Getter and setter, constructor
-
-
-    public Provider(String name, String address, String phone, String fax, String email, String contact_person) {
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.fax = fax;
-        this.email = email;
-        this.contact_person = contact_person;
-    }
 
     public Provider() {
         super();
@@ -97,5 +91,13 @@ public class Provider {
 
     public void setContact_person(String contact_person) {
         this.contact_person = contact_person;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 }

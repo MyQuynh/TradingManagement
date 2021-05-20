@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -19,28 +21,13 @@ public class DeliveryDetail {
     @Column(name="quantity")
     private int quantity;
 
-    @Column(name="date")
-    private Date date;
-
-    @ManyToOne
-    @JoinColumn(name = "staff_id", referencedColumnName = "id")
-    private Staff staff;
-
     @ManyToOne
     @JoinColumn(name = "deliveryNote_id", referencedColumnName = "id")
     private DeliveryNote deliveryNote;
 
-    // Getter, setter and constructor
+    // Getter, setter
     public DeliveryDetail(){
         super();
-    }
-
-    public DeliveryDetail(Product product, int quantity, Date date, Staff staff, DeliveryNote deliveryNote) {
-        this.product = product;
-        this.quantity = quantity;
-        this.date = date;
-        this.staff = staff;
-        this.deliveryNote = deliveryNote;
     }
 
     public long getId() {
@@ -67,20 +54,11 @@ public class DeliveryDetail {
         this.quantity = quantity;
     }
 
-    public Date getDate() {
-        return date;
+    public DeliveryNote getDeliveryNote() {
+        return deliveryNote;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDeliveryNote(DeliveryNote deliveryNote) {
+        this.deliveryNote = deliveryNote;
     }
-
-    public Staff getStaff() {
-        return staff;
-    }
-
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
-
 }

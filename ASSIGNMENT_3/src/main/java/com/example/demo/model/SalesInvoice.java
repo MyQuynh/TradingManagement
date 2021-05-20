@@ -15,28 +15,20 @@ public class SalesInvoice {
     @Column(name="date")
     private String date;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "staff_id", referencedColumnName = "id")
     private Staff staff;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-    @OneToMany(mappedBy = "saleInvoice")
+    @OneToMany(mappedBy = "salesInvoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<SaleDetail> saleDetailList;
 
     @Column(name="total_value")
     private float total_value;
-
-    public SalesInvoice(String date, Staff staff, Customer customer, List<SaleDetail> saleDetailList, float total_value) {
-        this.date = date;
-        this.staff = staff;
-        this.customer = customer;
-        this.saleDetailList = saleDetailList;
-        this.total_value = total_value;
-    }
 
     public SalesInvoice(){
         super();

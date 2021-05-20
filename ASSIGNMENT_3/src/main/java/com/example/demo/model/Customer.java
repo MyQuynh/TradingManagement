@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
@@ -31,6 +32,9 @@ public class Customer implements Serializable {
 
     @Column(name="contactPerson")
     private String contactPerson;
+
+    @OneToMany(mappedBy = "customer")
+    private List<SalesInvoice> salesInvoiceList;
 
     protected Customer() {
         super();
@@ -105,5 +109,13 @@ public class Customer implements Serializable {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public List<SalesInvoice> getSalesInvoiceList() {
+        return salesInvoiceList;
+    }
+
+    public void setSalesInvoiceList(List<SalesInvoice> salesInvoiceList) {
+        this.salesInvoiceList = salesInvoiceList;
     }
 }

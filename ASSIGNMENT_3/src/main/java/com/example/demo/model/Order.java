@@ -15,22 +15,18 @@ public class Order {
     @Column(name="date")
     private String date;
 
-    @Column(name="staff")
-    private long staff_id;
+    @ManyToOne
+    @JoinColumn(name = "staff_id", referencedColumnName = "id")
+    private Staff staff;
 
-    @Column(name="provider")
-    private long provider_id;
-
-    // Getter and setter constructor
-    public Order(String date, long staff_id, long provider_id) {
-        this.date = date;
-        this.staff_id = staff_id;
-        this.provider_id = provider_id;
-    }
+    @ManyToOne
+    @JoinColumn(name="provider_id", referencedColumnName = "id")
+    private Provider provider;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Collection<OrderDetail> orderDetails;
 
+    // Getter and setter constructor
     public long getId() {
         return id;
     }
@@ -47,19 +43,27 @@ public class Order {
         this.date = date;
     }
 
-    public long getStaff_id() {
-        return staff_id;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setStaff_id(long staff_id) {
-        this.staff_id = staff_id;
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
-    public long getProvider_id() {
-        return provider_id;
+    public Provider getProvider() {
+        return provider;
     }
 
-    public void setProvider_id(long provider_id) {
-        this.provider_id = provider_id;
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    public Collection<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(Collection<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 }

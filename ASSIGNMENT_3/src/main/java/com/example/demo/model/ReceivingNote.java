@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="receiving_note")
@@ -18,12 +19,10 @@ public class ReceivingNote {
     @JoinColumn(name = "staff_id", referencedColumnName = "id")
     private Staff staff;
 
-    // Getter, setter and constucture
-    public ReceivingNote(String date, Staff staff) {
-        this.date = date;
-        this.staff = staff;
-    }
+    @OneToMany(mappedBy = "receivingNote")
+    private List<ReceivingDetail> receivingDetailList;
 
+    // Getter, setter and constucture
     public ReceivingNote() {
         super();
     }
@@ -50,5 +49,13 @@ public class ReceivingNote {
 
     public void setStaff(Staff staff) {
         this.staff = staff;
+    }
+
+    public List<ReceivingDetail> getReceivingDetailList() {
+        return receivingDetailList;
+    }
+
+    public void setReceivingDetailList(List<ReceivingDetail> receivingDetailList) {
+        this.receivingDetailList = receivingDetailList;
     }
 }

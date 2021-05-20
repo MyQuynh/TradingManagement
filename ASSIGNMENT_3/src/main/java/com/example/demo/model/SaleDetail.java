@@ -17,19 +17,13 @@ public class SaleDetail {
     @Column(name="price")
     private float price;
 
-    @OneToMany(mappedBy = "product")
-    private List<Product> product;
+    @ManyToOne
+    @JoinColumn(name="product_id", referencedColumnName = "id")
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "salesInvoice", referencedColumnName = "id")
     private SalesInvoice salesInvoice;
-
-    public SaleDetail(int quantity, float price, List<Product> product, SalesInvoice salesInvoice) {
-        this.quantity = quantity;
-        this.price = price;
-        this.product = product;
-        this.salesInvoice = salesInvoice;
-    }
 
     public long getId() {
         return id;
@@ -55,19 +49,19 @@ public class SaleDetail {
         this.price = price;
     }
 
-    public List<Product> getProduct() {
-        return product;
-    }
-
-    public void setProduct(List<Product> product) {
-        this.product = product;
-    }
-
     public SalesInvoice getSalesInvoice() {
         return salesInvoice;
     }
 
     public void setSalesInvoice(SalesInvoice salesInvoice) {
         this.salesInvoice = salesInvoice;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

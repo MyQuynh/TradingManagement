@@ -25,12 +25,6 @@ public class OrderDetail {
     private Order order;
 
     // Constructure, getter and setter
-    public OrderDetail(Product product, int quantity, float price, Order order) {
-        this.product = product;
-        this.quantity = quantity;
-        this.price = price;
-        this.order = order;
-    }
 
     public OrderDetail() {
         super();
