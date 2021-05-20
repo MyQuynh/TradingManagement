@@ -58,6 +58,7 @@ public class DeliveryDetail {
         return deliveryNote;
     }
 
+    @JsonIgnore
     public void setDeliveryNote(DeliveryNote deliveryNote) {
         this.deliveryNote = deliveryNote;
     }

@@ -1,8 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.Customer;
-import com.example.demo.model.DeliveryNote;
-import com.example.demo.model.Order;
+import com.example.demo.model.*;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -20,4 +18,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByDateLessThanEqualAndDateGreaterThanEqual(Date deliveryNoteStart, Date deliveryNoteEnd);
 
     Order findOrderById(Long orderId);
+
+    // Find by staff
+    List<Order> findOrdersByStaff(Staff staff);
+
+    // Find by provider
+    List<Order> findOrdersByProvider(Provider provider);
 }

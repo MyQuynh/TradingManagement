@@ -1,9 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Customer;
+import com.example.demo.model.DeliveryDetail;
 import com.example.demo.model.DeliveryNote;
+import com.example.demo.model.Staff;
 import com.example.demo.repository.DeliveryNoteRepository;
 import com.example.demo.repository.StaffRepository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,7 @@ public class DeliveryNoteService {
 
     @Autowired
     private DeliveryNoteRepository deliveryNoteRepository;
+//    private StaffRepository staffRepository;
 
     public List<DeliveryNote> findAllDeliveryNotes() {
 
@@ -32,7 +37,13 @@ public class DeliveryNoteService {
     }
 
     public DeliveryNote save(DeliveryNote deliveryNote){
+
+        for(DeliveryDetail deliveryDetail: deliveryNote.getDeliveryDetails()){
+            deliveryDetail.setDeliveryNote(deliveryNote);
+        }
+
         deliveryNoteRepository.save(deliveryNote);
+
         return deliveryNote;
     }
 
@@ -59,5 +70,12 @@ public class DeliveryNoteService {
     public List<DeliveryNote> findDateBetween(Date startDate, Date endDate){
         return deliveryNoteRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
     }
+
+//    // Filter by staff
+//    public List<DeliveryNote> findByStaff(Long staff_id){
+//        Staff staff = staffRepository.findStaffById(staff_id);
+//        return deliveryNoteRepository.findDeliveryNotesByStaff(staff);
+//    }
+
 
 }

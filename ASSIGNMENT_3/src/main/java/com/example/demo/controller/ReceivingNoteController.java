@@ -65,5 +65,11 @@ public class ReceivingNoteController {
         return receivingNoteService.findDateBetween(startDate, endDate);
     }
 
+//    // Find by staff
+//    @RequestMapping(value="/receivingNotes/searchByStaff/" , method=RequestMethod.GET)
+//    public  List<ReceivingNote> fetchDataByStaff(@RequestParam("staff_id") Long staff_id) {
+//        return receivingNoteService.findByStaff(staff_id);
+//    }
+
 
 }

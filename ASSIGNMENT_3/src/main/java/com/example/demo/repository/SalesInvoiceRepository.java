@@ -1,9 +1,6 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.DeliveryNote;
-import com.example.demo.model.ReceivingNote;
-import com.example.demo.model.SalesInvoice;
-import com.example.demo.model.Staff;
+import com.example.demo.model.*;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,6 +19,10 @@ public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long
 //    List<SalesInvoice> findAllSalesInvoiceBetween(Date orderStart, Date orderEnd);
 
     SalesInvoice findSalesInvoiceById(Long salesInvoiceId);
+
+    List<SalesInvoice> findSalesInvoicesByCustomer(Customer customer);
+
+    List<SalesInvoice> findSalesInvoicesByStaff(Staff staff);
 
     @Query(value = "SELECT customer_id, SUM(totalValue) from sales_invoice  \n" +
             "WHERE date BETWEEN :startDate AND :endDate\n" +

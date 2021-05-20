@@ -67,10 +67,16 @@ public class OrderController {
         return orderService.findDateBetween(startDate, endDate);
     }
 
-    // List of all the order between start date and end date
-//    @RequestMapping("/orders/searchbydate/{startDate}-{endDate}")
-//    public List<Order> fetchDataByOrder(@PathVariable Date startDate, @PathVariable Date endDate){
-//        return orderService.findAllOrdersBetween(startDate, endDate);
+//    // Find by staff
+//    @RequestMapping(value="/orders/searchByStaff/" , method=RequestMethod.GET)
+//    public  List<Order> fetchDataByStaff(@RequestParam("staff_id") Long staff_id) {
+//        return orderService.findByStaff(staff_id);
+//    }
+//
+//    // Find by provider
+//    @RequestMapping(value="/orders/searchByProvider/" , method=RequestMethod.GET)
+//    public  List<Order> fetchDataByProvider(@RequestParam("provider_id") Long provider_id) {
+//        return orderService.findByProvider(provider_id);
 //    }
 
 

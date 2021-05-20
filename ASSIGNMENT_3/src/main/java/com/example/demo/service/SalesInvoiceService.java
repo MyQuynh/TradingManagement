@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.model.ReceivingNote;
-import com.example.demo.model.SaleDetail;
-import com.example.demo.model.SalesInvoice;
+import com.example.demo.model.*;
+import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.SalesInvoiceRepository;
+import com.example.demo.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +17,9 @@ public class SalesInvoiceService {
 
     @Autowired
     private SalesInvoiceRepository salesInvoiceRepository;
+
+//    private StaffRepository staffRepository;
+//    private CustomerRepository customerRepository;
 
     public List<SalesInvoice> findAll() {
 
@@ -66,6 +69,18 @@ public class SalesInvoiceService {
     public List<SalesInvoice> findDateBetween(Date startDate, Date endDate){
         return salesInvoiceRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
     }
+
+//    // Filter by staff
+//    public List<SalesInvoice> findByStaff(Long staff_id){
+//        Staff staff = staffRepository.findStaffById(staff_id);
+//        return salesInvoiceRepository.findSalesInvoicesByStaff(staff);
+//    }
+//
+//    // Filter by customer
+//    public List<SalesInvoice> findByCustomer(Long customer_id){
+//        Customer customer = customerRepository.findCustomersById(customer_id);
+//        return salesInvoiceRepository.findSalesInvoicesByCustomer(customer);
+//    }
 
 
 }

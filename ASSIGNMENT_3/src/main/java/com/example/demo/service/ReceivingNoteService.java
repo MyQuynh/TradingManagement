@@ -1,12 +1,15 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Order;
+import com.example.demo.model.ReceivingDetail;
 import com.example.demo.model.ReceivingNote;
+import com.example.demo.model.Staff;
 import com.example.demo.repository.ReceivingNoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,14 +19,12 @@ public class ReceivingNoteService {
     @Autowired
     private ReceivingNoteRepository receivingNoteRepository;
 
+//    private StaffService staffRepository;
+
     public List<ReceivingNote> findAll() {
 
-        var it = receivingNoteRepository.findAll();
+        return receivingNoteRepository.findAll();
 
-        var receivingNotes = new ArrayList<ReceivingNote>();
-        it.forEach(e -> receivingNotes.add(e));
-
-        return receivingNotes;
     }
 
     public ReceivingNote findReceivingNoteById(Long receivingNoteId){
@@ -32,6 +33,9 @@ public class ReceivingNoteService {
 
 
     public ReceivingNote save(ReceivingNote receivingNote){
+        for(ReceivingDetail receivingDetail: receivingNote.getReceivingDetailList()){
+            receivingDetail.setReceivingNote(receivingNote);
+        }
         receivingNoteRepository.save(receivingNote);
         return receivingNote;
     }
@@ -59,6 +63,20 @@ public class ReceivingNoteService {
     public List<ReceivingNote> findDateBetween(Date startDate, Date endDate){
         return receivingNoteRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
     }
+
+    // Filter by date between start date and end date
+    public List<ReceivingNote> findDate1Between(Date startDate, Date endDate){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strDate = dateFormat.format(startDate);
+        String str_endDate = dateFormat.format(endDate);
+        return receivingNoteRepository.findReceivingNotesByDateBetween(strDate, str_endDate);
+    }
+
+//    // Filter by staff
+//    public List<ReceivingNote> findByStaff(Long staff_id){
+//        Staff staff = staffRepository.findStaffById(staff_id);
+//        return receivingNoteRepository.findReceivingNotesByStaff(staff);
+//    }
 
 
 }

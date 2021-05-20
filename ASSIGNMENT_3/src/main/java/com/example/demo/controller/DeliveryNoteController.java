@@ -59,11 +59,22 @@ public class DeliveryNoteController {
 
     }
 
-    @RequestMapping(value="/deliveryNotes/searchbydate/" , method=RequestMethod.GET)
+    // Search by date
+    @RequestMapping(value="/deliveryNotes/searchByDate/" , method=RequestMethod.GET)
     public  List<DeliveryNote> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                                @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return deliveryNoteService.findDateBetween(startDate, endDate);
     }
+
+//    // Search by staff id
+//    @RequestMapping(value="/deliveryNotes/searchStaff/" , method=RequestMethod.GET)
+//    public  List<DeliveryNote> fetchDataByDate(@RequestParam("staff_id") Long staff_id) {
+//        return deliveryNoteService.findByStaff(staff_id);
+//    }
+
+
+
+
 
     // Get list of deliveryNote between start date and end date
 //    @RequestMapping("/deliveryNotes/searchbydate/{startDate}-{endDate}")

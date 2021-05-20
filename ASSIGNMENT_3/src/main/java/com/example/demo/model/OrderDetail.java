@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -66,6 +68,7 @@ public class OrderDetail {
         return order;
     }
 
+    @JsonIgnore
     public void setOrder(Order order) {
         this.order = order;
     }

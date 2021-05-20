@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.model.DeliveryNote;
-import com.example.demo.model.Order;
-import com.example.demo.model.OrderDetail;
+import com.example.demo.model.*;
 import com.example.demo.repository.OrderRepository;
+import com.example.demo.repository.ProviderRepository;
+import com.example.demo.repository.StaffRepository;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +17,9 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+//    private StaffRepository staffRepository;
+//    private ProviderRepository providerRepository;
 
     public List<Order> findAll() {
 
@@ -34,7 +37,9 @@ public class OrderService {
 
 
     public Order save(Order order){
-
+        for(OrderDetail orderDetail: order.getOrderDetails()){
+            orderDetail.setOrder(order);
+        }
         orderRepository.save(order);
         return order;
     }
@@ -62,6 +67,18 @@ public class OrderService {
     public List<Order> findDateBetween(Date startDate, Date endDate){
         return orderRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
     }
+
+//    // Filter by staff
+//    public List<Order> findByStaff(Long staff_id){
+//        Staff staff = staffRepository.findStaffById(staff_id);
+//        return orderRepository.findOrdersByStaff(staff);
+//    }
+//
+//    // Filter by provider
+//    public List<Order> findByProvider(Long provider_id){
+//        Provider provider = providerRepository.findProviderById(provider_id);
+//        return orderRepository.findOrdersByProvider(provider);
+//    }
 
 
 }
