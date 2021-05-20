@@ -17,7 +17,7 @@ public class DeliveryNoteService {
     @Autowired
     private DeliveryNoteRepository deliveryNoteRepository;
 
-    public List<DeliveryNote> findAll() {
+    public List<DeliveryNote> findAllDeliveryNotes() {
 
         var it = deliveryNoteRepository.findAll();
 
@@ -56,9 +56,8 @@ public class DeliveryNoteService {
     }
 
     // Filter by date between start date and end date
-    public List<DeliveryNote> findAllDeliveryNoteBetween(Date startDate, Date endDate){
-        return deliveryNoteRepository.findAllDeliveryNoteBetween(startDate, endDate);
+    public List<DeliveryNote> findDateBetween(Date startDate, Date endDate){
+        return deliveryNoteRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
     }
-
 
 }

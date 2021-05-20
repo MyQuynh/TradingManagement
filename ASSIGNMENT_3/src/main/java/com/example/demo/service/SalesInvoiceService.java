@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-
 import com.example.demo.model.ReceivingNote;
+import com.example.demo.model.SaleDetail;
 import com.example.demo.model.SalesInvoice;
 import com.example.demo.repository.SalesInvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +34,9 @@ public class SalesInvoiceService {
 
 
     public SalesInvoice save(SalesInvoice salesInvoice){
+        for(SaleDetail saleDetail: salesInvoice.getSaleDetailList()){
+            saleDetail.setSalesInvoice(salesInvoice);
+        }
         salesInvoiceRepository.save(salesInvoice);
         return salesInvoice;
     }
@@ -54,13 +57,15 @@ public class SalesInvoiceService {
         SalesInvoice updateSalesInvoice = salesInvoiceRepository.findSalesInvoiceById((salesInvoice.getId()));
         updateSalesInvoice.setDate(salesInvoice.getDate());
         updateSalesInvoice.setCustomer(salesInvoice.getCustomer());
-        updateSalesInvoice.setStaff_name(salesInvoice.getStaff_name());
+        updateSalesInvoice.setStaff(salesInvoice.getStaff());
+        updateSalesInvoice.setSaleDetailList(salesInvoice.getSaleDetailList());
         return salesInvoiceRepository.save(updateSalesInvoice);
     }
 
     // Filter by date between start date and end date
-    public List<SalesInvoice> findAllSaleInvoicesBetween(Date startDate, Date endDate){
-        return salesInvoiceRepository.findAllSalesInvoiceBetween(startDate, endDate);
+    public List<SalesInvoice> findDateBetween(Date startDate, Date endDate){
+        return salesInvoiceRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
     }
+
 
 }

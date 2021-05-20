@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="delivery_detail")
@@ -11,28 +12,35 @@ public class DeliveryDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name="product")
-    private long product_id;
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
 
     @Column(name="quantity")
     private int quantity;
 
     @Column(name="date")
-    private String dare;
+    private Date date;
 
-    @Column(name="staff")
-    private long staff_id;
+    @ManyToOne
+    @JoinColumn(name = "staff_id", referencedColumnName = "id")
+    private Staff staff;
+
+    @ManyToOne
+    @JoinColumn(name = "deliveryNote_id", referencedColumnName = "id")
+    private DeliveryNote deliveryNote;
 
     // Getter, setter and constructor
     public DeliveryDetail(){
-
+        super();
     }
 
-    public DeliveryDetail(long product_id, int quantity, String dare, long staff_id) {
-        this.product_id = product_id;
+    public DeliveryDetail(Product product, int quantity, Date date, Staff staff, DeliveryNote deliveryNote) {
+        this.product = product;
         this.quantity = quantity;
-        this.dare = dare;
-        this.staff_id = staff_id;
+        this.date = date;
+        this.staff = staff;
+        this.deliveryNote = deliveryNote;
     }
 
     public long getId() {
@@ -43,12 +51,12 @@ public class DeliveryDetail {
         this.id = id;
     }
 
-    public long getProduct_id() {
-        return product_id;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProduct_id(long product_id) {
-        this.product_id = product_id;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public int getQuantity() {
@@ -59,19 +67,20 @@ public class DeliveryDetail {
         this.quantity = quantity;
     }
 
-    public String getDare() {
-        return dare;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDare(String dare) {
-        this.dare = dare;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public long getStaff_id() {
-        return staff_id;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setStaff_id(long staff_id) {
-        this.staff_id = staff_id;
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
+
 }

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.DeliveryNote;
 import com.example.demo.model.Order;
+import com.example.demo.model.OrderDetail;
 import com.example.demo.repository.OrderRepository;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class OrderService {
 
 
     public Order save(Order order){
+
         orderRepository.save(order);
         return order;
     }
@@ -57,8 +59,8 @@ public class OrderService {
     }
 
     // Filter by date between start date and end date
-    public List<Order> findAllOrdersBetween(Date startDate, Date endDate){
-        return orderRepository.findAllOrderBetween(startDate, endDate);
+    public List<Order> findDateBetween(Date startDate, Date endDate){
+        return orderRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
     }
 
 

@@ -20,12 +20,7 @@ public class CustomerService {
 
     public List<Customer> findAll() {
 
-        var it = customerRepository.findAll();
-
-        var customers = new ArrayList<Customer>();
-        it.forEach(e -> customers.add(e));
-
-        return customers;
+        return customerRepository.findAll();
     }
 
     public Customer findCustomersById(Long customerId){
@@ -55,6 +50,10 @@ public class CustomerService {
                 .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ customer.getId()));
         updateCustomer.setFirstName(customer.getFirstName());
         updateCustomer.setLastName(customer.getLastName());
+        updateCustomer.setAddress(customer.getAddress());
+        updateCustomer.setPhone(customer.getPhone());
+        updateCustomer.setFax(customer.getFax());
+        updateCustomer.setContactPerson(customer.getContactPerson());
 
 //        if(updateCustomer.isPresent()) {
 //            Customer existingCustomer = updateCustomer.get();
@@ -77,7 +76,30 @@ public class CustomerService {
         return customerRepository.findByLastName(lastName);
     }
 
+    // Find by address
+    public List<Customer> findByAddress(String address){
+        return customerRepository.findCustomersByAddress(address);
+    }
 
+    // Find by phone
+    public List<Customer> findByPhone(String phone){
+        return customerRepository.findCustomersByPhone(phone);
+    }
+
+    // Find by fax
+    public List<Customer> findByFax(String fax){
+        return customerRepository.findCustomersByFax(fax);
+    }
+
+    // Find by email
+    public List<Customer> findByEmail(String email){
+        return customerRepository.findCustomersByEmail(email);
+    }
+
+    // Find by contact person
+    public List<Customer> findByContactPerson(String contactPerson){
+        return customerRepository.findCustomersByContactPerson(contactPerson);
+    }
 
 
 

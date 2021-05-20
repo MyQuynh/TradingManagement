@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface DeliveryNoteRepository extends JpaRepository<DeliveryNote, Long> {
 
     List<DeliveryNote> findAll();
-    List<DeliveryNote> findAllDeliveryNoteBetween(Date deliveryNoteStart, Date deliveryNoteEnd);
-
+//    List<DeliveryNote> findAllDeliveryNoteBetween(Date deliveryNoteStart, Date deliveryNoteEnd);
+    List<DeliveryNote> findAllByDateLessThanEqualAndDateGreaterThanEqual(Date deliveryNoteStart, Date deliveryNoteEnd);
     DeliveryNote findDeliveryNoteById(Long deliveryNoteId);
 }

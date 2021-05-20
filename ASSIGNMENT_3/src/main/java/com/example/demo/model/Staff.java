@@ -19,16 +19,14 @@ public class Staff implements Serializable {
     @Column(name = "lastname")
     private String lastName;
 
-    @OneToMany(mappedBy = "staff")
-    private Collection<ReceivingNote> receivingNotes;
-
-
-
-//Setters, getters and constructors
-
+    // Setters, getters and constructors
     public Staff(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Staff(){
+        super();
     }
 
     public static long getSerialVersionUID() {
@@ -58,4 +56,5 @@ public class Staff implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
 }

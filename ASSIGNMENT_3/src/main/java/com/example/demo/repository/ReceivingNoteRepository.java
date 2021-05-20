@@ -14,7 +14,9 @@ import java.util.List;
 public interface ReceivingNoteRepository extends JpaRepository<ReceivingNote, Long> {
 
     List<ReceivingNote> findAll();
-    List<ReceivingNote> findAllReceivingNoteBetween(Date orderStart, Date orderEnd);
+
+    List<ReceivingNote> findAllByDateLessThanEqualAndDateGreaterThanEqual(Date receivingNoteStart, Date receivingNoteEnd);
+
 
     ReceivingNote findReceivingNoteById(Long receivingNoteId);
 }

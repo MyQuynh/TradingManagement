@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="delivery_note")
@@ -16,6 +17,9 @@ public class DeliveryNote {
 
     @Column(name="staff")
     private long staff_id;
+
+    @OneToMany(mappedBy = "deliveryNote", cascade = CascadeType.ALL)
+    private List<DeliveryDetail> deliveryDetails;
 
     // Getter, setter and constructor
 

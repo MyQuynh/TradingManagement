@@ -15,7 +15,7 @@ public class ReceivingNote {
     private String date;
 
     @ManyToOne
-    @JoinColumn(name = "staff_id")
+    @JoinColumn(name = "staff_id", referencedColumnName = "id")
     private Staff staff;
 
     // Getter, setter and constucture
@@ -25,7 +25,7 @@ public class ReceivingNote {
     }
 
     public ReceivingNote() {
-
+        super();
     }
 
     public long getId() {

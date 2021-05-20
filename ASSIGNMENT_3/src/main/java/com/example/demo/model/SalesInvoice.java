@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="sales_invoice")
@@ -12,16 +15,31 @@ public class SalesInvoice {
     @Column(name="date")
     private String date;
 
-    @Column(name="staff_name")
-    private String staff_name;
+    @OneToOne
+    @JoinColumn(name = "staff_id", referencedColumnName = "id")
+    private Staff staff;
 
     @OneToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
-    public SalesInvoice(String date, String staff_name, Customer customer) {
+    @OneToMany(mappedBy = "saleInvoice")
+    @JsonIgnore
+    private List<SaleDetail> saleDetailList;
+
+    @Column(name="total_value")
+    private float total_value;
+
+    public SalesInvoice(String date, Staff staff, Customer customer, List<SaleDetail> saleDetailList, float total_value) {
         this.date = date;
-        this.staff_name = staff_name;
+        this.staff = staff;
         this.customer = customer;
+        this.saleDetailList = saleDetailList;
+        this.total_value = total_value;
+    }
+
+    public SalesInvoice(){
+        super();
     }
 
     public long getId() {
@@ -40,12 +58,12 @@ public class SalesInvoice {
         this.date = date;
     }
 
-    public String getStaff_name() {
-        return staff_name;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setStaff_name(String staff_name) {
-        this.staff_name = staff_name;
+    public void setStaff(Staff staff) {
+        this.staff = staff;
     }
 
     public Customer getCustomer() {
@@ -54,5 +72,21 @@ public class SalesInvoice {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<SaleDetail> getSaleDetailList() {
+        return saleDetailList;
+    }
+
+    public void setSaleDetailList(List<SaleDetail> saleDetailList) {
+        this.saleDetailList = saleDetailList;
+    }
+
+    public float getTotal_value() {
+        return total_value;
+    }
+
+    public void setTotal_value(float total_value) {
+        this.total_value = total_value;
     }
 }

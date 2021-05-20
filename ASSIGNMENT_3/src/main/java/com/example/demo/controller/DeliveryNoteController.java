@@ -5,6 +5,7 @@ import com.example.demo.model.Customer;
 import com.example.demo.model.DeliveryNote;
 import com.example.demo.service.DeliveryNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -18,13 +19,13 @@ public class DeliveryNoteController {
 
     // Get all the customer
     @GetMapping("/deliveryNotes")
-    public List<DeliveryNote> findAllCustomer(){
-        return deliveryNoteService.findAll();
+    public List<DeliveryNote> findAllDeliveryNotes(){
+        return deliveryNoteService.findAllDeliveryNotes();
     }
 
     // Get the customer by id
     @GetMapping("/deliveryNotes/{id}")
-    public DeliveryNote findCustomerById(@PathVariable("id") long id) throws ResourcesNotFoundException {
+    public DeliveryNote findDeliveryNoteById(@PathVariable("id") long id) throws ResourcesNotFoundException {
 
         return deliveryNoteService.findDeliveryNoteById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
@@ -33,13 +34,13 @@ public class DeliveryNoteController {
 
     // Create the customer
     @PostMapping("/deliveryNotes/add")
-    public DeliveryNote createCustomer(@RequestBody DeliveryNote deliveryNote){
+    public DeliveryNote createDeliveryNote(@RequestBody DeliveryNote deliveryNote){
         return deliveryNoteService.save(deliveryNote);
     }
 
     // Update the customer by id
     @PutMapping("/deliveryNotes/update/{id}")
-    public DeliveryNote updateDelivery(@PathVariable("id") long id) throws ResourcesNotFoundException{
+    public DeliveryNote updateDeliveryNote(@PathVariable("id") long id) throws ResourcesNotFoundException{
         DeliveryNote deliveryNote = deliveryNoteService.findDeliveryNoteById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
         return deliveryNoteService.updateDeliveryNote(deliveryNote);
@@ -48,7 +49,7 @@ public class DeliveryNoteController {
 
     // Delete the customer by id
     @DeleteMapping("/deliveryNotes/delete/{id}")
-    public void deleteCustomer(@PathVariable("id") long id) throws ResourcesNotFoundException{
+    public void deleteDeliveryNote(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             DeliveryNote deliveryNote = deliveryNoteService.findDeliveryNoteById(id);
             deliveryNoteService.deleteById(id);
@@ -58,11 +59,17 @@ public class DeliveryNoteController {
 
     }
 
-    // Get list of deliveryNote between start date and end date
-    @RequestMapping("/deliveryNotes/searchbydate/{startDate}-{endDate}")
-    public List<DeliveryNote> fetchDataByLastName(@PathVariable Date startDate, @PathVariable Date endDate){
-        return deliveryNoteService.findAllDeliveryNoteBetween(startDate, endDate);
+    @RequestMapping(value="/deliveryNotes/searchbydate/" , method=RequestMethod.GET)
+    public  List<DeliveryNote> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+                                               @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
+        return deliveryNoteService.findDateBetween(startDate, endDate);
     }
+
+    // Get list of deliveryNote between start date and end date
+//    @RequestMapping("/deliveryNotes/searchbydate/{startDate}-{endDate}")
+//    public List<DeliveryNote> fetchDataByLastName(@PathVariable Date startDate, @PathVariable Date endDate){
+//        return deliveryNoteService.findAllDeliveryNoteBetween(startDate, endDate);
+//    }
 
 //    @GetMapping("/customer/bulkcreate")
 //    public String bulkcreate(){

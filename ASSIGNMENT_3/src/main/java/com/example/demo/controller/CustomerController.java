@@ -1,12 +1,15 @@
 package com.example.demo.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import com.example.demo.exception.ResourcesNotFoundException;
 import com.example.demo.model.Customer;
 
+import com.example.demo.model.ReceivingNote;
 import com.example.demo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -59,22 +62,47 @@ public class CustomerController {
     }
 
     // Search by firstName
-    @RequestMapping("/customers/searchbyfirstname/{firstname}")
-    public List<Customer> fetchDataByFirstName(@PathVariable String firstname){
+    @RequestMapping(value="/customers/search", method = RequestMethod.GET)
+    public List<Customer> fetchDataByFirstName(@RequestParam String firstname){
 
         return customerService.findByFirstName(firstname);
     }
 
     // Search by lastName
-    @RequestMapping("/customers/searchbylastname/{lastname}")
-    public List<Customer> fetchDataByLastName(@PathVariable String lastname){
+    @RequestMapping(value="/customers/search", method = RequestMethod.GET)
+    public List<Customer> fetchDataByLastName(@RequestParam String lastname){
         return customerService.findByLastName(lastname);
     }
 
     // Search by Address
+    @RequestMapping(value="/customers/search", method = RequestMethod.GET)
+    public List<Customer> fetchDataByAddress(@RequestParam String address){
+        return customerService.findByAddress(address);
+    }
 
+    // Search by Phone
+    @RequestMapping(value="/customers/search", method = RequestMethod.GET)
+    public List<Customer> fetchDataByPhone(@RequestParam String phone){
+        return customerService.findByPhone(phone);
+    }
 
+    // Search by Fax
+    @RequestMapping(value="/customers/search", method = RequestMethod.GET)
+    public List<Customer> fetchDataByFax(@RequestParam String fax){
+        return customerService.findByFax(fax);
+    }
 
+    // Search by Email
+    @RequestMapping(value="/customers/search", method = RequestMethod.GET)
+    public List<Customer> fetchDataByEmail(@RequestParam String email){
+        return customerService.findByEmail(email);
+    }
+
+    // Search by Contact
+    @RequestMapping(value="/customers/search", method = RequestMethod.GET)
+    public List<Customer> fetchDataByContactPerson(@RequestParam String contactPerson){
+        return customerService.findByContactPerson(contactPerson);
+    }
 
 
 

@@ -56,8 +56,8 @@ public class ReceivingNoteService {
     }
 
     // Filter by date between start date and end date
-    public List<ReceivingNote> findAllReceivingNotesBetween(Date startDate, Date endDate){
-        return receivingNoteRepository.findAllReceivingNoteBetween(startDate, endDate);
+    public List<ReceivingNote> findDateBetween(Date startDate, Date endDate){
+        return receivingNoteRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
     }
 
 

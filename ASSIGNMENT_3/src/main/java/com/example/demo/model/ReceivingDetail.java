@@ -27,6 +27,6 @@ public class ReceivingDetail {
     }
 
     public ReceivingDetail() {
-
+        super();
     }
 }

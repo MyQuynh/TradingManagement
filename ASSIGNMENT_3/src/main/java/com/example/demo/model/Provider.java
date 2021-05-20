@@ -40,7 +40,7 @@ public class Provider {
     }
 
     public Provider() {
-
+        super();
     }
 
     public long getId() {

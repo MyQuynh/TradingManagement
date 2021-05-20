@@ -6,6 +6,7 @@ import com.example.demo.model.SalesInvoice;
 import com.example.demo.service.ReceivingNoteService;
 import com.example.demo.service.SalesInvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -59,10 +60,10 @@ public class SalesInvoiceController {
 
     }
 
-    // List of all the order between start date and end date
-    @RequestMapping("/salesInvoices/searchbydate/{startDate}-{endDate}")
-    public List<SalesInvoice> fetchDataBySaleInvoices(@PathVariable Date startDate, @PathVariable Date endDate){
-        return salesInvoiceService.findAllSaleInvoicesBetween(startDate, endDate);
+    @RequestMapping(value="/salesInvoices/searchbydate/" , method=RequestMethod.GET)
+    public  List<SalesInvoice> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+                                                @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
+        return salesInvoiceService.findDateBetween(startDate, endDate);
     }
 
 

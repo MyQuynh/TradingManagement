@@ -10,8 +10,9 @@ public class OrderDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "product")
-    private long product_id;
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
 
     @Column(name = "quantity")
     private int quantity;
@@ -20,20 +21,19 @@ public class OrderDetail {
     private float price;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 
     // Constructure, getter and setter
-
-
-    public OrderDetail(long product_id, int quantity, float price) {
-        this.product_id = product_id;
+    public OrderDetail(Product product, int quantity, float price, Order order) {
+        this.product = product;
         this.quantity = quantity;
         this.price = price;
+        this.order = order;
     }
 
     public OrderDetail() {
-
+        super();
     }
 
     public int getId() {
@@ -44,12 +44,12 @@ public class OrderDetail {
         this.id = id;
     }
 
-    public long getProduct_id() {
-        return product_id;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProduct_id(long product_id) {
-        this.product_id = product_id;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public int getQuantity() {
@@ -67,4 +67,13 @@ public class OrderDetail {
     public void setPrice(float price) {
         this.price = price;
     }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
 }

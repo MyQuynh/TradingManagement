@@ -31,7 +31,6 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Collection<OrderDetail> orderDetails;
 
-
     public long getId() {
         return id;
     }

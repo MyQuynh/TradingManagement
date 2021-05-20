@@ -6,6 +6,7 @@ import com.example.demo.model.Order;
 import com.example.demo.service.DeliveryNoteService;
 import com.example.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -60,11 +61,17 @@ public class OrderController {
 
     }
 
-    // List of all the order between start date and end date
-    @RequestMapping("/orders/searchbydate/{startDate}-{endDate}")
-    public List<Order> fetchDataByOrder(@PathVariable Date startDate, @PathVariable Date endDate){
-        return orderService.findAllOrdersBetween(startDate, endDate);
+    @RequestMapping(value="/orders/searchbydate/" , method=RequestMethod.GET)
+    public  List<Order> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+                                               @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
+        return orderService.findDateBetween(startDate, endDate);
     }
+
+    // List of all the order between start date and end date
+//    @RequestMapping("/orders/searchbydate/{startDate}-{endDate}")
+//    public List<Order> fetchDataByOrder(@PathVariable Date startDate, @PathVariable Date endDate){
+//        return orderService.findAllOrdersBetween(startDate, endDate);
+//    }
 
 
 }

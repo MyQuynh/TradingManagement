@@ -5,6 +5,7 @@ import com.example.demo.model.Order;
 import com.example.demo.model.ReceivingNote;
 import com.example.demo.service.ReceivingNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -47,7 +48,7 @@ public class ReceivingNoteController {
 
 
     // Delete the receiving note by id
-    @DeleteMapping("receivingNotes/delete/{id}")
+    @DeleteMapping("/receivingNotes/delete/{id}")
     public void deleteReceivingNote(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             ReceivingNote receivingNote = receivingNoteService.findReceivingNoteById(id);
@@ -58,10 +59,10 @@ public class ReceivingNoteController {
 
     }
 
-    // List of all the order between start date and end date
-    @RequestMapping("/receivingNotes/searchbydate/{startDate}-{endDate}")
-    public List<ReceivingNote> fetchDataByReceivingNotes(@PathVariable Date startDate, @PathVariable Date endDate){
-        return receivingNoteService.findAllReceivingNotesBetween(startDate, endDate);
+    @RequestMapping(value="/receivingNotes/searchbydate/" , method=RequestMethod.GET)
+    public  List<ReceivingNote> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+                                        @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
+        return receivingNoteService.findDateBetween(startDate, endDate);
     }
 
 
