@@ -17,8 +17,14 @@ public class Category {
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private Collection<Product> products;
 
-    public Category(String name) {
+    // Create just for testing
+    public Category(long id, String name) {
+        this.id = id;
         this.name = name;
+    }
+
+    public Category() {
+        super();
     }
 
     public long getId() {

@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.exception.ResourcesNotFoundException;
 import com.example.demo.model.DeliveryNote;
 import com.example.demo.model.Order;
+import com.example.demo.model.OrderDetail;
+import com.example.demo.model.SalesInvoice;
 import com.example.demo.service.DeliveryNoteService;
 import com.example.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +67,13 @@ public class OrderController {
     public  List<Order> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                                @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return orderService.findDateBetween(startDate, endDate);
+    }
+
+    // Add an order detail
+    @PutMapping("/orders/addOrderDetail/{orderId}")
+    public String addOrderDetailToOrder(@PathVariable Long orderId, @RequestBody OrderDetail orderDetail) throws ResourcesNotFoundException {
+        orderService.addOrderDetailToOrder(orderId, orderDetail);
+        return "OrderDetail has been successfully add to Order :: " + orderId;
     }
 
 //    // Find by staff

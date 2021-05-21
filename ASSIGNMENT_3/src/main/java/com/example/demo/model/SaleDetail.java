@@ -14,12 +14,12 @@ public class SaleDetail {
     @Column(name="quantity")
     private int quantity;
 
-    @Column(name="price")
-    private float price;
-
     @ManyToOne
     @JoinColumn(name="product_id", referencedColumnName = "id")
     private Product product;
+
+    @Column(name="price")
+    private float price = product.getPrice();
 
     @ManyToOne
     @JoinColumn(name = "salesInvoice", referencedColumnName = "id")

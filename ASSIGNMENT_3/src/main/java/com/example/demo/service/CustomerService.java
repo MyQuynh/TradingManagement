@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.exception.ResourcesNotFoundException;
 import com.example.demo.model.Customer;
+import com.example.demo.model.SalesInvoice;
 import com.example.demo.repository.CustomerRepository;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,7 +102,19 @@ public class CustomerService {
         return customerRepository.findCustomersByContactPerson(contactPerson);
     }
 
+    // Add a sale invoice
+    public void addSalesInvoiceToCustomer(Long customerId, SalesInvoice salesInvoices) throws ResourcesNotFoundException {
+        //LOG.info("CourseId :: {} , Student :: {}", courseId, students);
+        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        if (customerOptional.isEmpty()) {
+            throw new ResourcesNotFoundException("Failed to add SalesInvoice. Invalid CustomerId :: " + customerId);
+        }
+        Customer customer = customerOptional.get();
+        List<SalesInvoice> salesInvoices1 = customer.getSalesInvoiceList();
+        salesInvoices1.add(salesInvoices);
+        customer.setSalesInvoiceList(salesInvoices1);
+        customerRepository.save(customer);
 
-
+    }
 
 }

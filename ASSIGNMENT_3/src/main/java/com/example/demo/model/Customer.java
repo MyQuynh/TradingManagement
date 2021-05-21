@@ -36,6 +36,17 @@ public class Customer implements Serializable {
     @OneToMany(mappedBy = "customer")
     private List<SalesInvoice> salesInvoiceList;
 
+    public Customer(long id, String firstName, String lastName, String address, String phone, String fax, String email, String contactPerson) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phone = phone;
+        this.fax = fax;
+        this.email = email;
+        this.contactPerson = contactPerson;
+    }
+
     protected Customer() {
         super();
     }

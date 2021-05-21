@@ -5,7 +5,7 @@ import java.util.Collection;
 
 
 @Entity
-@Table(name="orderService")
+@Table(name="order_service")
 public class Order {
 
     @Id

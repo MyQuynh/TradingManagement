@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface ProviderRepository extends JpaRepository<Provider, Long> {
 
-    List<Provider> findAll();
     Provider findProviderById(Long providerId);
 
 }

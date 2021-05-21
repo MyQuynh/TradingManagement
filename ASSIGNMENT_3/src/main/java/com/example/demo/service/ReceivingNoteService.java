@@ -1,9 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Order;
-import com.example.demo.model.ReceivingDetail;
-import com.example.demo.model.ReceivingNote;
-import com.example.demo.model.Staff;
+import com.example.demo.exception.ResourcesNotFoundException;
+import com.example.demo.model.*;
+import com.example.demo.repository.ReceivingDetailRepository;
 import com.example.demo.repository.ReceivingNoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +11,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReceivingNoteService {
 
     @Autowired
     private ReceivingNoteRepository receivingNoteRepository;
+    private ReceivingDetailRepository receivingDetailRepository;
 
 //    private StaffService staffRepository;
 
@@ -70,6 +71,24 @@ public class ReceivingNoteService {
         String strDate = dateFormat.format(startDate);
         String str_endDate = dateFormat.format(endDate);
         return receivingNoteRepository.findReceivingNotesByDateBetween(strDate, str_endDate);
+    }
+
+    // Add order detail to order (is there need to add the order note into system)
+    public void addReceivingDetailToReceivingNote(Long receivingNoteId, ReceivingDetail receivingDetail) throws ResourcesNotFoundException {
+        //LOG.info("CourseId :: {} , Student :: {}", courseId, students);
+        Optional<ReceivingNote> receivingNoteOptional = receivingNoteRepository.findById(receivingNoteId);
+        if (receivingNoteOptional.isEmpty()) {
+            throw new ResourcesNotFoundException("Failed to add ReceivingDetail. Invalid ReceivingNoteId :: " + receivingNoteId);
+        }
+        ReceivingNote receivingNote = receivingNoteOptional.get();
+        List<ReceivingDetail> receivingDetails = receivingNote.getReceivingDetailList();
+        receivingDetails.add(receivingDetail);
+        receivingNote.setReceivingDetailList(receivingDetails);
+
+        // Save also in the order detail and order database
+        receivingDetailRepository.save(receivingDetail);
+        receivingNoteRepository.save(receivingNote);
+
     }
 
 //    // Filter by staff

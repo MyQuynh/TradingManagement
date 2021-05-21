@@ -7,6 +7,7 @@ import com.example.demo.exception.ResourcesNotFoundException;
 import com.example.demo.model.Customer;
 
 import com.example.demo.model.ReceivingNote;
+import com.example.demo.model.SalesInvoice;
 import com.example.demo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -103,6 +104,14 @@ public class CustomerController {
     public List<Customer> fetchDataByContactPerson(@RequestParam String contactPerson){
         return customerService.findByContactPerson(contactPerson);
     }
+
+    // Add an sales invoice
+    @PutMapping("/customers/addSalesInvoice/{customerId}")
+    public String addSalesInvoiceToCustomer(@PathVariable Long customerId, @RequestBody SalesInvoice salesInvoice) throws ResourcesNotFoundException {
+        customerService.addSalesInvoiceToCustomer(customerId, salesInvoice);
+        return "SalesInvoice has been successfully add to Customer :: " + customerId;
+    }
+
 
 
 

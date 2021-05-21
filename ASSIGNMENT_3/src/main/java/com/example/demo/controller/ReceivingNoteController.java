@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.ResourcesNotFoundException;
 import com.example.demo.model.Order;
+import com.example.demo.model.OrderDetail;
+import com.example.demo.model.ReceivingDetail;
 import com.example.demo.model.ReceivingNote;
 import com.example.demo.service.ReceivingNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +65,13 @@ public class ReceivingNoteController {
     public  List<ReceivingNote> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                         @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return receivingNoteService.findDateBetween(startDate, endDate);
+    }
+
+    // Add an receiving detail
+    @PutMapping("/receivingNotes/addReceivingDetail/{receivingNoteId}")
+    public String addReceivingDetailToReceivingNote(@PathVariable Long receivingNoteId, @RequestBody ReceivingDetail receivingDetail) throws ResourcesNotFoundException {
+        receivingNoteService.addReceivingDetailToReceivingNote(receivingNoteId, receivingDetail);
+        return "ReceivingDetail has been successfully add to ReceivingNote :: " + receivingNoteId;
     }
 
 //    // Find by staff

@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.exception.ResourcesNotFoundException;
 import com.example.demo.model.Customer;
+import com.example.demo.model.DeliveryDetail;
 import com.example.demo.model.DeliveryNote;
+import com.example.demo.model.OrderDetail;
 import com.example.demo.service.DeliveryNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -64,6 +66,13 @@ public class DeliveryNoteController {
     public  List<DeliveryNote> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                                @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return deliveryNoteService.findDateBetween(startDate, endDate);
+    }
+
+    // Add an delivery detail
+    @PutMapping("/deliveryNotes/addDeliveryDetail/{deliveryNoteId}")
+    public String addDeliveryDetailToDeliveryNote(@PathVariable Long deliveryNoteId, @RequestBody DeliveryDetail deliveryDetail) throws ResourcesNotFoundException {
+        deliveryNoteService.addDeliveryDetailToDeliveryNote(deliveryNoteId, deliveryDetail);
+        return "DeliveryDetail has been successfully add to DeliveryNote :: " + deliveryNoteId;
     }
 
 //    // Search by staff id
