@@ -38,8 +38,10 @@ public class CustomerService {
         customerRepository.saveAll(customers);
     }
 
-    public void deleteById(Long customerId){
+    public String deleteById(Long customerId){
+
         customerRepository.deleteById(customerId);
+        return "SUCCESS";
     }
 
     public boolean existsById(Long customerId){

@@ -19,7 +19,7 @@ public class SaleDetail {
     private Product product;
 
     @Column(name="price")
-    private float price = product.getPrice();
+    private float price;
 
     @ManyToOne
     @JoinColumn(name = "salesInvoice", referencedColumnName = "id")

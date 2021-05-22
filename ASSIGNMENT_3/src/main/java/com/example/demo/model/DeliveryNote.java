@@ -19,7 +19,7 @@ public class DeliveryNote {
     @JoinColumn(name = "staff_id", referencedColumnName = "id")
     private Staff staff;
 
-    @OneToMany(mappedBy = "deliveryNote", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "deliveryNote", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DeliveryDetail> deliveryDetails;
 
     // Getter, setter and constructor
@@ -28,6 +28,10 @@ public class DeliveryNote {
         super();
     }
 
+    public DeliveryNote(long id, Date date) {
+        this.id = id;
+        this.date = date;
+    }
 
     public long getId() {
         return id;

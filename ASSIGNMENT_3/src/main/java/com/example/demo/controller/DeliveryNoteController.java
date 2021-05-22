@@ -50,7 +50,7 @@ public class DeliveryNoteController {
 
 
     // Delete the customer by id
-    @DeleteMapping("/deliveryNotes/delete/{id}")
+    @DeleteMapping("/deliveryNotes/{id}")
     public void deleteDeliveryNote(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             DeliveryNote deliveryNote = deliveryNoteService.findDeliveryNoteById(id);

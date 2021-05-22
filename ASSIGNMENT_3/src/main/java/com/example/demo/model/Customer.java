@@ -47,7 +47,7 @@ public class Customer implements Serializable {
         this.contactPerson = contactPerson;
     }
 
-    protected Customer() {
+    public Customer() {
         super();
     }
 
@@ -128,5 +128,20 @@ public class Customer implements Serializable {
 
     public void setSalesInvoiceList(List<SalesInvoice> salesInvoiceList) {
         this.salesInvoiceList = salesInvoiceList;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", fax='" + fax + '\'' +
+                ", email='" + email + '\'' +
+                ", contactPerson='" + contactPerson + '\'' +
+                ", salesInvoiceList=" + salesInvoiceList +
+                '}';
     }
 }

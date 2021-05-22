@@ -50,8 +50,10 @@ public class DeliveryNoteService {
         deliveryNoteRepository.saveAll(deliveryNotes);
     }
 
-    public void deleteById(Long deliveryNoteId){
+    public String deleteById(Long deliveryNoteId){
+
         deliveryNoteRepository.deleteById(deliveryNoteId);
+        return "SUCCESS";
     }
 
     public boolean existsById(Long customerId){

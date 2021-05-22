@@ -51,7 +51,8 @@ public class CustomerController {
 
 
     // Delete the customer by id
-    @DeleteMapping("/customers/delete/{id}")
+    @DeleteMapping("/customers/{id}")
+    @ResponseBody
     public void deleteCustomer(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             Customer customer = customerService.findCustomersById(id);
@@ -106,13 +107,11 @@ public class CustomerController {
     }
 
     // Add an sales invoice
-    @PutMapping("/customers/addSalesInvoice/{customerId}")
-    public String addSalesInvoiceToCustomer(@PathVariable Long customerId, @RequestBody SalesInvoice salesInvoice) throws ResourcesNotFoundException {
-        customerService.addSalesInvoiceToCustomer(customerId, salesInvoice);
-        return "SalesInvoice has been successfully add to Customer :: " + customerId;
-    }
-
-
+//    @PutMapping("/customers/addSalesInvoice/{customerId}")
+//    public String addSalesInvoiceToCustomer(@PathVariable Long customerId, @RequestBody SalesInvoice salesInvoice) throws ResourcesNotFoundException {
+//        customerService.addSalesInvoiceToCustomer(customerId, salesInvoice);
+//        return "SalesInvoice has been successfully add to Customer :: " + customerId;
+//    }
 
 
 }
