@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class StaffController {
     @Autowired
     StaffService staffService;
@@ -51,9 +52,9 @@ public class StaffController {
         return staffService.updateStaff(staff);
     }
 
-
+    // TODO: cHANGING ALL TO STAFFS/{ID}
     // Delete the receiving note by id
-    @DeleteMapping("/staffs/delete/{id}")
+    @DeleteMapping("/staffs/{id}")
     public void deleteStaff(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
 //            Staff staff = staffService.findStaffById(id);

@@ -41,8 +41,9 @@ public class StaffService {
         staffRepository.saveAll(staffs);
     }
 
-    public void deleteById(Long staffId){
+    public String deleteById(Long staffId){
         staffRepository.deleteById(staffId);
+        return "SUCESS";
     }
 
     public boolean existsById(Long staffId){

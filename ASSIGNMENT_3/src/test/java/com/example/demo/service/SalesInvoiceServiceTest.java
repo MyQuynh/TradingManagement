@@ -56,7 +56,7 @@ class SalesInvoiceServiceTest {
         List<SaleDetail> saleDetails = new ArrayList<>();
         saleDetails.add(saleDetail);
 
-        salesInvoice.setSaleDetailList(saleDetails);
+        salesInvoice.setSaleDetails(saleDetails);
 
         salesInvoiceService.save(salesInvoice);
         Mockito.when(salesInvoiceRepository.findSalesInvoiceById(1L)).thenReturn(salesInvoice);
@@ -72,7 +72,7 @@ class SalesInvoiceServiceTest {
         List<SaleDetail> saleDetails = new ArrayList<>();
         saleDetails.add(saleDetail);
         salesInvoiceTest.setId(11L);
-        salesInvoiceTest.setSaleDetailList(saleDetails);
+        salesInvoiceTest.setSaleDetails(saleDetails);
         // Customer customer1 = customerService.save(customer);
         // assertEquals(customer, customer1);
         Mockito.when(salesInvoiceRepository.save(Mockito.any(SalesInvoice.class))).thenReturn(salesInvoiceTest);
@@ -93,16 +93,12 @@ class SalesInvoiceServiceTest {
         List<SaleDetail> saleDetails = new ArrayList<>();
         saleDetails.add(saleDetail);
         salesInvoiceTest.setId(11L);
-        salesInvoiceTest.setSaleDetailList(saleDetails);
+        salesInvoiceTest.setSaleDetails(saleDetails);
         salesInvoiceService.save(salesInvoiceTest);
         salesInvoiceService.deleteById(11L);
         Mockito.verify(salesInvoiceRepository, times(1)).deleteById(salesInvoiceTest.getId());
         assertNull(salesInvoiceService.findSalesInvoiceById(11L));
 
-    }
-
-    @Test
-    void existsById() {
     }
 
     @Test
@@ -116,12 +112,12 @@ class SalesInvoiceServiceTest {
         SalesInvoice salesInvoiceBefore = new SalesInvoice();
 
         salesInvoiceBefore.setDate(dateBefore);
-        salesInvoiceBefore.setSaleDetailList(saleDetails);
+        salesInvoiceBefore.setSaleDetails(saleDetails);
 
         SalesInvoice salesInvoiceUpdated = new SalesInvoice();
         salesInvoiceUpdated.setId(0L);
         salesInvoiceUpdated.setDate(dateUpdated);
-        salesInvoiceUpdated.setSaleDetailList(saleDetails);
+        salesInvoiceUpdated.setSaleDetails(saleDetails);
 
         when(salesInvoiceRepository.findSalesInvoiceById(((salesInvoiceBefore.getId())))).thenReturn(salesInvoiceBefore);
         when(salesInvoiceRepository.save(any(SalesInvoice.class))).thenReturn(salesInvoiceUpdated);

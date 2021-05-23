@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.manager.DateManager;
 import com.example.demo.model.DeliveryNote;
 import com.example.demo.service.DeliveryNoteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +49,8 @@ class DeliveryNoteControllerTest {
     private DeliveryNoteService deliveryNoteService;
 
     ObjectMapper mapper  = new ObjectMapper();
+
+    DateManager dateManager = new DateManager();
 
 
     @Test
@@ -121,16 +124,6 @@ class DeliveryNoteControllerTest {
 //                .andExpect(status().isNotFound());
     }
 
-    public static Date between(Date startInclusive, Date endExclusive) {
-        long startMillis = startInclusive.getTime();
-        long endMillis = endExclusive.getTime();
-        long randomMillisSinceEpoch = ThreadLocalRandom
-                .current()
-                .nextLong(startMillis, endMillis);
-
-        return new Date(randomMillisSinceEpoch);
-    }
-
     @Test
     //@DatabaseSetup("/delivery.xml")
     void fetchDataByDate() throws Exception {
@@ -142,7 +135,7 @@ class DeliveryNoteControllerTest {
         Date end = dateFormat.parse(endDate);
 
         List<DeliveryNote> deliveryNotes = IntStream.range(0, 10)
-                .mapToObj(i -> new DeliveryNote(i, between(start, end)))
+                .mapToObj(i -> new DeliveryNote(i, dateManager.between(start, end)))
                 .collect(Collectors.toList());
 
 

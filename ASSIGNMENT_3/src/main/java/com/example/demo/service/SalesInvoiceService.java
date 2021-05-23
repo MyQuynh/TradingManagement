@@ -37,7 +37,7 @@ public class SalesInvoiceService {
 
 
     public SalesInvoice save(SalesInvoice salesInvoice){
-        for(SaleDetail saleDetail: salesInvoice.getSaleDetailList()){
+        for(SaleDetail saleDetail: salesInvoice.getSaleDetails()){
             saleDetail.setSalesInvoice(salesInvoice);
         }
         salesInvoiceRepository.save(salesInvoice);
@@ -48,8 +48,9 @@ public class SalesInvoiceService {
         salesInvoiceRepository.saveAll(salesInvoices);
     }
 
-    public void deleteById(Long salesInvoiceId){
+    public String deleteById(Long salesInvoiceId){
         salesInvoiceRepository.deleteById(salesInvoiceId);
+        return "SUCCESS";
     }
 
     public boolean existsById(Long salesInvoiceId){
@@ -61,7 +62,7 @@ public class SalesInvoiceService {
         updateSalesInvoice.setDate(salesInvoice.getDate());
         updateSalesInvoice.setCustomer(salesInvoice.getCustomer());
         updateSalesInvoice.setStaff(salesInvoice.getStaff());
-        updateSalesInvoice.setSaleDetailList(salesInvoice.getSaleDetailList());
+        updateSalesInvoice.setSaleDetails(salesInvoice.getSaleDetails());
         return salesInvoiceRepository.save(updateSalesInvoice);
     }
 

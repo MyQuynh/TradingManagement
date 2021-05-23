@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.ResourcesNotFoundException;
+import com.example.demo.manager.DateManager;
 import com.example.demo.model.*;
 import com.example.demo.repository.OrderDetailRepository;
 import com.example.demo.repository.OrderRepository;
@@ -22,6 +23,8 @@ public class OrderService {
     private OrderRepository orderRepository;
 
     private OrderDetailRepository orderDetailRepository;
+
+    DateManager dateManager = new DateManager();
 
 //    private StaffRepository staffRepository;
 //    private ProviderRepository providerRepository;
@@ -53,8 +56,9 @@ public class OrderService {
         orderRepository.saveAll(orders);
     }
 
-    public void deleteById(Long orderId){
+    public String deleteById(Long orderId){
         orderRepository.deleteById(orderId);
+        return "SUCCESS";
     }
 
     public boolean existsById(Long orderId){
@@ -70,7 +74,7 @@ public class OrderService {
 
     // Filter by date between start date and end date
     public List<Order> findDateBetween(Date startDate, Date endDate){
-        return orderRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
+        return orderRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(dateManager.convertDateToString(startDate),dateManager.convertDateToString(endDate));
     }
 
     // Add order detail to order (is there need to add the order note into system)

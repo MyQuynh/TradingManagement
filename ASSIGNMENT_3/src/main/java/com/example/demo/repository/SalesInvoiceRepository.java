@@ -40,5 +40,6 @@ public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long
 
     List<SalesInvoice> findAllByDateLessThanEqualAndDateGreaterThanEqual(Date saleInvoiceStart, Date saleInvoiceEnd);
 
+    List<SalesInvoice> findSalesInvoicesByDateBetween(String start, String end);
 
 }

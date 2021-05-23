@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.*;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,10 +13,10 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @EntityGraph(attributePaths = {"saleDetailList"})
+    //@EntityGraph(attributePaths = {"saleDetailList"})
     List<Order> findAll();
 
-    List<Order> findAllByDateLessThanEqualAndDateGreaterThanEqual(Date deliveryNoteStart, Date deliveryNoteEnd);
+    List<Order> findAllByDateLessThanEqualAndDateGreaterThanEqual(String date, String date2);
 
     Order findOrderById(Long orderId);
 
@@ -24,4 +25,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     // Find by provider
     List<Order> findOrdersByProvider(Provider provider);
+
+    List<Order> findOrdersByDateBetween(String start, String end);
 }

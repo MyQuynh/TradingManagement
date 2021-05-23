@@ -21,4 +21,5 @@ public interface ReceivingNoteRepository extends JpaRepository<ReceivingNote, Lo
 
     // Find by staff
     List<ReceivingNote> findReceivingNotesByStaff(Staff staff);
+
 }

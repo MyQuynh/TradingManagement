@@ -33,7 +33,7 @@ public class SalesInvoice {
 
     @OneToMany(mappedBy = "salesInvoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<SaleDetail> saleDetailList;
+    private List<SaleDetail> saleDetails;
 
     @Column(name="total_value")
     private float total_value;
@@ -74,12 +74,12 @@ public class SalesInvoice {
         this.customer = customer;
     }
 
-    public List<SaleDetail> getSaleDetailList() {
-        return saleDetailList;
+    public List<SaleDetail> getSaleDetails() {
+        return saleDetails;
     }
 
-    public void setSaleDetailList(List<SaleDetail> saleDetailList) {
-        this.saleDetailList = saleDetailList;
+    public void setSaleDetails(List<SaleDetail> saleDetails) {
+        this.saleDetails = saleDetails;
     }
 
     public float getTotal_value() {

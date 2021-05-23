@@ -45,8 +45,9 @@ public class ReceivingNoteService {
         receivingNoteRepository.saveAll(receivingNotes);
     }
 
-    public void deleteById(Long receivingNoteId){
+    public String deleteById(Long receivingNoteId){
         receivingNoteRepository.deleteById(receivingNoteId);
+        return "SUCCESS";
     }
 
     public boolean existsById(Long receivingNoteId){
