@@ -24,8 +24,9 @@ import java.util.stream.IntStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,7 +63,7 @@ class SalesInvoiceControllerTest {
                 .andExpect(jsonPath("$[0].date").value(sDate1))
                 .andExpect(jsonPath("$[0].staff.id").value(staff.getId()))
                 .andExpect(jsonPath("$[0].customer.id").value(customer.getId()))
-                .andExpect(jsonPath("$[0].total_value.id").value(0));
+                .andExpect(jsonPath("$[0].total_value").value(0));
     }
 
     @Test
@@ -77,11 +78,10 @@ class SalesInvoiceControllerTest {
 
         mvc.perform(get("/api/v1/salesInvoices/0").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id", is(0)))
-                .andExpect(jsonPath("$[0].date").value(sDate1))
-                .andExpect(jsonPath("$[0].staff.id").value(staff.getId()))
-                .andExpect(jsonPath("$[0].customer.id").value(customer.getId()))
-                .andExpect(jsonPath("$[0].total_value.id").value(0));
+                .andExpect(jsonPath("$.date").value(sDate1))
+                .andExpect(jsonPath("$.staff.id").value(staff.getId()))
+                .andExpect(jsonPath("$.customer.id").value(customer.getId()))
+                .andExpect(jsonPath("$.total_value").value(0));
     }
 
     @Test
@@ -92,15 +92,16 @@ class SalesInvoiceControllerTest {
 
         SalesInvoice salesInvoice = new SalesInvoice(0L,sDate1,staff,customer,0);
 
-        given(salesInvoiceService.save(salesInvoice)).willReturn(salesInvoice);
+        given(salesInvoiceService.save(any(SalesInvoice.class))).willReturn(salesInvoice);
 
-        mvc.perform(get("/api/v1/salesInvoices/add").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(post("/api/v1/salesInvoices/add")
+                .content(mapper.writeValueAsString(salesInvoice)) // Generate java object into Json
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(0)))
                 .andExpect(jsonPath("$.date").value(sDate1))
                 .andExpect(jsonPath("$.staff.id").value(staff.getId()))
                 .andExpect(jsonPath("$.customer.id").value(customer.getId()))
-                .andExpect(jsonPath("$.total_value.id").value(0));
+                .andExpect(jsonPath("$.total_value").value(0));
     }
 
     @Test

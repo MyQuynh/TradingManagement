@@ -27,8 +27,9 @@ import java.util.stream.IntStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -87,10 +88,11 @@ class ReceivingNoteControllerTest {
         Staff staff = new Staff();
 
         ReceivingNote receivingNote = new ReceivingNote(0L,sDate1,staff);
-        given(receivingNoteService.save(receivingNote)).willReturn(receivingNote);
-        mvc.perform(get("/api/v1/receivingNotes/add").contentType(MediaType.APPLICATION_JSON))
+        given(receivingNoteService.save(any(ReceivingNote.class))).willReturn(receivingNote);
+        mvc.perform(post("/api/v1/receivingNotes/add")
+                .content(mapper.writeValueAsString(receivingNote)) // Generate java object into Json
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(0)))
                 .andExpect(jsonPath("$.date").value(sDate1))
                 .andExpect(jsonPath("$.staff.id").value(staff.getId()));
     }

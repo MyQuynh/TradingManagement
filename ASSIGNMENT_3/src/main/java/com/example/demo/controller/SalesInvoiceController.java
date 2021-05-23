@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class SalesInvoiceController {
 
     @Autowired
@@ -49,7 +50,7 @@ public class SalesInvoiceController {
 
 
     // Delete the receiving note by id
-    @DeleteMapping("/salesInvoices/delete/{id}")
+    @DeleteMapping("/salesInvoices/{id}")
     public void deleteSaleInvoice(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             SalesInvoice salesInvoice = salesInvoiceService.findSalesInvoiceById(id);
@@ -60,7 +61,7 @@ public class SalesInvoiceController {
 
     }
 
-    @RequestMapping(value="/salesInvoices/searchbydate/" , method=RequestMethod.GET)
+    @RequestMapping(value="/salesInvoices/searchByDate/" , method=RequestMethod.GET)
     public  List<SalesInvoice> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                                 @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return salesInvoiceService.findDateBetween(startDate, endDate);

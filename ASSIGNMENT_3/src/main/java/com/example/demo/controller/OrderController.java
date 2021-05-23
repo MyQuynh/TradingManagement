@@ -53,7 +53,7 @@ public class OrderController {
 
 
     // Delete the customer by id
-    @DeleteMapping("/orders/delete/{id}")
+    @DeleteMapping("/orders/{id}")
     public void deleteOrder(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             Order order = orderService.findOrderById(id);
@@ -64,7 +64,7 @@ public class OrderController {
 
     }
 
-    @RequestMapping(value="/orders/searchbydate/" , method=RequestMethod.GET)
+    @RequestMapping(value="/orders/searchByDate/" , method=RequestMethod.GET)
     public  List<Order> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                                @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return orderService.findDateBetween(startDate, endDate);

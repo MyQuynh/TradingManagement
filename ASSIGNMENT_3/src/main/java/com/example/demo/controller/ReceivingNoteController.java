@@ -14,19 +14,20 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class ReceivingNoteController {
 
     @Autowired
     ReceivingNoteService receivingNoteService;
 
     // Get all the order
-    @GetMapping("receivingNotes")
+    @GetMapping("/receivingNotes")
     public List<ReceivingNote> findAll(){
         return receivingNoteService.findAll();
     }
 
     // Get the order by id
-    @GetMapping("receivingNotes/{id}")
+    @GetMapping("/receivingNotes/{id}")
     public ReceivingNote findReceivingNoteById(@PathVariable("id") long id) throws ResourcesNotFoundException {
 
         return receivingNoteService.findReceivingNoteById(id);
@@ -35,13 +36,13 @@ public class ReceivingNoteController {
     }
 
     // Create the receiving Note
-    @PostMapping("receivingNotes/add")
+    @PostMapping("/receivingNotes/add")
     public ReceivingNote createReceivingNote(@RequestBody ReceivingNote receivingNote){
         return receivingNoteService.save(receivingNote);
     }
 
     // Update the receiving note  by id
-    @PutMapping("receivingNotes/update/{id}")
+    @PutMapping("/receivingNotes/update/{id}")
     public ReceivingNote updateReceivingNote(@PathVariable("id") long id) throws ResourcesNotFoundException{
         ReceivingNote receivingNote = receivingNoteService.findReceivingNoteById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
@@ -50,7 +51,7 @@ public class ReceivingNoteController {
 
 
     // Delete the receiving note by id
-    @DeleteMapping("/receivingNotes/delete/{id}")
+    @DeleteMapping("/receivingNotes/{id}")
     public void deleteReceivingNote(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
             ReceivingNote receivingNote = receivingNoteService.findReceivingNoteById(id);
@@ -61,7 +62,7 @@ public class ReceivingNoteController {
 
     }
 
-    @RequestMapping(value="/receivingNotes/searchbydate/" , method=RequestMethod.GET)
+    @RequestMapping(value="/receivingNotes/searchByDate/" , method=RequestMethod.GET)
     public  List<ReceivingNote> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                         @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return receivingNoteService.findDateBetween(startDate, endDate);
