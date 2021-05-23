@@ -3,11 +3,19 @@ package com.example.demo.controller;
 import com.example.demo.model.Customer;
 import com.example.demo.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -18,6 +26,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
@@ -44,6 +53,18 @@ public class CustomerControllerTest {
     private CustomerService customerService;
 
     ObjectMapper mapper  = new ObjectMapper();
+
+    private final Customer customer = new Customer();
+
+    @Before
+    public void setup() {
+        customerService.save(this.customer);
+    }
+
+    @After
+    public void cleanup() {
+        customerService.deleteById(customer.getId());
+    }
 
 
     @Test
@@ -72,7 +93,9 @@ public class CustomerControllerTest {
     public void findCustomerById() throws Exception {
         int customerId = 0;
         Customer customer = new Customer(customerId,"firstname-" + customerId, "lastname-" + customerId, "address-"+customerId,"phone-"+customerId,"fax-"+customerId,"email-"+customerId,"contact-"+customerId);
+
         given(customerService.findCustomersById((long) customerId)).willReturn(customer);
+
         mvc.perform(get("/api/v1/customers/0").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(0)))
@@ -296,5 +319,35 @@ public class CustomerControllerTest {
                 .andExpect(jsonPath("$[0].contactPerson", is(contactPerson)))
                 .andExpect(jsonPath("$[1].contactPerson", is(contactPerson))
                 );
+    }
+
+    @Test
+    public void getAllEmployees() {
+        Customer customer = new Customer();
+        customer.setId(1);
+        customer.setLastName("test123");
+        //System.out.println(customer);
+
+        //System.out.println(customerService.save(customer));
+
+        Pageable paging = PageRequest.of(0, 1, Sort.by("id"));
+        // System.out.println(customerService.save(new Customer()));
+        System.out.println(customerService.findAll());
+        List<Customer> pageOne = customerService.getAllEmployees(0,1,"id");
+        List<Customer> customerList = IntStream.range(0, 10)
+                .mapToObj(i -> new Customer(i,"firstname-" + i, "lastname-" + i, "address-"+i,"phone-"+i,"fax-"+i,"email-"+i,"contact-"+i))
+                .collect(Collectors.toList());
+        for (Customer customer1 : customerList) {
+            customerService.save(customer1);
+        }
+
+        System.out.println(customerService.findAll());
+
+
+        given(customerService.save(any(Customer.class))).willReturn(customer);
+        assertNotNull(pageOne);
+        assertEquals(1, pageOne.size());
+
+
     }
 }

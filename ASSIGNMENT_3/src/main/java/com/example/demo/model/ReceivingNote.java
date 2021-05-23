@@ -19,6 +19,12 @@ public class ReceivingNote {
     @JoinColumn(name = "staff_id", referencedColumnName = "id")
     private Staff staff;
 
+    public ReceivingNote(long id, String date, Staff staff) {
+        this.id = id;
+        this.date = date;
+        this.staff = staff;
+    }
+
     @OneToMany(mappedBy = "receivingNote")
     private List<ReceivingDetail> receivingDetailList;
 

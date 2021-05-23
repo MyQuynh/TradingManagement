@@ -65,17 +65,36 @@ public class StaffController {
     }
 
     // Search by firstName
-    @RequestMapping("/staffs/searchbyfirstname/{firstname}")
-    public List<Staff> fetchDataByFirstName(@PathVariable String firstname){
+    @RequestMapping(value="/staffs/searchFirstName", method = RequestMethod.GET)
+    public List<Staff> fetchDataByFirstName(@RequestParam String firstname){
 
         return staffService.findByFirstName(firstname);
     }
 
     // Search by lastName
-    @RequestMapping("/staffs/searchbylastname/{lastname}")
-    public List<Staff> fetchDataByLastName(@PathVariable String lastname){
+    @RequestMapping(value="/staffs/searchLastName", method = RequestMethod.GET)
+    public List<Staff> fetchDataByLastName(@RequestParam String lastname){
         return staffService.findByLastName(lastname);
     }
+
+    // Search by Address
+    @RequestMapping(value="/staffs/searchAddress", method = RequestMethod.GET)
+    public List<Staff> fetchDataByAddress(@RequestParam String address){
+        return staffService.findByAddress(address);
+    }
+
+    // Search by Phone
+    @RequestMapping(value="/staffs/searchPhone", method = RequestMethod.GET)
+    public List<Staff> fetchDataByPhone(@RequestParam String phone){
+        return staffService.findByPhone(phone);
+    }
+
+    // Search by Email
+    @RequestMapping(value="/staffs/searchEmail", method = RequestMethod.GET)
+    public List<Staff> fetchDataByEmail(@RequestParam String email){
+        return staffService.findByEmail(email);
+    }
+
 
 
 

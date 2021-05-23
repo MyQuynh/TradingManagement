@@ -23,6 +23,14 @@ public class SalesInvoice {
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
+    public SalesInvoice(long id, String date, Staff staff, Customer customer, float total_value) {
+        this.id = id;
+        this.date = date;
+        this.staff = staff;
+        this.customer = customer;
+        this.total_value = total_value;
+    }
+
     @OneToMany(mappedBy = "salesInvoice", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<SaleDetail> saleDetailList;

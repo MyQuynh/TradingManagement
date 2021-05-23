@@ -1,10 +1,12 @@
 package com.example.demo.repository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.model.Customer;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Service;
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
 
     // Find list of customer by firstname
-    List<Customer> findByFirstName(String FirstName);
+    List<Customer> findByFirstName(String firstName);
 
     // Find list of customer by last name
     List<Customer> findByLastName(String LastName);
@@ -34,8 +36,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
 
     // Find by email
     List<Customer> findCustomersByEmail(String email);
-
-    List<Customer> findAll();
 
     Customer findCustomersById(Long id);
 

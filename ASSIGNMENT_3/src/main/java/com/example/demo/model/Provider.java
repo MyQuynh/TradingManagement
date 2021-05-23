@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="provider")
@@ -27,6 +28,16 @@ public class Provider {
 
     @Column(name="contact_person")
     private String contact_person;
+
+    public Provider(long id, String name, String address, String phone, String fax, String email, String contact_person) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.fax = fax;
+        this.email = email;
+        this.contact_person = contact_person;
+    }
 
     @OneToMany(mappedBy = "provider")
     private List<Order> orderList;
@@ -99,5 +110,24 @@ public class Provider {
 
     public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Provider that = (Provider) o;
+        return id == that.id &&
+                name.equals(that.name) &&
+                address.equals(that.address) &&
+                phone.equals(that.phone) &&
+                fax.equals(that.fax) &&
+                email.equals(that.email) &&
+                contact_person.equals(that.contact_person);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, address, phone, fax, email, contact_person);
     }
 }

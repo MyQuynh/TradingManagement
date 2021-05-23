@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +22,7 @@ public class DeliveryNote {
     private Staff staff;
 
     @OneToMany(mappedBy = "deliveryNote", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<DeliveryDetail> deliveryDetails;
 
     // Getter, setter and constructor
@@ -64,6 +67,8 @@ public class DeliveryNote {
     public void setDeliveryDetails(List<DeliveryDetail> deliveryDetails) {
         this.deliveryDetails = deliveryDetails;
     }
+
+
 
 
 }

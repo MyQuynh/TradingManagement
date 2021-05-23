@@ -11,6 +11,9 @@ import com.example.demo.model.SalesInvoice;
 import com.example.demo.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -104,6 +107,18 @@ public class CustomerController {
     @RequestMapping(value="/customers/searchContactPerson", method = RequestMethod.GET)
     public List<Customer> fetchDataByContactPerson(@RequestParam String contactPerson){
         return customerService.findByContactPerson(contactPerson);
+    }
+
+    // Paging
+    @GetMapping("/customers1")
+    public ResponseEntity<List<Customer>> getAllEmployees(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Customer> list = customerService.getAllEmployees(pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Customer>>(list, new HttpHeaders(), HttpStatus.OK);
     }
 
     // Add an sales invoice

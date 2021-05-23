@@ -66,5 +66,20 @@ public class StaffService {
         return staffRepository.findByLastName(lastName);
     }
 
+    // Find by address
+    public List<Staff> findByAddress(String address){
+        return staffRepository.findByAddress(address);
+    }
+
+    // Find by email
+    public List<Staff> findByEmail(String email){
+        return staffRepository.findByEmail(email);
+    }
+
+    // Find phone
+    public List<Staff> findByPhone(String phone){
+        return staffRepository.findByPhone(phone);
+    }
+
 
 }

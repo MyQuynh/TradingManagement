@@ -15,6 +15,9 @@ public interface StaffRepository extends JpaRepository<Staff, Long> {
 
     List<Staff> findByFirstName(String FirstName);
     List<Staff> findByLastName(String LastName);
+    List<Staff> findByAddress(String address);
+    List<Staff> findByEmail(String address);
+    List<Staff> findByPhone(String phone);
 
     Staff findStaffById(Long staffId);
 }

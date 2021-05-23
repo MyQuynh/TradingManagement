@@ -6,8 +6,15 @@ import com.example.demo.model.SalesInvoice;
 import com.example.demo.repository.CustomerRepository;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.Pageable;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +37,7 @@ public class CustomerService {
 
 
     public Customer save(Customer customer){
-        customerRepository.save(customer);
-        return customer;
+        return customerRepository.save(customer);
     }
 
     public void saveAll(List<Customer> customers){
@@ -71,7 +77,7 @@ public class CustomerService {
 
     // Find by firstname
     public List<Customer> findByFirstName(String firstName){
-        return customerRepository.findByFirstName(firstName);
+       return customerRepository.findByFirstName(firstName);
     }
 
     // Find y lastname
@@ -117,6 +123,19 @@ public class CustomerService {
         customer.setSalesInvoiceList(salesInvoices1);
         customerRepository.save(customer);
 
+    }
+
+    public List<Customer> getAllEmployees(Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Customer> pagedResult = customerRepository.findAll(paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Customer>();
+        }
     }
 
 }

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "staff")
@@ -28,6 +29,15 @@ public class Staff implements Serializable {
 
     @Column(name = "email")
     private String email;
+
+    public Staff(long id, String firstName, String lastName, String address, String phone, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+    }
 
     @OneToMany(mappedBy = "staff")
     private List<ReceivingNote> receivingNotes;
@@ -117,5 +127,23 @@ public class Staff implements Serializable {
 
     public void setSalesInvoices(List<SalesInvoice> salesInvoices) {
         this.salesInvoices = salesInvoices;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Staff that = (Staff) o;
+        return id == that.id &&
+                firstName.equals(that.firstName) &&
+                lastName.equals(that.lastName) &&
+                address.equals(that.address) &&
+                phone.equals(that.phone) &&
+                email.equals(that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, address, phone, email);
     }
 }
