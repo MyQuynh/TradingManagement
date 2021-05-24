@@ -1,6 +1,9 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.*;
+import com.path.to.Revenue;
+import com.path.to.RevenueCustomer;
+import com.path.to.RevenueStaff;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,19 +27,37 @@ public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long
 
     List<SalesInvoice> findSalesInvoicesByStaff(Staff staff);
 
-    @Query(value = "SELECT customer_id, SUM(totalValue) from sales_invoice  \n" +
-            "WHERE date BETWEEN :startDate AND :endDate\n" +
-            "GROUP BY customer_id",
+    @Query(value = "select customer.id as id , COALESCE(sales_invoice.revenue, 0) revenue\n" +
+            "from customer\n" +
+            "         left join (\n" +
+            "    SELECT sales_invoice.customer_id, SUM(total_value) as revenue\n" +
+            "    from sales_invoice\n" +
+            "    WHERE date BETWEEN :startDate AND :endDate\n" +
+            "    GROUP BY sales_invoice.customer_id\n" +
+            ") sales_invoice on customer.id = sales_invoice.customer_id;",
             nativeQuery = true)
-    List<SalesInvoice> totalRevenueByCustomer(@Param("startDate") Date startDate,
-                         @Param("endDate") Date endDate);
+    List<RevenueCustomer> totalRevenueByCustomer(@Param("startDate") Date startDate,
+                                                 @Param("endDate") Date endDate);
 
-    @Query(value = "SELECT staff_id, SUM(totalValue) from sales_invoice  \n" +
-            "WHERE date BETWEEN :startDate AND :endDate\n" +
-            "GROUP BY staff_id",
+    @Query(value = "select staff.id as id , COALESCE(sales_invoice.revenue, 0) revenue\n" +
+            "from staff\n" +
+            "         left join (\n" +
+            "    SELECT sales_invoice.staff_id, SUM(total_value) as revenue\n" +
+            "    from sales_invoice\n" +
+            "    WHERE date BETWEEN :startDate AND :endDate\n" +
+            "    GROUP BY sales_invoice.staff_id\n" +
+            ") sales_invoice on staff.id = sales_invoice.staff_id;",
             nativeQuery = true)
-    List<Object[]> totalRevenueByStaff(@Param("startDate") Date startDate,
-                                              @Param("endDate") Date endDate);
+    List<RevenueStaff> totalRevenueByStaff(@Param("startDate") Date startDate,
+                                           @Param("endDate") Date endDate);
+
+    @Query(value = "select sum(sale_detail.quantity * product.price) as total_value\n" +
+            "from sales_invoice, product, sale_detail\n" +
+            "where sales_invoice.id = sale_detail.id\n" +
+            "and sale_detail.product_id = product.id\n" +
+            "and sales_invoice.date BETWEEN :startDate AND :endDate", nativeQuery = true)
+    Revenue totalRevenue(@Param("startDate") Date startDate,
+                         @Param("endDate") Date endDate);
 
     List<SalesInvoice> findAllByDateLessThanEqualAndDateGreaterThanEqual(Date saleInvoiceStart, Date saleInvoiceEnd);
 

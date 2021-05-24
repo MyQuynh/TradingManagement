@@ -4,6 +4,9 @@ import com.example.demo.model.*;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.SalesInvoiceRepository;
 import com.example.demo.repository.StaffRepository;
+import com.path.to.Revenue;
+import com.path.to.RevenueCustomer;
+import com.path.to.RevenueStaff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +72,18 @@ public class SalesInvoiceService {
     // Filter by date between start date and end date
     public List<SalesInvoice> findDateBetween(Date startDate, Date endDate){
         return salesInvoiceRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
+    }
+
+    public Revenue totalRevenue(Date startDate, Date endDate){
+        return salesInvoiceRepository.totalRevenue(startDate, endDate);
+    }
+
+    public List<RevenueCustomer> revenueCustomer(Date startDate, Date endDate){
+        return salesInvoiceRepository.totalRevenueByCustomer(startDate, endDate);
+    }
+
+    public List<RevenueStaff> revenueStaff(Date startDate, Date endDate){
+        return salesInvoiceRepository.totalRevenueByStaff(startDate, endDate);
     }
 
 //    // Filter by staff

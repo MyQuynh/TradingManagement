@@ -5,6 +5,9 @@ import com.example.demo.model.ReceivingNote;
 import com.example.demo.model.SalesInvoice;
 import com.example.demo.service.ReceivingNoteService;
 import com.example.demo.service.SalesInvoiceService;
+import com.path.to.Revenue;
+import com.path.to.RevenueCustomer;
+import com.path.to.RevenueStaff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -66,6 +69,25 @@ public class SalesInvoiceController {
                                                 @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return salesInvoiceService.findDateBetween(startDate, endDate);
     }
+
+    @RequestMapping(value="/salesInvoices/revenueByCustomer/" , method=RequestMethod.GET)
+    public  List<RevenueCustomer> fetchRevenueByCustomer(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+                                                         @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
+        return salesInvoiceService.revenueCustomer(startDate, endDate);
+    }
+
+    @RequestMapping(value="/salesInvoices/revenueByStaff/" , method=RequestMethod.GET)
+    public  List<RevenueStaff> fetchRevenueByStaff(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+                                                      @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
+        return salesInvoiceService.revenueStaff(startDate, endDate);
+    }
+
+    @RequestMapping(value="/salesInvoices/totalRevenue/" , method=RequestMethod.GET)
+    public Revenue fetchTotalRevenue(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+                                     @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
+        return salesInvoiceService.totalRevenue(startDate, endDate);
+    }
+
 
 
 }
