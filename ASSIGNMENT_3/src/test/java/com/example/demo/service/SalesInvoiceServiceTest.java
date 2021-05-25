@@ -1,8 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.manager.DateManager;
 import com.example.demo.model.*;
 import com.example.demo.repository.ReceivingNoteRepository;
 import com.example.demo.repository.SalesInvoiceRepository;
+import com.path.to.RevenueCustomer;
+import com.path.to.RevenueStaff;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +34,8 @@ class SalesInvoiceServiceTest {
 
     @Mock
     SalesInvoiceRepository salesInvoiceRepository;
+
+    DateManager dateManager = new DateManager();
 
     @Before
     public void setUp() {
@@ -134,8 +139,41 @@ class SalesInvoiceServiceTest {
         List<SalesInvoice> salesInvoices = IntStream.range(0, 10)
                 .mapToObj(i -> new SalesInvoice(i, "Date", new Staff(), new Customer(),i))
                 .collect(Collectors.toList());
-        when(salesInvoiceRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(date, date)).thenReturn(salesInvoices);
+        when(salesInvoiceRepository.findSalesInvoicesByDateBetween(dateManager.convertDateToString(date), dateManager.convertDateToString(date))).thenReturn(salesInvoices);
         List<SalesInvoice> actualSaleInvoiceList = salesInvoiceService.findDateBetween(date, date);
         assertEquals(actualSaleInvoiceList.size(), salesInvoices.size());
+    }
+
+    @Test
+    void totalRevenue() {
+        String startDate = "2023-01-01";
+        String endDate = "2024-01-01";
+        List<RevenueCustomer> revenueCustomers = new ArrayList<>();
+
+        when(salesInvoiceRepository.totalRevenueByCustomer(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).thenReturn(revenueCustomers);
+        List<RevenueCustomer> actualRevenueCustomer = salesInvoiceService.revenueCustomer(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        assertEquals(actualRevenueCustomer.size(), revenueCustomers.size());
+    }
+
+    @Test
+    void revenueCustomer() {
+        String startDate = "2023-01-01";
+        String endDate = "2024-01-01";
+        int revenue = 0;
+
+        when(salesInvoiceRepository.totalRevenue(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).thenReturn((float) revenue);
+        Float actualRevenue = salesInvoiceService.totalRevenue(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        assertEquals(actualRevenue, revenue);
+
+    }
+
+    @Test
+    void revenueStaff() {
+        String startDate = "2023-01-01";
+        String endDate = "2024-01-01";
+        List<RevenueStaff> revenueStaffs = new ArrayList<>();
+        when(salesInvoiceRepository.totalRevenueByStaff(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).thenReturn(revenueStaffs);
+        List<RevenueStaff> actualRevenueStaff = salesInvoiceService.revenueStaff(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        assertEquals(actualRevenueStaff.size(), revenueStaffs.size());
     }
 }

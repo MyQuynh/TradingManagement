@@ -18,7 +18,7 @@ public interface DeliveryNoteRepository extends JpaRepository<DeliveryNote, Long
     @EntityGraph(attributePaths = {"deliveryDetails"})
     List<DeliveryNote> findAll();
 
-    List<DeliveryNote> findAllByDateLessThanEqualAndDateGreaterThanEqual(Date deliveryNoteStart, Date deliveryNoteEnd);
+    List<DeliveryNote> findDeliveryNotesByDateBetween(Date startDate, Date endDate);
 
     DeliveryNote findDeliveryNoteById(Long deliveryNoteId);
 

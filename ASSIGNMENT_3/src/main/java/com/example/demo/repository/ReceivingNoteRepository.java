@@ -13,8 +13,6 @@ public interface ReceivingNoteRepository extends JpaRepository<ReceivingNote, Lo
 
     List<ReceivingNote> findAll();
 
-    List<ReceivingNote> findAllByDateLessThanEqualAndDateGreaterThanEqual(Date date, Date date2);
-
     List<ReceivingNote> findReceivingNotesByDateBetween(String date, String date2);
 
     ReceivingNote findReceivingNoteById(Long receivingNoteId);

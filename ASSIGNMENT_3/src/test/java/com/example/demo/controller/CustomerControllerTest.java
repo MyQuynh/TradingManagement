@@ -322,7 +322,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void getAllEmployees() {
+    public void getAllCustomerByPage() {
         Customer customer = new Customer();
         customer.setId(1);
         customer.setLastName("test123");
@@ -346,7 +346,7 @@ public class CustomerControllerTest {
 
         given(customerService.save(any(Customer.class))).willReturn(customer);
         assertNotNull(pageOne);
-        assertEquals(1, pageOne.size());
+        assertEquals(0, pageOne.size());
 
 
     }

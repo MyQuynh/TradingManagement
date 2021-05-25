@@ -64,7 +64,7 @@ public class OrderController {
 
     }
 
-    @RequestMapping(value="/orders/searchByDate/" , method=RequestMethod.GET)
+    @RequestMapping(value="/orders/searchByDate" , method=RequestMethod.GET)
     public  List<Order> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                                @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return orderService.findDateBetween(startDate, endDate);
@@ -74,7 +74,7 @@ public class OrderController {
     @PutMapping("/orders/addOrderDetail/{orderId}")
     public String addOrderDetailToOrder(@PathVariable Long orderId, @RequestBody OrderDetail orderDetail) throws ResourcesNotFoundException {
         orderService.addOrderDetailToOrder(orderId, orderDetail);
-        return "OrderDetail has been successfully add to Order :: " + orderId;
+        return "OrderDetail has been successfully add to Order ::" + orderId;
     }
 
 //    // Find by staff

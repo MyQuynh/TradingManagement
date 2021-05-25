@@ -22,7 +22,7 @@ public class ProductController {
     ProductService productService;
 
     // Search by date
-    @RequestMapping(value="/products/inventory/" , method= RequestMethod.GET)
+    @RequestMapping(value="/products/inventory" , method= RequestMethod.GET)
     public List<Inventory> fetchInventory(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                           @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return productService.productInventoryBetween(startDate, endDate);

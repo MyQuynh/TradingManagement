@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.exception.ResourcesNotFoundException;
+import com.example.demo.manager.DateManager;
 import com.example.demo.model.*;
 import com.example.demo.repository.ReceivingDetailRepository;
 import com.example.demo.repository.ReceivingNoteRepository;
@@ -19,6 +20,8 @@ public class ReceivingNoteService {
     @Autowired
     private ReceivingNoteRepository receivingNoteRepository;
     private ReceivingDetailRepository receivingDetailRepository;
+
+    DateManager dateManager = new DateManager();
 
 //    private StaffService staffRepository;
 
@@ -63,16 +66,9 @@ public class ReceivingNoteService {
 
     // Filter by date between start date and end date
     public List<ReceivingNote> findDateBetween(Date startDate, Date endDate){
-        return receivingNoteRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
+        return receivingNoteRepository.findReceivingNotesByDateBetween(dateManager.convertDateToString(startDate), dateManager.convertDateToString(endDate));
     }
 
-    // Filter by date between start date and end date
-    public List<ReceivingNote> findDate1Between(Date startDate, Date endDate){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String strDate = dateFormat.format(startDate);
-        String str_endDate = dateFormat.format(endDate);
-        return receivingNoteRepository.findReceivingNotesByDateBetween(strDate, str_endDate);
-    }
 
     // Add order detail to order (is there need to add the order note into system)
     public void addReceivingDetailToReceivingNote(Long receivingNoteId, ReceivingDetail receivingDetail) throws ResourcesNotFoundException {

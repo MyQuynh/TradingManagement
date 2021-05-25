@@ -121,7 +121,7 @@ class ReceivingNoteControllerTest {
 
         given(receivingNoteService.findDateBetween(startDate,endDate)).willReturn(receivingNotes);
 
-        mvc.perform(get("/api/v1/receivingNotes/searchByDate/").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(get("/api/v1/receivingNotes/searchByDate").contentType(MediaType.APPLICATION_JSON)
                 .param("startDate", dateManager.convertDateToString(startDate))
                 .param("endDate", dateManager.convertDateToString(endDate)))
                 .andExpect(status().isOk())

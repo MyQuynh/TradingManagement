@@ -135,7 +135,7 @@ class OrderControllerTest {
 
         given(orderService.findDateBetween(startDate,endDate)).willReturn(orders);
 
-        mvc.perform(get("/api/v1/orders/searchByDate/").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(get("/api/v1/orders/searchByDate").contentType(MediaType.APPLICATION_JSON)
                 .param("startDate", dateManager.convertDateToString(startDate))
                 .param("endDate", dateManager.convertDateToString(endDate)))
                 .andExpect(status().isOk())

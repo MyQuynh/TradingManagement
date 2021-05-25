@@ -69,7 +69,7 @@ public class DeliveryNoteService {
 
     // Filter by date between start date and end date
     public List<DeliveryNote> findDateBetween(Date startDate, Date endDate){
-        return deliveryNoteRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
+        return deliveryNoteRepository.findDeliveryNotesByDateBetween(startDate, endDate);
     }
 
 //    // Filter by staff

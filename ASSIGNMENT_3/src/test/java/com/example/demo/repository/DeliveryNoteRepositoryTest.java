@@ -54,8 +54,8 @@ class DeliveryNoteRepositoryTest {
         deliveryNoteRight = entityManager.persistAndFlush(deliveryNoteRight);
         deliveryNoteWrong = entityManager.persistAndFlush(deliveryNoteWrong);
 
-        assertTrue(deliveryNoteRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate).contains(deliveryNoteRight));
-        assertFalse(deliveryNoteRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate).contains(deliveryNoteWrong));
+        assertTrue(deliveryNoteRepository.findDeliveryNotesByDateBetween(startDate, endDate).contains(deliveryNoteRight));
+        assertFalse(deliveryNoteRepository.findDeliveryNotesByDateBetween(startDate, endDate).contains(deliveryNoteWrong));
 
     }
 

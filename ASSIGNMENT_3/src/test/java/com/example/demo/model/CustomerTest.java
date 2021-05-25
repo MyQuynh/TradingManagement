@@ -2,6 +2,9 @@ package com.example.demo.model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerTest {
@@ -78,10 +81,10 @@ class CustomerTest {
     }
 
     @Test
-    void getSalesInvoiceList() {
-    }
-
-    @Test
-    void setSalesInvoiceList() {
+    void getSalesInvoiceListAndSet() {
+        List<SalesInvoice> salesInvoices = new ArrayList<>();
+        Customer customer = new Customer();
+        customer.setSalesInvoiceList(salesInvoices);
+        assertEquals(customer.getSalesInvoiceList().size(), salesInvoices.size());
     }
 }

@@ -62,7 +62,7 @@ public class DeliveryNoteController {
     }
 
     // Search by date
-    @RequestMapping(value="/deliveryNotes/searchByDate/" , method=RequestMethod.GET)
+    @RequestMapping(value="/deliveryNotes/searchByDate" , method=RequestMethod.GET)
     public  List<DeliveryNote> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                                @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return deliveryNoteService.findDateBetween(startDate, endDate);

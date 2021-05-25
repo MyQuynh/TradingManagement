@@ -62,7 +62,7 @@ public class ReceivingNoteController {
 
     }
 
-    @RequestMapping(value="/receivingNotes/searchByDate/" , method=RequestMethod.GET)
+    @RequestMapping(value="/receivingNotes/searchByDate" , method=RequestMethod.GET)
     public  List<ReceivingNote> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                         @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return receivingNoteService.findDateBetween(startDate, endDate);

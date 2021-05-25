@@ -5,6 +5,9 @@ import com.example.demo.model.*;
 import com.example.demo.service.ReceivingNoteService;
 import com.example.demo.service.SalesInvoiceService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.path.to.Inventory;
+import com.path.to.RevenueCustomer;
+import com.path.to.RevenueStaff;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -16,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -129,10 +133,57 @@ class SalesInvoiceControllerTest {
 
         given(salesInvoiceService.findDateBetween(startDate,endDate)).willReturn(salesInvoices);
 
-        mvc.perform(get("/api/v1/salesInvoices/searchByDate/").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(get("/api/v1/salesInvoices/searchByDate").contentType(MediaType.APPLICATION_JSON)
                 .param("startDate", dateManager.convertDateToString(startDate))
                 .param("endDate", dateManager.convertDateToString(endDate)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(salesInvoices.size())));
+    }
+
+    @Test
+    void fetchRevenueByCustomer() throws Exception {
+        String startDate = "2023-01-01";
+        String endDate  = "2024-01-01";
+
+        List<RevenueCustomer> revenueCustomers = new ArrayList<>();
+
+        given(salesInvoiceService.revenueCustomer(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).willReturn(revenueCustomers);
+
+        mvc.perform(get("/api/v1/salesInvoices/revenueByCustomer").contentType(MediaType.APPLICATION_JSON)
+                .param("startDate", startDate)
+                .param("endDate", endDate))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    void fetchRevenueByStaff() throws Exception {
+        String startDate = "2023-01-01";
+        String endDate  = "2024-01-01";
+
+        List<RevenueStaff> revenueStaffs = new ArrayList<>();
+
+        given(salesInvoiceService.revenueStaff(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).willReturn(revenueStaffs);
+
+        mvc.perform(get("/api/v1/salesInvoices/revenueByStaff").contentType(MediaType.APPLICATION_JSON)
+                .param("startDate", startDate)
+                .param("endDate", endDate))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    void fetchTotalRevenue() throws Exception {
+        String startDate = "2023-01-01";
+        String endDate  = "2024-01-01";
+
+        int revenue = 0;
+
+        given(salesInvoiceService.totalRevenue(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).willReturn((float) revenue);
+
+        mvc.perform(get("/api/v1/salesInvoices/totalRevenue").contentType(MediaType.APPLICATION_JSON)
+                .param("startDate", startDate)
+                .param("endDate", endDate))
+                .andExpect(jsonPath("$").value((float)revenue));
     }
 }

@@ -64,26 +64,26 @@ public class SalesInvoiceController {
 
     }
 
-    @RequestMapping(value="/salesInvoices/searchByDate/" , method=RequestMethod.GET)
+    @RequestMapping(value="/salesInvoices/searchByDate" , method=RequestMethod.GET)
     public  List<SalesInvoice> fetchDataByDate(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                                 @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return salesInvoiceService.findDateBetween(startDate, endDate);
     }
 
-    @RequestMapping(value="/salesInvoices/revenueByCustomer/" , method=RequestMethod.GET)
+    @RequestMapping(value="/salesInvoices/revenueByCustomer" , method=RequestMethod.GET)
     public  List<RevenueCustomer> fetchRevenueByCustomer(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                                          @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return salesInvoiceService.revenueCustomer(startDate, endDate);
     }
 
-    @RequestMapping(value="/salesInvoices/revenueByStaff/" , method=RequestMethod.GET)
+    @RequestMapping(value="/salesInvoices/revenueByStaff" , method=RequestMethod.GET)
     public  List<RevenueStaff> fetchRevenueByStaff(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                                       @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return salesInvoiceService.revenueStaff(startDate, endDate);
     }
 
-    @RequestMapping(value="/salesInvoices/totalRevenue/" , method=RequestMethod.GET)
-    public Revenue fetchTotalRevenue(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+    @RequestMapping(value="/salesInvoices/totalRevenue" , method=RequestMethod.GET)
+    public Float fetchTotalRevenue(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                      @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return salesInvoiceService.totalRevenue(startDate, endDate);
     }

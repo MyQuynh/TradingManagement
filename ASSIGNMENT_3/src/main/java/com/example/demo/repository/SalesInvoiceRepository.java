@@ -16,7 +16,6 @@ import java.util.List;
 @Repository
 public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long> {
 
-    @EntityGraph(attributePaths = {"saleDetailList"})
     List<SalesInvoice> findAll();
 
 //    List<SalesInvoice> findAllSalesInvoiceBetween(Date orderStart, Date orderEnd);
@@ -51,15 +50,14 @@ public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long
     List<RevenueStaff> totalRevenueByStaff(@Param("startDate") Date startDate,
                                            @Param("endDate") Date endDate);
 
-    @Query(value = "select sum(sale_detail.quantity * product.price) as total_value\n" +
+    @Query(value = "select COALESCE(sum(sale_detail.quantity * product.price),0) as total_value\n" +
             "from sales_invoice, product, sale_detail\n" +
             "where sales_invoice.id = sale_detail.id\n" +
             "and sale_detail.product_id = product.id\n" +
             "and sales_invoice.date BETWEEN :startDate AND :endDate", nativeQuery = true)
-    Revenue totalRevenue(@Param("startDate") Date startDate,
+    Float totalRevenue(@Param("startDate") Date startDate,
                          @Param("endDate") Date endDate);
 
-    List<SalesInvoice> findAllByDateLessThanEqualAndDateGreaterThanEqual(Date saleInvoiceStart, Date saleInvoiceEnd);
 
     List<SalesInvoice> findSalesInvoicesByDateBetween(String start, String end);
 

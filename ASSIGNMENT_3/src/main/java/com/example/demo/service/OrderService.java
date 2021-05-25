@@ -74,7 +74,7 @@ public class OrderService {
 
     // Filter by date between start date and end date
     public List<Order> findDateBetween(Date startDate, Date endDate){
-        return orderRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(dateManager.convertDateToString(startDate),dateManager.convertDateToString(endDate));
+        return orderRepository.findOrdersByDateBetween(dateManager.convertDateToString(startDate),dateManager.convertDateToString(endDate));
     }
 
     // Add order detail to order (is there need to add the order note into system)

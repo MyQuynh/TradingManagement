@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.manager.DateManager;
 import com.example.demo.model.*;
 import com.example.demo.repository.CustomerRepository;
 import com.example.demo.repository.SalesInvoiceRepository;
@@ -20,6 +21,8 @@ public class SalesInvoiceService {
 
     @Autowired
     private SalesInvoiceRepository salesInvoiceRepository;
+
+    DateManager dateManager = new DateManager();
 
 //    private StaffRepository staffRepository;
 //    private CustomerRepository customerRepository;
@@ -71,10 +74,10 @@ public class SalesInvoiceService {
 
     // Filter by date between start date and end date
     public List<SalesInvoice> findDateBetween(Date startDate, Date endDate){
-        return salesInvoiceRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(startDate, endDate);
+        return salesInvoiceRepository.findSalesInvoicesByDateBetween(dateManager.convertDateToString(startDate), dateManager.convertDateToString(endDate));
     }
 
-    public Revenue totalRevenue(Date startDate, Date endDate){
+    public Float totalRevenue(Date startDate, Date endDate){
         return salesInvoiceRepository.totalRevenue(startDate, endDate);
     }
 

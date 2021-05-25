@@ -141,7 +141,7 @@ class DeliveryNoteControllerTest {
 
         given(deliveryNoteService.findDateBetween(start,end)).willReturn(deliveryNotes);
 
-        mvc.perform(get("/api/v1/deliveryNotes/searchByDate/").contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(get("/api/v1/deliveryNotes/searchByDate").contentType(MediaType.APPLICATION_JSON)
                 .param("startDate", startDate)
                 .param("endDate", endDate))
                 .andExpect(status().isOk())

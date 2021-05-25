@@ -16,8 +16,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     //@EntityGraph(attributePaths = {"saleDetailList"})
     List<Order> findAll();
 
-    List<Order> findAllByDateLessThanEqualAndDateGreaterThanEqual(String date, String date2);
-
     Order findOrderById(Long orderId);
 
     // Find by staff

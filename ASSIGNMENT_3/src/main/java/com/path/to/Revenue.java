@@ -1,5 +1,8 @@
 package com.path.to;
 
 public interface Revenue {
-    Float getRevenue();
+    String getName();
+    Float getQuantity();
+    Float getPrice();
+    Float getTotal_value();
 }

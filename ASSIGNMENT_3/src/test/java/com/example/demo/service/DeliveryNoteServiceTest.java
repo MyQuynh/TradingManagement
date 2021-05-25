@@ -146,7 +146,7 @@ class DeliveryNoteServiceTest {
         List<DeliveryNote> deliveryNotesList = IntStream.range(0, 10)
                 .mapToObj(i -> new DeliveryNote(i,date))
                 .collect(Collectors.toList());
-        when(deliveryNoteRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(date,date)).thenReturn(deliveryNotesList);
+        when(deliveryNoteRepository.findDeliveryNotesByDateBetween(date,date)).thenReturn(deliveryNotesList);
         List<DeliveryNote> actualDeliveryNoteList = deliveryNoteService.findDateBetween(date,date);
         assertEquals(actualDeliveryNoteList.size(), deliveryNotesList.size());
     }

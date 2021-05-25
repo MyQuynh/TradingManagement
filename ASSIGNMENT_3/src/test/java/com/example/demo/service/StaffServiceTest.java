@@ -53,7 +53,7 @@ class StaffServiceTest {
     void findStaffById() {
         Staff staff = new Staff();
         staffService.save(staff);
-        Mockito.when(staffRepository.findById(1L)).thenReturn(Optional.of(staff));
+        Mockito.when(staffRepository.findStaffById((1L))).thenReturn(staff);
         Staff staffActual = staffService.findStaffById(1L);
         assertEquals(staff, staffActual);
     }
@@ -96,7 +96,7 @@ class StaffServiceTest {
         staffUpdated.setId(0L);
         staffUpdated.setFirstName("New test");
 
-        when(staffRepository.findById(staffBefore.getId())).thenReturn(Optional.of(staffBefore));
+        when(staffRepository.findStaffById(staffBefore.getId())).thenReturn(staffBefore);
         when(staffRepository.save(any(Staff.class))).thenReturn(staffBefore);
 
         Staff staffActual = staffService.updateStaff(staffUpdated);

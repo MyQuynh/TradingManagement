@@ -7,34 +7,38 @@ import static org.junit.jupiter.api.Assertions.*;
 class DeliveryDetailTest {
 
     @Test
-    void getId() {
+    void getAndSetId() {
+        Long deliveryDetailId = 0L;
+        DeliveryDetail deliveryDetail = new DeliveryDetail();
+        deliveryDetail.setId(deliveryDetailId);
+        assertEquals(deliveryDetail.getId(), deliveryDetailId);
+    }
+
+
+    @Test
+    void getAndSetProduct() {
+        Product product = new Product();
+        DeliveryDetail deliveryDetail = new DeliveryDetail();
+        deliveryDetail.setProduct(product);
+        assertEquals(deliveryDetail.getProduct(), product);
+    }
+
+
+    @Test
+    void getAndSetQuantity() {
+        int  deliveryDetailQuantity = 12;
+        DeliveryDetail deliveryDetail = new DeliveryDetail();
+        deliveryDetail.setQuantity(deliveryDetailQuantity);
+        assertEquals(deliveryDetail.getQuantity(), deliveryDetailQuantity);
     }
 
     @Test
-    void setId() {
+    void getAndSetDeliveryNote() {
+        DeliveryNote deliveryNote = new DeliveryNote();
+        DeliveryDetail deliveryDetail = new DeliveryDetail();
+        deliveryDetail.setDeliveryNote(deliveryNote);
+        assertEquals(deliveryDetail.getDeliveryNote(), deliveryNote);
     }
 
-    @Test
-    void getProduct() {
-    }
 
-    @Test
-    void setProduct() {
-    }
-
-    @Test
-    void getQuantity() {
-    }
-
-    @Test
-    void setQuantity() {
-    }
-
-    @Test
-    void getDeliveryNote() {
-    }
-
-    @Test
-    void setDeliveryNote() {
-    }
 }

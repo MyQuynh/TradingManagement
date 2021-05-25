@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.manager.DateManager;
 import com.example.demo.model.*;
 import com.example.demo.repository.OrderRepository;
 import com.example.demo.repository.ReceivingNoteRepository;
@@ -31,6 +32,8 @@ class ReceivingNoteServiceTest {
 
     @Mock
     ReceivingNoteRepository receivingNoteRepository;
+
+    DateManager dateManager = new DateManager();
 
     @Before
     public void setUp() {
@@ -139,7 +142,7 @@ class ReceivingNoteServiceTest {
         List<ReceivingNote> receivingNoteList = IntStream.range(0, 10)
                 .mapToObj(i -> new ReceivingNote(i, "Date", new Staff()))
                 .collect(Collectors.toList());
-        when(receivingNoteRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(date, date)).thenReturn(receivingNoteList);
+        when(receivingNoteRepository.findReceivingNotesByDateBetween(dateManager.convertDateToString(date), dateManager.convertDateToString(date))).thenReturn(receivingNoteList);
         List<ReceivingNote> actualReceivingNoteList = receivingNoteService.findDateBetween(date, date);
         assertEquals(actualReceivingNoteList.size(), receivingNoteList.size());
     }

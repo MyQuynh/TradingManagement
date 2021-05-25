@@ -7,42 +7,47 @@ import static org.junit.jupiter.api.Assertions.*;
 class OrderDetailTest {
 
     @Test
-    void getId() {
+    void getAndSetId() {
+        int orderDetailId = 0;
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setId(orderDetailId);
+        assertEquals(orderDetail.getId(), orderDetailId);
     }
 
     @Test
-    void setId() {
+    void getAndSetProduct() {
+        OrderDetail orderDetail = new OrderDetail();
+        Product product = new Product();
+        orderDetail.setProduct(product);
+        assertEquals(product, orderDetail.getProduct());
     }
 
-    @Test
-    void getProduct() {
-    }
 
     @Test
-    void setProduct() {
+    void getAndSetQuantity() {
+        int orderDetailQuantity = 0;
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setQuantity(orderDetailQuantity);
+        assertEquals(orderDetail.getQuantity(), orderDetailQuantity);
     }
 
-    @Test
-    void getQuantity() {
-    }
 
     @Test
-    void setQuantity() {
+    void getAndSetPrice() {
+        float orderDetailPrice = 0;
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setPrice(orderDetailPrice);
+        assertEquals(orderDetail.getPrice(), orderDetailPrice);
     }
 
-    @Test
-    void getPrice() {
-    }
 
     @Test
-    void setPrice() {
+    void getAndSetOrder() {
+        Order order =  new Order();
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setOrder(order);
+        assertEquals(orderDetail.getOrder(), order);
     }
 
-    @Test
-    void getOrder() {
-    }
 
-    @Test
-    void setOrder() {
-    }
 }
