@@ -10,6 +10,9 @@ import com.path.to.RevenueCustomer;
 import com.path.to.RevenueStaff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -87,6 +90,87 @@ public class SalesInvoiceController {
                                      @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return salesInvoiceService.totalRevenue(startDate, endDate);
     }
+
+    // Paging
+    // Find all the sale invoice
+    @GetMapping("/saleInvoices1")
+    public ResponseEntity<List<SalesInvoice>> getAllSaleInvoices(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<SalesInvoice> list = salesInvoiceService.getAllSaleInvoices(pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<SalesInvoice>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find sale invoice between date
+    @GetMapping("/saleInvoices1/searchByDate")
+    public ResponseEntity<List<SalesInvoice>> getAllSaleInvoicesBetweenDate(
+            @RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<SalesInvoice> list = salesInvoiceService.getAllReceivingNoteBetween(startDate,endDate,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<SalesInvoice>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/saleInvoices1/revenueByCustomer")
+    public ResponseEntity<List<RevenueCustomer>> getAllRevenueByCustomer(
+            @RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<RevenueCustomer> list = salesInvoiceService.getAllTotalRevenueByCustomer(startDate,endDate,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<RevenueCustomer>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/saleInvoices1/revenueByStaff")
+    public ResponseEntity<List<RevenueStaff>> getAllRevenueByStaff(
+            @RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<RevenueStaff> list = salesInvoiceService.getAllTotalRevenueByStaff(startDate,endDate,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<RevenueStaff>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/saleInvoices1/searchByStaff")
+    public ResponseEntity<List<SalesInvoice>> getSaleInvoicesByStaff(
+            @RequestParam("id") @DateTimeFormat(pattern="yyyy-MM-dd") Long id,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<SalesInvoice> list = salesInvoiceService.getAllSalesInvoiceByStaff(id,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<SalesInvoice>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/saleInvoices1/searchByCustomer")
+    public ResponseEntity<List<SalesInvoice>> getSaleInvoicesByCustomer(
+            @RequestParam("id") @DateTimeFormat(pattern="yyyy-MM-dd") Long id,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<SalesInvoice> list = salesInvoiceService.getAllSalesInvoiceByCustomer(id,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<SalesInvoice>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+
+
+
 
 
 

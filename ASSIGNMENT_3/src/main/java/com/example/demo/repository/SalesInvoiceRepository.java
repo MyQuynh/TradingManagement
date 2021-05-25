@@ -4,11 +4,13 @@ import com.example.demo.model.*;
 import com.path.to.Revenue;
 import com.path.to.RevenueCustomer;
 import com.path.to.RevenueStaff;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
 import java.util.List;
@@ -60,5 +62,40 @@ public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long
 
 
     List<SalesInvoice> findSalesInvoicesByDateBetween(String start, String end);
+
+    // Paging
+    Page<SalesInvoice> findAll(Pageable pageable);
+
+    Page<SalesInvoice> findSalesInvoicesByCustomer(Customer customer, Pageable pageable);
+
+    Page<SalesInvoice> findSalesInvoicesByStaff(Staff staff, Pageable pageable);
+
+    @Query(value = "select customer.id as id , COALESCE(sales_invoice.revenue, 0) revenue\n" +
+            "from customer\n" +
+            "         left join (\n" +
+            "    SELECT sales_invoice.customer_id, SUM(total_value) as revenue\n" +
+            "    from sales_invoice\n" +
+            "    WHERE date BETWEEN :startDate AND :endDate\n" +
+            "    GROUP BY sales_invoice.customer_id\n" +
+            ") sales_invoice on customer.id = sales_invoice.customer_id;",
+            nativeQuery = true)
+    Page<RevenueCustomer> totalRevenueByCustomer(@Param("startDate") Date startDate,
+                                                 @Param("endDate") Date endDate, Pageable pageable);
+
+    @Query(value = "select staff.id as id , COALESCE(sales_invoice.revenue, 0) revenue\n" +
+            "from staff\n" +
+            "         left join (\n" +
+            "    SELECT sales_invoice.staff_id, SUM(total_value) as revenue\n" +
+            "    from sales_invoice\n" +
+            "    WHERE date BETWEEN :startDate AND :endDate\n" +
+            "    GROUP BY sales_invoice.staff_id\n" +
+            ") sales_invoice on staff.id = sales_invoice.staff_id;",
+            nativeQuery = true)
+    Page<RevenueStaff> totalRevenueByStaff(@Param("startDate") Date startDate,
+                                           @Param("endDate") Date endDate, Pageable pageable);
+
+    Page<SalesInvoice> findSalesInvoicesByDateBetween(String start, String end, Pageable pageable);
+
+
 
 }

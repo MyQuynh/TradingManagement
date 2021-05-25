@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="product")
@@ -149,4 +150,5 @@ public class Product {
     public void setSaleDetails(List<SaleDetail> saleDetails) {
         this.saleDetails = saleDetails;
     }
+
 }

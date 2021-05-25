@@ -9,6 +9,10 @@ import com.path.to.Revenue;
 import com.path.to.RevenueCustomer;
 import com.path.to.RevenueStaff;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,8 +28,8 @@ public class SalesInvoiceService {
 
     DateManager dateManager = new DateManager();
 
-//    private StaffRepository staffRepository;
-//    private CustomerRepository customerRepository;
+    private StaffRepository staffRepository;
+    private CustomerRepository customerRepository;
 
     public List<SalesInvoice> findAll() {
 
@@ -100,6 +104,85 @@ public class SalesInvoiceService {
 //        Customer customer = customerRepository.findCustomersById(customer_id);
 //        return salesInvoiceRepository.findSalesInvoicesByCustomer(customer);
 //    }
+
+    // Paging
+    public List<SalesInvoice> getAllSaleInvoices(Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<SalesInvoice> pagedResult = salesInvoiceRepository.findAll(paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<SalesInvoice>();
+        }
+    }
+
+    public List<SalesInvoice> getAllReceivingNoteBetween(Date startDate, Date endDate,Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<SalesInvoice> pagedResult = salesInvoiceRepository.findSalesInvoicesByDateBetween(dateManager.convertDateToString(startDate),dateManager.convertDateToString(endDate),paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<SalesInvoice>();
+        }
+    }
+
+    public List<RevenueCustomer> getAllTotalRevenueByCustomer(Date startDate, Date endDate,Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<RevenueCustomer> pagedResult = salesInvoiceRepository.totalRevenueByCustomer(startDate,endDate,paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<RevenueCustomer>();
+        }
+    }
+
+    public List<RevenueStaff> getAllTotalRevenueByStaff(Date startDate, Date endDate,Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<RevenueStaff> pagedResult = salesInvoiceRepository.totalRevenueByStaff(startDate,endDate,paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<RevenueStaff>();
+        }
+    }
+
+    public List<SalesInvoice> getAllSalesInvoiceByCustomer(Long customerId,Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<SalesInvoice> pagedResult = salesInvoiceRepository.findSalesInvoicesByCustomer(customerRepository.findCustomersById(customerId),paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<SalesInvoice>();
+        }
+    }
+
+    public List<SalesInvoice> getAllSalesInvoiceByStaff(Long staffId,Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<SalesInvoice> pagedResult = salesInvoiceRepository.findSalesInvoicesByStaff(staffRepository.findStaffById(staffId),paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<SalesInvoice>();
+        }
+    }
 
 
 }

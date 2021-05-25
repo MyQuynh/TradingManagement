@@ -96,7 +96,6 @@ class SalesInvoiceRepositoryTest {
     }
 
     @Test
-        // TODO: CHANGING THE DATETIME
     void delete() {
         SalesInvoice salesInvoice = new SalesInvoice();
         salesInvoice = entityManager.persistAndFlush(salesInvoice);

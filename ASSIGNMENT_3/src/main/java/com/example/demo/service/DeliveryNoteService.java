@@ -7,6 +7,10 @@ import com.example.demo.repository.StaffRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -91,6 +95,33 @@ public class DeliveryNoteService {
         deliveryNote.setDeliveryDetails(deliveryDetails);
         deliveryNoteRepository.save(deliveryNote);
 
+    }
+
+    // This is paging
+    public List<DeliveryNote> getAllDeliveryNote(Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<DeliveryNote> pagedResult = deliveryNoteRepository.findAll(paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<DeliveryNote>();
+        }
+    }
+
+    public List<DeliveryNote> getAllDeliveryNoteBetween(Date startDate, Date endDate,Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<DeliveryNote> pagedResult = deliveryNoteRepository.findDeliveryNotesByDateBetween(startDate,endDate,paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<DeliveryNote>();
+        }
     }
 
 

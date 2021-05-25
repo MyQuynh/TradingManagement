@@ -6,10 +6,15 @@ import com.example.demo.model.*;
 import com.example.demo.repository.ReceivingDetailRepository;
 import com.example.demo.repository.ReceivingNoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -94,5 +99,31 @@ public class ReceivingNoteService {
 //        return receivingNoteRepository.findReceivingNotesByStaff(staff);
 //    }
 
+    // Paging
+    public List<ReceivingNote> getAllReceivingNote(Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<ReceivingNote> pagedResult = receivingNoteRepository.findAll(paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<ReceivingNote>();
+        }
+    }
+
+    public List<ReceivingNote> getAllReceivingNoteBetween(Date startDate, Date endDate,Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<ReceivingNote> pagedResult = receivingNoteRepository.findReceivingNotesByDateBetween(dateManager.convertDateToString(startDate),dateManager.convertDateToString(endDate),paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<ReceivingNote>();
+        }
+    }
 
 }

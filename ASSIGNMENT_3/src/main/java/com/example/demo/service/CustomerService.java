@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import org.springframework.data.domain.Pageable;
 
 
@@ -48,10 +47,6 @@ public class CustomerService {
 
         customerRepository.deleteById(customerId);
         return "SUCCESS";
-    }
-
-    public boolean existsById(Long customerId){
-        return customerRepository.existsById(customerId);
     }
 
     public Customer updateCustomer(Customer customer) throws ResourcesNotFoundException {
@@ -124,8 +119,8 @@ public class CustomerService {
         customerRepository.save(customer);
 
     }
-
-    public List<Customer> getAllEmployees(Integer pageNo, Integer pageSize, String sortBy)
+    // This is for paging
+    public List<Customer> getAllCustomers(Integer pageNo, Integer pageSize, String sortBy)
     {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
@@ -137,5 +132,99 @@ public class CustomerService {
             return new ArrayList<Customer>();
         }
     }
+
+    public List<Customer> getAllCustomersByFirstName(String firstName, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Customer> pagedResult= customerRepository.findCustomersByFirstName(firstName, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Customer>();
+        }
+    }
+
+    public List<Customer> getAllCustomersByLastName(String lastName, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Customer> pagedResult = customerRepository.findCustomersByLastName(lastName, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Customer>();
+        }
+    }
+
+    public List<Customer> getAllCustomersByAddress(String address, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Customer> pagedResult =  customerRepository.findCustomersByAddress(address, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Customer>();
+        }
+
+    }
+
+    public List<Customer> getAllCustomersByPhone(String phone, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Customer> pagedResult = customerRepository.findCustomersByPhone(phone, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Customer>();
+        }
+    }
+
+    public List<Customer> getAllCustomersByFax(String fax, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Customer> pagedResult = customerRepository.findCustomersByFax(fax, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Customer>();
+        }
+    }
+
+    public List<Customer> getAllCustomersByEmail(String email, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Customer> pagedResult = customerRepository.findCustomersByEmail(email, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Customer>();
+        }
+    }
+
+    public List<Customer> getAllCustomersByContactPerson(String contactPerson, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Customer> pagedResult = customerRepository.findCustomersByContactPerson(contactPerson, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Customer>();
+        }
+    }
+
+
 
 }

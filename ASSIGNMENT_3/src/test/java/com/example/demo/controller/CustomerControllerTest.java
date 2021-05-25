@@ -333,7 +333,7 @@ public class CustomerControllerTest {
         Pageable paging = PageRequest.of(0, 1, Sort.by("id"));
         // System.out.println(customerService.save(new Customer()));
         System.out.println(customerService.findAll());
-        List<Customer> pageOne = customerService.getAllEmployees(0,1,"id");
+        List<Customer> pageOne = customerService.getAllCustomers(0,1,"id");
         List<Customer> customerList = IntStream.range(0, 10)
                 .mapToObj(i -> new Customer(i,"firstname-" + i, "lastname-" + i, "address-"+i,"phone-"+i,"fax-"+i,"email-"+i,"contact-"+i))
                 .collect(Collectors.toList());

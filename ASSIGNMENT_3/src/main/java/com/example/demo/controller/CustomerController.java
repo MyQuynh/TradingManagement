@@ -110,13 +110,106 @@ public class CustomerController {
     }
 
     // Paging
+
+    // Find all customers
     @GetMapping("/customers1")
-    public ResponseEntity<List<Customer>> getAllEmployees(
+    public ResponseEntity<List<Customer>> getAllCustomers(
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy)
     {
-        List<Customer> list = customerService.getAllEmployees(pageNo, pageSize, sortBy);
+        List<Customer> list = customerService.getAllCustomers(pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Customer>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find customer by firstname
+    @GetMapping("/customers1/searchFirstName")
+    public ResponseEntity<List<Customer>> getAllCustomersByFirstName(
+            @RequestParam String firstName,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Customer> list = customerService.getAllCustomersByFirstName(firstName,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Customer>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find customer by lastname
+    @GetMapping("/customers1/searchLastName")
+    public ResponseEntity<List<Customer>> getAllCustomersByLastName(
+            @RequestParam String lastName,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Customer> list = customerService.getAllCustomersByLastName(lastName,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Customer>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find customer by address
+    @GetMapping("/customers1/searchAddress")
+    public ResponseEntity<List<Customer>> getAllCustomersAddress(
+            @RequestParam String address,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Customer> list = customerService.getAllCustomersByAddress(address,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Customer>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find customer by Phone
+    @GetMapping("/customers1/searchPhone")
+    public ResponseEntity<List<Customer>> getAllCustomersPhone(
+            @RequestParam String phone,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Customer> list = customerService.getAllCustomersByPhone(phone,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Customer>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find customer by Fax
+    @GetMapping("/customers1/searchFax")
+    public ResponseEntity<List<Customer>> getAllCustomersFax(
+            @RequestParam String fax,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Customer> list = customerService.getAllCustomersByFax(fax,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Customer>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find customer by Email
+    @GetMapping("/customers1/searchEmail")
+    public ResponseEntity<List<Customer>> getAllCustomersEmail(
+            @RequestParam String email,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Customer> list = customerService.getAllCustomersByEmail(email,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Customer>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find customer by Contact
+    @GetMapping("/customers1/searchContact")
+    public ResponseEntity<List<Customer>> getAllCustomersContact(
+            @RequestParam String contact,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Customer> list = customerService.getAllCustomersByContactPerson(contact,pageNo, pageSize, sortBy);
 
         return new ResponseEntity<List<Customer>>(list, new HttpHeaders(), HttpStatus.OK);
     }

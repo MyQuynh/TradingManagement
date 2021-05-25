@@ -8,6 +8,9 @@ import com.example.demo.model.ReceivingNote;
 import com.example.demo.service.ReceivingNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -80,6 +83,33 @@ public class ReceivingNoteController {
 //    public  List<ReceivingNote> fetchDataByStaff(@RequestParam("staff_id") Long staff_id) {
 //        return receivingNoteService.findByStaff(staff_id);
 //    }
+
+    // Paging
+    // Find all the receiving note
+    @GetMapping("/receivingNotes1")
+    public ResponseEntity<List<ReceivingNote>> getAllReceivingNotes(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<ReceivingNote> list = receivingNoteService.getAllReceivingNote(pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<ReceivingNote>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find delivery note between date
+    @GetMapping("/receivingNote1/searchByDate")
+    public ResponseEntity<List<ReceivingNote>> getAllReceivingNoteBetweenDate(
+            @RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<ReceivingNote> list = receivingNoteService.getAllReceivingNoteBetween(startDate,endDate,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<ReceivingNote>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
 
 
 }

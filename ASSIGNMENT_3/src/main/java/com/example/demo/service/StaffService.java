@@ -6,6 +6,10 @@ import com.example.demo.model.SalesInvoice;
 import com.example.demo.model.Staff;
 import com.example.demo.repository.StaffRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -81,6 +85,91 @@ public class StaffService {
     public List<Staff> findByPhone(String phone){
         return staffRepository.findByPhone(phone);
     }
+
+    // Paging
+    public List<Staff> getAllStaffs(Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Staff> pagedResult = staffRepository.findAll(paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Staff>();
+        }
+
+    }
+
+
+    public List<Staff> getAllStaffsByFirstName(String firstName, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Staff> pagedResult= staffRepository.findByFirstName(firstName, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Staff>();
+        }
+    }
+
+    public List<Staff> getAllStaffsByLastName(String lastName, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Staff> pagedResult = staffRepository.findByLastName(lastName, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Staff>();
+        }
+    }
+
+    public List<Staff> getAllStaffsByAddress(String address, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Staff> pagedResult =  staffRepository.findByAddress(address, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Staff>();
+        }
+
+    }
+
+    public List<Staff> getAllStaffsByPhone(String phone, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Staff> pagedResult = staffRepository.findByPhone(phone, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Staff>();
+        }
+    }
+
+
+    public List<Staff> getAllStaffsByEmail(String email, Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Staff> pagedResult = staffRepository.findByEmail(email, paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Staff>();
+        }
+    }
+
+
 
 
 }

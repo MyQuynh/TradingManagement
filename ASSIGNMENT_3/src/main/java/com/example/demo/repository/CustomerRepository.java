@@ -1,6 +1,6 @@
 package com.example.demo.repository;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
@@ -38,5 +39,28 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
     List<Customer> findCustomersByEmail(String email);
 
     Customer findCustomersById(Long id);
+
+    // This is the paging part
+
+    // Find by FirstName
+    Page<Customer> findCustomersByFirstName(String firstName, Pageable pageable);
+
+    // Find by Lastname
+    Page<Customer> findCustomersByLastName(String lastName, Pageable pageable);
+
+    // Find by email
+    Page<Customer> findCustomersByEmail(String lastName, Pageable pageable);
+
+    // Find by address
+    Page<Customer> findCustomersByAddress(String address, Pageable pageable);
+
+    // Find by contact person
+    Page<Customer> findCustomersByContactPerson(String contactPerson, Pageable pageable);
+
+    // Find by phone
+    Page<Customer> findCustomersByPhone(String phone, Pageable pageable);
+
+    // Find by fax
+    Page<Customer> findCustomersByFax(String fax, Pageable pageable);
 
 }

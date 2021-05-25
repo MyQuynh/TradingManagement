@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "customer")
@@ -146,4 +147,24 @@ public class Customer implements Serializable {
                 ", salesInvoiceList=" + salesInvoiceList +
                 '}';
     }
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Customer that = (Customer) o;
+//        return id == that.id &&
+//                firstName.equals(that.firstName) &&
+//                lastName.equals(that.lastName) &&
+//                phone.equals(that.phone) &&
+//                fax.equals(that.fax) &&
+//                email.equals(that.email) &&
+//                contactPerson.equals(that.contactPerson) &&
+//                address.equals(that.address);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id, firstName, lastName, address, phone, fax, email, contactPerson);
+//    }
 }

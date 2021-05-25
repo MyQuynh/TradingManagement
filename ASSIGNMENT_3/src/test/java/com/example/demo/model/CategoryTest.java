@@ -23,4 +23,12 @@ class CategoryTest {
         assertEquals(categoryName, category.getName());
     }
 
+    @Test
+    public void testEqualsAndHashCode() {
+        Category category = new Category();
+        Category category1 = new Category();
+        assertEquals(category, category1);
+        assertEquals(category.hashCode(), category1.hashCode());
+    }
+
 }

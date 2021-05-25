@@ -9,6 +9,10 @@ import com.example.demo.repository.ProviderRepository;
 import com.example.demo.repository.StaffRepository;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -106,6 +110,33 @@ public class OrderService {
 //        Provider provider = providerRepository.findProviderById(provider_id);
 //        return orderRepository.findOrdersByProvider(provider);
 //    }
+
+    // Paging
+    public List<Order> getAllOrder(Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Order> pagedResult = orderRepository.findAll(paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Order>();
+        }
+    }
+
+    public List<Order> getAllOrderBetween(Date startDate, Date endDate,Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Page<Order> pagedResult = orderRepository.findOrdersByDateBetween(dateManager.convertDateToString(startDate),dateManager.convertDateToString(endDate),paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Order>();
+        }
+    }
 
 
 }

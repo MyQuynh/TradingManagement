@@ -8,6 +8,9 @@ import com.example.demo.model.OrderDetail;
 import com.example.demo.service.DeliveryNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -73,6 +76,33 @@ public class DeliveryNoteController {
     public String addDeliveryDetailToDeliveryNote(@PathVariable Long deliveryNoteId, @RequestBody DeliveryDetail deliveryDetail) throws ResourcesNotFoundException {
         deliveryNoteService.addDeliveryDetailToDeliveryNote(deliveryNoteId, deliveryDetail);
         return "DeliveryDetail has been successfully add to DeliveryNote :: " + deliveryNoteId;
+    }
+
+    // Paging
+    // Find all the delivery note
+    @GetMapping("/deliveryNotes1")
+    public ResponseEntity<List<DeliveryNote>> getAllDeliveryNotes(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<DeliveryNote> list = deliveryNoteService.getAllDeliveryNote(pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<DeliveryNote>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find delivery note between date
+    @GetMapping("/deliveryNotes1/searchByDate")
+    public ResponseEntity<List<DeliveryNote>> getAllDeliveryNotesBetweenDate(
+            @RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<DeliveryNote> list = deliveryNoteService.getAllDeliveryNoteBetween(startDate,endDate,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<DeliveryNote>>(list, new HttpHeaders(), HttpStatus.OK);
     }
 
 //    // Search by staff id

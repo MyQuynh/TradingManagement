@@ -9,6 +9,9 @@ import com.example.demo.service.DeliveryNoteService;
 import com.example.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -88,6 +91,34 @@ public class OrderController {
 //    public  List<Order> fetchDataByProvider(@RequestParam("provider_id") Long provider_id) {
 //        return orderService.findByProvider(provider_id);
 //    }
+
+    // Paging
+    // Find all the delivery note
+    @GetMapping("/orders1")
+    public ResponseEntity<List<Order>> getAllOrders(
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Order> list = orderService.getAllOrder(pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Order>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    // Find delivery note between date
+    @GetMapping("/orders1/searchByDate")
+    public ResponseEntity<List<Order>> getAllOrderBetweenDate(
+            @RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Order> list = orderService.getAllOrderBetween(startDate,endDate,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Order>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
 
 
 }

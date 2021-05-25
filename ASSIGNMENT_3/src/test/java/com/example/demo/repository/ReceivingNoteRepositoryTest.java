@@ -33,11 +33,6 @@ class ReceivingNoteRepositoryTest {
     }
 
     @Test
-    void findAllByDateLessThanEqualAndDateGreaterThanEqual() {
-
-    }
-
-    @Test
     void findReceivingNotesByDateBetween() {
         ReceivingNote receivingNoteRight = new ReceivingNote();
         receivingNoteRight.setDate("2020-01-01");
