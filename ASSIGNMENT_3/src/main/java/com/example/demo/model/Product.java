@@ -151,4 +151,25 @@ public class Product {
         this.saleDetails = saleDetails;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product that = (Product) o;
+        return id == that.id &&
+                name.equals(that.name) &&
+                model.equals(that.model) &&
+                brand.equals(that.brand) &&
+                company.equals(that.company) &&
+                description.equals(that.description) &&
+                quantity == that.quantity &&
+                price == that.price &&
+                category.equals(that.category);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, model, brand,company, description, quantity, price, category);
+    }
+
 }

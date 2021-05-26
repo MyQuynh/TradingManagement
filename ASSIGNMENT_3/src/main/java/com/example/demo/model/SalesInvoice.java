@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="sales_invoice")
@@ -12,7 +13,7 @@ public class SalesInvoice {
     @GeneratedValue
     private long id;
 
-    @Column(name="date")
+    @Column(name = "date")
     private String date;
 
     @ManyToOne
@@ -35,10 +36,10 @@ public class SalesInvoice {
     @JsonIgnore
     private List<SaleDetail> saleDetails;
 
-    @Column(name="total_value")
+    @Column(name = "total_value")
     private float total_value;
 
-    public SalesInvoice(){
+    public SalesInvoice() {
         super();
     }
 
@@ -89,4 +90,22 @@ public class SalesInvoice {
     public void setTotal_value(float total_value) {
         this.total_value = total_value;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SalesInvoice that = (SalesInvoice) o;
+        return id == that.id &&
+                date.equals(that.date) &&
+                staff.equals(that.staff) &&
+                customer.equals(that.customer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date, staff, customer);
+
+    }
+
 }

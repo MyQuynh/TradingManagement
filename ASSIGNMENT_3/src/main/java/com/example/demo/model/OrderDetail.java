@@ -3,6 +3,7 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "order_detail")
@@ -71,6 +72,23 @@ public class OrderDetail {
     @JsonIgnore
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDetail that = (OrderDetail) o;
+        return  id == that.id &&
+                product.equals(that.product) &&
+                quantity == that.quantity &&
+                price == that.price &&
+                order.equals(that.order);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, product, quantity, price, order);
     }
 
 }

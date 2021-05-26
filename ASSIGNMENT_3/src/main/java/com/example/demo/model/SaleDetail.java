@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="sale_detail")
@@ -63,5 +64,23 @@ public class SaleDetail {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SaleDetail that = (SaleDetail) o;
+        return id == that.id &&
+                quantity == that.quantity &&
+                price == that.price &&
+                salesInvoice.equals(that.salesInvoice) &&
+                product.equals(that.product);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, quantity, price, salesInvoice, product);
     }
 }

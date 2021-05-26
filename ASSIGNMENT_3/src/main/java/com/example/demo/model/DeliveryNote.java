@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="delivery_note")
@@ -68,7 +69,20 @@ public class DeliveryNote {
         this.deliveryDetails = deliveryDetails;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DeliveryNote that = (DeliveryNote) o;
+        return  id == that.id &&
+                date.equals(that.date) &&
+                staff.equals(that.staff);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date, staff);
+    }
 
 
 }

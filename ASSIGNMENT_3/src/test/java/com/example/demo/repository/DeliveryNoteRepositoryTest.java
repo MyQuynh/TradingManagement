@@ -32,8 +32,10 @@ class DeliveryNoteRepositoryTest {
     @Test
     void saveAndFindAll() {
         DeliveryNote deliveryNote = new DeliveryNote();
+        DeliveryNote deliveryNote1 = new DeliveryNote();
         deliveryNote = entityManager.persistAndFlush(deliveryNote);
         assertTrue(deliveryNoteRepository.findAll().contains(deliveryNote));
+        assertFalse(deliveryNoteRepository.findAll().contains(deliveryNote1));
     }
 
     @Test
@@ -63,7 +65,12 @@ class DeliveryNoteRepositoryTest {
     void findDeliveryNoteById() {
         DeliveryNote deliveryNote = new DeliveryNote();
         deliveryNote = entityManager.persistAndFlush(deliveryNote);
+
+        DeliveryNote deliveryNote1 = new DeliveryNote();
+        deliveryNote1 = entityManager.persistAndFlush(deliveryNote1);
+
         assertEquals(deliveryNoteRepository.findDeliveryNoteById(deliveryNote.getId()), deliveryNote);
+        assertNotEquals(deliveryNoteRepository.findDeliveryNoteById(deliveryNote.getId()), deliveryNote1);
     }
 
     @Test
@@ -74,7 +81,13 @@ class DeliveryNoteRepositoryTest {
         staff = entityManager.persistAndFlush(staff);
         deliveryNote.setStaff(staff);
         deliveryNote = entityManager.persistAndFlush(deliveryNote);
+
+        DeliveryNote deliveryNote1 = new DeliveryNote();
+        deliveryNote1 = entityManager.persistAndFlush(deliveryNote1);
+
         assertTrue(deliveryNoteRepository.findDeliveryNotesByStaff(staff).contains(deliveryNote));
+        assertFalse(deliveryNoteRepository.findDeliveryNotesByStaff(staff).contains(deliveryNote1));
+
     }
 
     @Test

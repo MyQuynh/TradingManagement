@@ -148,23 +148,23 @@ public class Customer implements Serializable {
                 '}';
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Customer that = (Customer) o;
-//        return id == that.id &&
-//                firstName.equals(that.firstName) &&
-//                lastName.equals(that.lastName) &&
-//                phone.equals(that.phone) &&
-//                fax.equals(that.fax) &&
-//                email.equals(that.email) &&
-//                contactPerson.equals(that.contactPerson) &&
-//                address.equals(that.address);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(id, firstName, lastName, address, phone, fax, email, contactPerson);
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer that = (Customer) o;
+        return id == that.id &&
+                firstName.equals(that.firstName) &&
+                lastName.equals(that.lastName) &&
+                phone.equals(that.phone) &&
+                fax.equals(that.fax) &&
+                email.equals(that.email) &&
+                contactPerson.equals(that.contactPerson) &&
+                address.equals(that.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, address, phone, fax, email, contactPerson);
+    }
 }

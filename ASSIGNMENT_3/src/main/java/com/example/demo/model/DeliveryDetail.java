@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="delivery_detail")
@@ -63,5 +64,21 @@ public class DeliveryDetail {
     @JsonIgnore
     public void setDeliveryNote(DeliveryNote deliveryNote) {
         this.deliveryNote = deliveryNote;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DeliveryDetail that = (DeliveryDetail) o;
+        return  id == that.id &&
+                quantity == that.quantity &&
+                deliveryNote.equals(that.deliveryNote) &&
+                product.equals(that.product);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, product, quantity, deliveryNote);
     }
 }

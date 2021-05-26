@@ -5,6 +5,7 @@ import com.example.demo.model.DeliveryNote;
 import com.example.demo.model.Order;
 import com.example.demo.model.Provider;
 import com.example.demo.model.Staff;
+import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,10 @@ class OrderRepositoryTest {
     @Test
     void saveAndFindAll() {
         Order order = new Order();
+        Order order1 = new Order();
         order = entityManager.persistAndFlush(order);
-        System.out.println(orderRepository.findAll());
-        //assertTrue(orderRepository.findAll().contains(order));
+        assertTrue(orderRepository.findAll().contains(order));
+        assertFalse(orderRepository.findAll().contains(order1));
     }
 
     @Test
@@ -63,7 +65,12 @@ class OrderRepositoryTest {
     void findOrderById() {
         Order order = new Order();
         order = entityManager.persistAndFlush(order);
+
+        Order order1 = new Order();
+        order1 = entityManager.persistAndFlush(order1);
+
         assertEquals(orderRepository.findOrderById(order.getId()), order);
+        //assertNotEquals(orderRepository.findOrderById(order.getId()), order1);
     }
 
     @Test
@@ -77,8 +84,12 @@ class OrderRepositoryTest {
         staffWrong = entityManager.persistAndFlush(staffWrong);
         order.setStaff(staff);
 
+        Order order1 = new Order();
+        order1 = entityManager.persistAndFlush(order1);
+
         assertTrue(orderRepository.findOrdersByStaff(staff).contains(order));
         assertFalse(orderRepository.findOrdersByStaff(staffWrong).contains(order));
+        assertFalse(orderRepository.findOrdersByStaff(staff).contains(order1));
 
     }
 
@@ -92,8 +103,12 @@ class OrderRepositoryTest {
         providerWrong = entityManager.persistAndFlush(providerWrong);
         order.setProvider(provider);
 
+        Order order1 = new Order();
+        order1 = entityManager.persistAndFlush(order1);
+
         assertTrue(orderRepository.findOrdersByProvider(provider).contains(order));
         assertFalse(orderRepository.findOrdersByProvider(providerWrong).contains(order));
+        assertFalse(orderRepository.findOrdersByProvider(provider).contains(order1));
     }
 
     @Test

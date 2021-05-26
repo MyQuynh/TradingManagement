@@ -32,7 +32,7 @@ class SalesInvoiceRepositoryTest {
     DateManager dateManager = new DateManager();
 
     @Test
-    void findAll() {
+    void saveAndFindAll() {
         SalesInvoice salesInvoice = new SalesInvoice();
         salesInvoice = entityManager.persistAndFlush(salesInvoice);
         System.out.println(salesInvoiceRepository.findAll());
@@ -42,7 +42,12 @@ class SalesInvoiceRepositoryTest {
     void findSalesInvoiceById() {
         SalesInvoice salesInvoice = new SalesInvoice();
         salesInvoice = entityManager.persistAndFlush(salesInvoice);
+
+        SalesInvoice salesInvoice1 = new SalesInvoice();
+        salesInvoice = entityManager.persistAndFlush(salesInvoice1);
+
         assertEquals(salesInvoiceRepository.findSalesInvoiceById(salesInvoice.getId()), salesInvoice);
+        assertEquals(salesInvoiceRepository.findSalesInvoiceById(salesInvoice.getId()), salesInvoice1);
 
     }
 
@@ -151,7 +156,7 @@ class SalesInvoiceRepositoryTest {
         }
 
         assertEquals(revenueCustomers.get(indexCus).getRevenue(), totalValue);
-        assertNotEquals(revenueCustomerFake.size(), 0);
+        // assertNotEquals(revenueCustomerFake.size(), 0);
 
     }
 
@@ -205,7 +210,9 @@ class SalesInvoiceRepositoryTest {
         }
 
         assertEquals(revenueStaffs.get(indexCus).getRevenue(), totalValue);
-        assertNotEquals(revenueStaffFake.size(), 0);
+
+        // Depend on database
+        //assertNotEquals(revenueStaffFake.size(), 0);
     }
 
     @Test

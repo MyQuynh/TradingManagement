@@ -56,7 +56,13 @@ class ReceivingNoteRepositoryTest {
     void findReceivingNoteById() {
         ReceivingNote receivingNote = new ReceivingNote();
         receivingNote = entityManager.persistAndFlush(receivingNote);
+
+        ReceivingNote receivingNote1 = new ReceivingNote();
+        receivingNote1 = entityManager.persistAndFlush(receivingNote1);
+        receivingNote1.setDate("2020");
+
         assertEquals(receivingNoteRepository.findReceivingNoteById(receivingNote.getId()), receivingNote);
+        assertNotEquals(receivingNoteRepository.findReceivingNoteById(receivingNote.getId()), receivingNote1);
     }
 
     @Test

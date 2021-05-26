@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name="receiving_note")
@@ -63,5 +64,21 @@ public class ReceivingNote {
 
     public void setReceivingDetailList(List<ReceivingDetail> receivingDetailList) {
         this.receivingDetailList = receivingDetailList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReceivingNote that = (ReceivingNote) o;
+        return id == that.id &&
+                date.equals(that.date) &&
+                staff.equals(that.staff);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date, staff);
     }
 }

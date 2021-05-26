@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name="receiving_detail")
@@ -58,5 +59,22 @@ public class ReceivingDetail {
 
     public void setReceivingNote(ReceivingNote receivingNote) {
         this.receivingNote = receivingNote;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReceivingDetail that = (ReceivingDetail) o;
+        return id == that.id &&
+                quantity == that.quantity &&
+                product.equals(that.product) &&
+                receivingNote.equals(that.receivingNote);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, quantity, product, receivingNote);
     }
 }
