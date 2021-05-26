@@ -30,7 +30,7 @@ class StaffRepositoryTest {
 
         Staff staff1 = new Staff();
         assertTrue(staffRepository.findAll().contains(staff));
-        assertTrue(staffRepository.findAll().contains(staff1));
+        assertFalse(staffRepository.findAll().contains(staff1));
     }
 
     @Test
@@ -67,7 +67,7 @@ class StaffRepositoryTest {
         staff1 = entityManager.persistAndFlush(staff1);
 
         assertTrue( staffRepository.findByLastName("Test").contains(staff));
-        assertTrue( staffRepository.findByLastName("Test").contains(staff1));
+        assertFalse( staffRepository.findByLastName("Test").contains(staff1));
     }
 
     @Test
@@ -122,7 +122,7 @@ class StaffRepositoryTest {
         staff1 = entityManager.persistAndFlush(staff1);
 
         assertTrue( staffRepository.findByPhone("Test").contains(staff));
-        assertTrue( staffRepository.findByPhone("Test").contains(staff1));
+        assertFalse( staffRepository.findByPhone("Test").contains(staff1));
     }
 
 }
