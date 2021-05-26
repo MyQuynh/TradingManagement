@@ -127,7 +127,7 @@ class StaffControllerTest {
         staff.setAddress("address-"+staffId);
         staff.setPhone("phone-"+staffId);
         staff.setEmail("email-"+staffId);
-        given(staffService.save(any(Staff.class))).willReturn(staff);
+        given(staffService.updateStaff(any(Staff.class))).willReturn(staff);
         mvc.perform(put("/api/v1/staffs/{id}", staff.getId())
                 .content(mapper.writeValueAsString(staff)) // Generate java object into Json
                 .contentType(MediaType.APPLICATION_JSON))
