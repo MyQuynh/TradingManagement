@@ -46,9 +46,9 @@ public class CustomerController {
     }
 
     // Update the customer by id
-    @PutMapping("/customers/update/{id}")
-    public Customer updateCustomer(@PathVariable("id") long id) throws ResourcesNotFoundException {
-        Customer customer = customerService.findCustomersById(id);
+    @PutMapping("/customers/{id}")
+    public Customer updateCustomer(@PathVariable("id") long id, @RequestBody Customer customer) throws ResourcesNotFoundException {
+//      Customer customer1 = customerService.findCustomersById(id);
         return customerService.updateCustomer(customer);
     }
 

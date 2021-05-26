@@ -30,8 +30,8 @@ public class OrderService {
 
     DateManager dateManager = new DateManager();
 
-//    private StaffRepository staffRepository;
-//    private ProviderRepository providerRepository;
+    private StaffRepository staffRepository;
+    private ProviderRepository providerRepository;
 
     public List<Order> findAll() {
 
@@ -99,17 +99,17 @@ public class OrderService {
 
     }
 
-//    // Filter by staff
-//    public List<Order> findByStaff(Long staff_id){
-//        Staff staff = staffRepository.findStaffById(staff_id);
-//        return orderRepository.findOrdersByStaff(staff);
-//    }
-//
-//    // Filter by provider
-//    public List<Order> findByProvider(Long provider_id){
-//        Provider provider = providerRepository.findProviderById(provider_id);
-//        return orderRepository.findOrdersByProvider(provider);
-//    }
+    // Filter by staff
+    public List<Order> findByStaff(Long staff_id){
+        Staff staff = staffRepository.findStaffById(staff_id);
+        return orderRepository.findOrdersByStaff(staff);
+    }
+
+    // Filter by provider
+    public List<Order> findByProvider(Long provider_id){
+        Provider provider = providerRepository.findProviderById(provider_id);
+        return orderRepository.findOrdersByProvider(provider);
+    }
 
     // Paging
     public List<Order> getAllOrder(Integer pageNo, Integer pageSize, String sortBy)
@@ -130,6 +130,36 @@ public class OrderService {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
         Page<Order> pagedResult = orderRepository.findOrdersByDateBetween(dateManager.convertDateToString(startDate),dateManager.convertDateToString(endDate),paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Order>();
+        }
+    }
+
+    public List<Order> getAllOrderByStaff(Long staffId,Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Staff staff = staffRepository.findStaffById(staffId);
+
+        Page<Order> pagedResult = orderRepository.findOrdersByStaff(staff,paging);
+
+        if(pagedResult.hasContent()) {
+            return pagedResult.getContent();
+        } else {
+            return new ArrayList<Order>();
+        }
+    }
+
+    public List<Order> getAllOrderByProvider(Long providerId,Integer pageNo, Integer pageSize, String sortBy)
+    {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+
+        Provider provider = providerRepository.findProviderById(providerId);
+
+        Page<Order> pagedResult = orderRepository.findOrdersByProvider(provider,paging);
 
         if(pagedResult.hasContent()) {
             return pagedResult.getContent();

@@ -47,9 +47,9 @@ public class OrderController {
     }
 
     // Update the customer by id
-    @PutMapping("/orders/update/{id}")
-    public Order updateOrder(@PathVariable("id") long id) throws ResourcesNotFoundException{
-        Order order = orderService.findOrderById(id);
+    @PutMapping("/orders/{id}")
+    public Order updateOrder(@PathVariable("id") long id, @RequestBody Order order) throws ResourcesNotFoundException{
+//        Order order = orderService.findOrderById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
         return orderService.updateOrder(order);
     }
@@ -80,17 +80,17 @@ public class OrderController {
         return "OrderDetail has been successfully add to Order ::" + orderId;
     }
 
-//    // Find by staff
-//    @RequestMapping(value="/orders/searchByStaff/" , method=RequestMethod.GET)
-//    public  List<Order> fetchDataByStaff(@RequestParam("staff_id") Long staff_id) {
-//        return orderService.findByStaff(staff_id);
-//    }
-//
-//    // Find by provider
-//    @RequestMapping(value="/orders/searchByProvider/" , method=RequestMethod.GET)
-//    public  List<Order> fetchDataByProvider(@RequestParam("provider_id") Long provider_id) {
-//        return orderService.findByProvider(provider_id);
-//    }
+    // Find by staff
+    @RequestMapping(value="/orders/searchByStaff/" , method=RequestMethod.GET)
+    public  List<Order> fetchDataByStaff(@RequestParam("staff_id") Long staff_id) {
+        return orderService.findByStaff(staff_id);
+    }
+
+    // Find by provider
+    @RequestMapping(value="/orders/searchByProvider/" , method=RequestMethod.GET)
+    public  List<Order> fetchDataByProvider(@RequestParam("provider_id") Long provider_id) {
+        return orderService.findByProvider(provider_id);
+    }
 
     // Paging
     // Find all the delivery note
@@ -115,6 +115,30 @@ public class OrderController {
             @RequestParam(defaultValue = "id") String sortBy)
     {
         List<Order> list = orderService.getAllOrderBetween(startDate,endDate,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Order>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/orders1/searchByStaff")
+    public ResponseEntity<List<Order>> getAllOrderByStaff(
+            @RequestParam("staffId") Long staffId,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Order> list = orderService.getAllOrderByStaff(staffId,pageNo, pageSize, sortBy);
+
+        return new ResponseEntity<List<Order>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping("/orders1/searchByProvider")
+    public ResponseEntity<List<Order>> getAllOrderByProvider(
+            @RequestParam("providerId") Long providerId,
+            @RequestParam(defaultValue = "0") Integer pageNo,
+            @RequestParam(defaultValue = "10") Integer pageSize,
+            @RequestParam(defaultValue = "id") String sortBy)
+    {
+        List<Order> list = orderService.getAllOrderByProvider(providerId,pageNo, pageSize, sortBy);
 
         return new ResponseEntity<List<Order>>(list, new HttpHeaders(), HttpStatus.OK);
     }

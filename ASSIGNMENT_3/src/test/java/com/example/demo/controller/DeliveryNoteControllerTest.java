@@ -113,6 +113,21 @@ class DeliveryNoteControllerTest {
     @Test
     void updateDeliveryNote() throws Exception {
 
+        String sDate1="2001-07-04T19:08:56.235+00:00";
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Date date1 = dateFormat.parse(sDate1);
+
+        int deliveryNoteId = 0;
+        DeliveryNote deliveryNote = new DeliveryNote(deliveryNoteId, date1);
+
+        given(deliveryNoteService.updateDeliveryNote(any(DeliveryNote.class))).willReturn(deliveryNote);
+        mvc.perform(put("/api/v1/deliveryNotes/{id}", deliveryNote.getId())
+                .content(mapper.writeValueAsString(deliveryNote)) // Generate java object into Json
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.date", is(sDate1)))
+        ;
+
     }
 
     @Test

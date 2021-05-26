@@ -47,9 +47,9 @@ public class SalesInvoiceController {
     }
 
     // Update the receiving note  by id
-    @PutMapping("/salesInvoices/update/{id}")
-    public SalesInvoice updateSaleInvoice(@PathVariable("id") long id) throws ResourcesNotFoundException{
-        SalesInvoice salesInvoice = salesInvoiceService.findSalesInvoiceById(id);
+    @PutMapping("/salesInvoices/{id}")
+    public SalesInvoice updateSaleInvoice(@PathVariable("id") long id, @RequestBody SalesInvoice salesInvoice) throws ResourcesNotFoundException{
+//        SalesInvoice salesInvoice = salesInvoiceService.findSalesInvoiceById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
         return salesInvoiceService.updateSalesInvoice(salesInvoice);
     }

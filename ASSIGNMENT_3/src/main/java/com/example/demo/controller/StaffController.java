@@ -48,9 +48,9 @@ public class StaffController {
     }
 
     // Update the receiving note  by id
-    @PutMapping("/staffs/update/{id}")
-    public Staff updateStaff(@PathVariable("id") long id) throws ResourcesNotFoundException{
-        Staff staff = staffService.findStaffById(id);
+    @PutMapping("/staffs/{id}")
+    public Staff updateStaff(@PathVariable("id") long id, @RequestBody Staff staff) throws ResourcesNotFoundException{
+//        Staff staff = staffService.findStaffById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
         return staffService.updateStaff(staff);
     }

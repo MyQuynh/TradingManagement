@@ -33,8 +33,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -111,8 +110,21 @@ class OrderControllerTest {
     }
 
     @Test
-    void updateOrder() {
+    void updateOrder() throws Exception {
+        String sDate1="2001-07-04";
+        Staff staff = new Staff();
+        Provider provider = new Provider();
 
+        Order order = new Order(0L,sDate1, staff, provider);
+
+        given(orderService.updateOrder(any(Order.class))).willReturn(order);
+        mvc.perform(put("/api/v1/orders/{id}", order.getId())
+                .content(mapper.writeValueAsString(order)) // Generate java object into Json
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.date", is(sDate1)))
+                .andExpect(jsonPath("$.staff.id").value(staff.getId()))
+                .andExpect(jsonPath("$.provider.id").value(provider.getId()));
     }
 
     @Test

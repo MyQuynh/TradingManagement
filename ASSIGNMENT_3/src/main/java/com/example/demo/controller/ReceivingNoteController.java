@@ -45,9 +45,9 @@ public class ReceivingNoteController {
     }
 
     // Update the receiving note  by id
-    @PutMapping("/receivingNotes/update/{id}")
-    public ReceivingNote updateReceivingNote(@PathVariable("id") long id) throws ResourcesNotFoundException{
-        ReceivingNote receivingNote = receivingNoteService.findReceivingNoteById(id);
+    @PutMapping("/receivingNotes/{id}")
+    public ReceivingNote updateReceivingNote(@PathVariable("id") long id, @RequestBody ReceivingNote receivingNote) throws ResourcesNotFoundException{
+//        ReceivingNote receivingNote = receivingNoteService.findReceivingNoteById(id);
 //                .orElseThrow(() -> new ResourcesNotFoundException("Not found customer with Id: "+ id));
         return receivingNoteService.updateReceivingNote(receivingNote);
     }

@@ -7,6 +7,7 @@ import com.example.demo.model.ReceivingNote;
 import com.example.demo.model.Staff;
 import com.example.demo.service.OrderService;
 import com.example.demo.service.ReceivingNoteService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -98,7 +99,18 @@ class ReceivingNoteControllerTest {
     }
 
     @Test
-    void updateReceivingNote() {
+    void updateReceivingNote() throws Exception {
+        String sDate1="2001-07-04";
+        Staff staff = new Staff();
+
+        ReceivingNote receivingNote = new ReceivingNote(0L,sDate1,staff);
+        given(receivingNoteService.updateReceivingNote(any(ReceivingNote.class))).willReturn(receivingNote);
+        mvc.perform(put("/api/v1/receivingNotes/{id}", receivingNote.getId())
+                .content(mapper.writeValueAsString(receivingNote)) // Generate java object into Json
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.date").value(sDate1))
+                .andExpect(jsonPath("$.staff.id").value(staff.getId()));
     }
 
     @Test

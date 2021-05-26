@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Customer;
 import com.example.demo.service.CustomerService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.After;
@@ -39,6 +40,7 @@ import static org.springframework.web.servlet.function.RequestPredicates.content
 import org.junit.Test;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 @RunWith(SpringRunner.class)
@@ -137,7 +139,30 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void updateCustomer() {
+    public void updateCustomer() throws Exception {
+
+        int customerId = 66;
+        Customer customer = new Customer();
+        customer.setFirstName("firstname-"+customerId);
+        customer.setLastName("lastname-"+customerId);
+        customer.setAddress("address-"+customerId);
+        customer.setPhone("phone-"+customerId);
+        customer.setFax("fax-"+ customerId);
+        customer.setEmail("email-"+customerId);
+        customer.setContactPerson("contact-"+customerId);
+        given(customerService.updateCustomer(any(Customer.class))).willReturn(customer);
+        mvc.perform(put("/api/v1/customers/{id}",customer.getId())
+                .content(mapper.writeValueAsString(customer)) // Generate java object into Json
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", is("firstname-"+customerId)))
+                .andExpect(jsonPath("$.lastName", is("lastname-"+customerId)))
+                .andExpect(jsonPath("$.address", is("address-"+customerId)))
+                .andExpect(jsonPath("$.phone", is("phone-"+customerId)))
+                .andExpect(jsonPath("$.fax", is("fax-"+customerId)))
+                .andExpect(jsonPath("$.email", is("email-"+customerId)))
+                .andExpect(jsonPath("$.contactPerson", is("contact-"+customerId))).andDo(MockMvcResultHandlers.print())
+        ;
 
     }
 

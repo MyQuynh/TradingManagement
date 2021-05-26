@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -119,7 +119,25 @@ class StaffControllerTest {
     }
 
     @Test
-    void updateStaff() {
+    void updateStaff() throws Exception {
+        int staffId = 66;
+        Staff staff = new Staff();
+        staff.setFirstName("firstname-"+staffId);
+        staff.setLastName("lastname-"+staffId);
+        staff.setAddress("address-"+staffId);
+        staff.setPhone("phone-"+staffId);
+        staff.setEmail("email-"+staffId);
+        given(staffService.save(any(Staff.class))).willReturn(staff);
+        mvc.perform(put("/api/v1/staffs/{id}", staff.getId())
+                .content(mapper.writeValueAsString(staff)) // Generate java object into Json
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName", is("firstname-"+staffId)))
+                .andExpect(jsonPath("$.lastName", is("lastname-"+staffId)))
+                .andExpect(jsonPath("$.address", is("address-"+staffId)))
+                .andExpect(jsonPath("$.phone", is("phone-"+staffId)))
+                .andExpect(jsonPath("$.email", is("email-"+staffId)))
+        ;
     }
 
     @Test

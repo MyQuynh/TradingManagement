@@ -4,6 +4,7 @@ import com.example.demo.manager.DateManager;
 import com.example.demo.model.*;
 import com.example.demo.service.ReceivingNoteService;
 import com.example.demo.service.SalesInvoiceService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.path.to.Inventory;
 import com.path.to.RevenueCustomer;
@@ -109,7 +110,23 @@ class SalesInvoiceControllerTest {
     }
 
     @Test
-    void updateSaleInvoice() {
+    void updateSaleInvoice() throws Exception {
+        String sDate1="2001-07-04";
+        Staff staff = new Staff();
+        Customer customer = new Customer();
+
+        SalesInvoice salesInvoice = new SalesInvoice(0L,sDate1,staff,customer,0);
+
+        given(salesInvoiceService.updateSalesInvoice(any(SalesInvoice.class))).willReturn(salesInvoice);
+
+        mvc.perform(put("/api/v1/salesInvoices/{id}", salesInvoice.getId())
+                .content(mapper.writeValueAsString(salesInvoice)) // Generate java object into Json
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.date").value(sDate1))
+                .andExpect(jsonPath("$.staff.id").value(staff.getId()))
+                .andExpect(jsonPath("$.customer.id").value(customer.getId()))
+                .andExpect(jsonPath("$.total_value").value(0));
     }
 
     @Test
@@ -120,7 +137,6 @@ class SalesInvoiceControllerTest {
     }
 
     @Test
-    // TODO: CHANGING THE DATETIME
     void fetchDataByDate() throws Exception {
         Date startDate = dateManager.convertStringToDate("2020-02-01");
         Date endDate = dateManager.convertStringToDate("2021-02-01");
