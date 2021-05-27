@@ -81,7 +81,7 @@ public class OrderController {
     }
 
     // Find by staff
-    @RequestMapping(value="/orders/searchByStaff/" , method=RequestMethod.GET)
+    @RequestMapping(value="/orders/searchByStaff" , method=RequestMethod.GET)
     public  List<Order> fetchDataByStaff(@RequestParam("staff_id") Long staff_id) {
         return orderService.findByStaff(staff_id);
     }

@@ -78,11 +78,11 @@ public class ReceivingNoteController {
         return "ReceivingDetail has been successfully add to ReceivingNote :: " + receivingNoteId;
     }
 
-//    // Find by staff
-//    @RequestMapping(value="/receivingNotes/searchByStaff/" , method=RequestMethod.GET)
-//    public  List<ReceivingNote> fetchDataByStaff(@RequestParam("staff_id") Long staff_id) {
-//        return receivingNoteService.findByStaff(staff_id);
-//    }
+    // Find by staff
+    @RequestMapping(value="/receivingNotes/searchByStaff" , method=RequestMethod.GET)
+    public  List<ReceivingNote> fetchDataByStaff(@RequestParam("staff_id") Long staff_id) {
+        return receivingNoteService.findByStaff(staff_id);
+    }
 
     // Paging
     // Find all the receiving note

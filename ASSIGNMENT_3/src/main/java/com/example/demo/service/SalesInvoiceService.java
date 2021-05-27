@@ -93,17 +93,17 @@ public class SalesInvoiceService {
         return salesInvoiceRepository.totalRevenueByStaff(startDate, endDate);
     }
 
-//    // Filter by staff
-//    public List<SalesInvoice> findByStaff(Long staff_id){
-//        Staff staff = staffRepository.findStaffById(staff_id);
-//        return salesInvoiceRepository.findSalesInvoicesByStaff(staff);
-//    }
-//
-//    // Filter by customer
-//    public List<SalesInvoice> findByCustomer(Long customer_id){
-//        Customer customer = customerRepository.findCustomersById(customer_id);
-//        return salesInvoiceRepository.findSalesInvoicesByCustomer(customer);
-//    }
+    // Filter by staff
+    public List<SalesInvoice> findByStaff(Long staff_id){
+        Staff staff = staffRepository.findStaffById(staff_id);
+        return salesInvoiceRepository.findSalesInvoicesByStaff(staff);
+    }
+
+    // Filter by customer
+    public List<SalesInvoice> findByCustomer(Long customer_id){
+        Customer customer = customerRepository.findCustomersById(customer_id);
+        return salesInvoiceRepository.findSalesInvoicesByCustomer(customer);
+    }
 
     // Paging
     public List<SalesInvoice> getAllSaleInvoices(Integer pageNo, Integer pageSize, String sortBy)

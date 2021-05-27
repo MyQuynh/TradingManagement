@@ -23,7 +23,7 @@ public class DeliveryNoteService {
 
     @Autowired
     private DeliveryNoteRepository deliveryNoteRepository;
-//    private StaffRepository staffRepository;
+    private StaffRepository staffRepository;
 
     public List<DeliveryNote> findAllDeliveryNotes() {
 
@@ -76,11 +76,11 @@ public class DeliveryNoteService {
         return deliveryNoteRepository.findDeliveryNotesByDateBetween(startDate, endDate);
     }
 
-//    // Filter by staff
-//    public List<DeliveryNote> findByStaff(Long staff_id){
-//        Staff staff = staffRepository.findStaffById(staff_id);
-//        return deliveryNoteRepository.findDeliveryNotesByStaff(staff);
-//    }
+    // Filter by staff
+    public List<DeliveryNote> findByStaff(Long staff_id){
+        Staff staff = staffRepository.findStaffById(staff_id);
+        return deliveryNoteRepository.findDeliveryNotesByStaff(staff);
+    }
 
     // Add delivery detail to delivery note (is there need to add the delvery note into system)
     public void addDeliveryDetailToDeliveryNote(Long deliveryNoteId, DeliveryDetail deliveryDetail) throws ResourcesNotFoundException {

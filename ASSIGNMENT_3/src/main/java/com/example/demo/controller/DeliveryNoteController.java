@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.ResourcesNotFoundException;
-import com.example.demo.model.Customer;
-import com.example.demo.model.DeliveryDetail;
-import com.example.demo.model.DeliveryNote;
-import com.example.demo.model.OrderDetail;
+import com.example.demo.model.*;
 import com.example.demo.service.DeliveryNoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,13 +19,13 @@ public class DeliveryNoteController {
     @Autowired
     DeliveryNoteService deliveryNoteService;
 
-    // Get all the customer
+    // Get all the delivery notes
     @GetMapping("/deliveryNotes")
     public List<DeliveryNote> findAllDeliveryNotes(){
         return deliveryNoteService.findAllDeliveryNotes();
     }
 
-    // Get the customer by id
+    // Get the delivery note  by id
     @GetMapping("/deliveryNotes/{id}")
     public DeliveryNote findDeliveryNoteById(@PathVariable("id") long id) throws ResourcesNotFoundException {
 
@@ -37,13 +34,13 @@ public class DeliveryNoteController {
 
     }
 
-    // Create the customer
+    // Create the delivery note
     @PostMapping("/deliveryNotes/add")
     public DeliveryNote createDeliveryNote(@RequestBody DeliveryNote deliveryNote){
         return deliveryNoteService.save(deliveryNote);
     }
 
-    // Update the customer by id
+    // Update the delivery note by id
     @PutMapping("/deliveryNotes/{id}")
     public DeliveryNote updateDeliveryNote(@PathVariable("id") long id, @RequestBody DeliveryNote deliveryNote) throws ResourcesNotFoundException{
 //        DeliveryNote deliveryNote = deliveryNoteService.findDeliveryNoteById(id);
@@ -52,7 +49,7 @@ public class DeliveryNoteController {
     }
 
 
-    // Delete the customer by id
+    // Delete the delivery Note by id
     @DeleteMapping("/deliveryNotes/{id}")
     public void deleteDeliveryNote(@PathVariable("id") long id) throws ResourcesNotFoundException{
         try {
@@ -62,6 +59,12 @@ public class DeliveryNoteController {
             System.out.println("The delivery id is not in the database yet");
         }
 
+    }
+
+    // Find by staff
+    @RequestMapping(value="/deliveryNotes/searchByStaff" , method=RequestMethod.GET)
+    public  List<DeliveryNote> fetchDataByStaff(@RequestParam("staff_id") Long staff_id) {
+        return deliveryNoteService.findByStaff(staff_id);
     }
 
     // Search by date

@@ -30,8 +30,8 @@ public class AppConfig {
     public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.username("postgres");
-        dataSourceBuilder.password("ngomyquynh");
-        dataSourceBuilder.url("jdbc:postgresql://localhost:5432/trading");
+        dataSourceBuilder.password("rmit");
+        dataSourceBuilder.url("jdbc:postgresql://localhost:5432/assignment2");
         return dataSourceBuilder.build();
     }
 

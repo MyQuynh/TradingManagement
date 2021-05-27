@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.exception.ResourcesNotFoundException;
+import com.example.demo.model.Order;
 import com.example.demo.model.ReceivingNote;
 import com.example.demo.model.SalesInvoice;
 import com.example.demo.service.ReceivingNoteService;
@@ -89,6 +90,18 @@ public class SalesInvoiceController {
     public Float fetchTotalRevenue(@RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
                                      @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         return salesInvoiceService.totalRevenue(startDate, endDate);
+    }
+
+    // Find by staff
+    @RequestMapping(value="/salesInvoices/searchByStaff" , method=RequestMethod.GET)
+    public  List<SalesInvoice> fetchDataByStaff(@RequestParam("staff_id") Long staff_id) {
+        return salesInvoiceService.findByStaff(staff_id);
+    }
+
+    // Find by customer
+    @RequestMapping(value="/salesInvoices/searchByCustomer" , method=RequestMethod.GET)
+    public  List<SalesInvoice> fetchDataByCustomer(@RequestParam("customer_id") Long customer_id) {
+        return salesInvoiceService.findByCustomer(customer_id);
     }
 
     // Paging

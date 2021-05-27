@@ -28,7 +28,7 @@ public class ReceivingNoteService {
 
     DateManager dateManager = new DateManager();
 
-//    private StaffService staffRepository;
+    private StaffService staffRepository;
 
     public List<ReceivingNote> findAll() {
 
@@ -93,11 +93,11 @@ public class ReceivingNoteService {
 
     }
 
-//    // Filter by staff
-//    public List<ReceivingNote> findByStaff(Long staff_id){
-//        Staff staff = staffRepository.findStaffById(staff_id);
-//        return receivingNoteRepository.findReceivingNotesByStaff(staff);
-//    }
+    // Filter by staff
+    public List<ReceivingNote> findByStaff(Long staff_id){
+        Staff staff = staffRepository.findStaffById(staff_id);
+        return receivingNoteRepository.findReceivingNotesByStaff(staff);
+    }
 
     // Paging
     public List<ReceivingNote> getAllReceivingNote(Integer pageNo, Integer pageSize, String sortBy)

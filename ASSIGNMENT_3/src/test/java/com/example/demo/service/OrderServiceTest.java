@@ -137,13 +137,14 @@ class OrderServiceTest {
 
     @Test
     void findDateBetween() {
-//        Date date = new Date();
-//        List<Order> orderList = IntStream.range(0, 10)
-//                .mapToObj(i -> new Order(i, "Date",new Staff(), new Provider()))
-//                .collect(Collectors.toList());
-//        when(orderRepository.findAllByDateLessThanEqualAndDateGreaterThanEqual(date,date)).thenReturn(orderList);
-//        List<Order> actualOrderList = orderService.findDateBetween(date,date);
-//        assertEquals(actualOrderList.size(), orderList.size());
+        String startDate = "2023-01-01";
+        String endDate  = "2024-01-01";
+        List<Order> orderList = IntStream.range(0, 10)
+                .mapToObj(i -> new Order(i, "Date",new Staff(), new Provider()))
+                .collect(Collectors.toList());
+        when(orderRepository.findOrdersByDateBetween(startDate,endDate)).thenReturn(orderList);
+        List<Order> actualOrderList = orderService.findDateBetween(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        assertEquals(actualOrderList.size(), orderList.size());
 
     }
 }
