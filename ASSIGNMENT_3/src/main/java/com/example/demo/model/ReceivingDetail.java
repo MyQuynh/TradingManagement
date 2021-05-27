@@ -2,12 +2,13 @@ package com.example.demo.model;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 @Table(name="receiving_detail")
-public class ReceivingDetail {
+public class ReceivingDetail implements Serializable {
 
     @Id
     @GeneratedValue

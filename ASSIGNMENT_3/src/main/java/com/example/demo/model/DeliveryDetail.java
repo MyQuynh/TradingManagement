@@ -5,13 +5,14 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name="delivery_detail")
-public class DeliveryDetail {
+public class DeliveryDetail implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -3,13 +3,14 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name="delivery_note")
-public class DeliveryNote {
+public class DeliveryNote implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

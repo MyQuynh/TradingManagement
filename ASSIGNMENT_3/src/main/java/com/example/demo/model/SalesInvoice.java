@@ -3,12 +3,13 @@ package com.example.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name="sales_invoice")
-public class SalesInvoice {
+public class SalesInvoice implements Serializable {
     @Id
     @GeneratedValue
     private long id;
