@@ -31,7 +31,7 @@ public class ProductController {
 
     // Find delivery note between date
     @GetMapping("/products1/inventory")
-    public ResponseEntity<List<Inventory>> getAllOrderBetweenDate(
+    public ResponseEntity<List<Inventory>> getAllProductBetweenDate(
             @RequestParam("startDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
             @RequestParam("endDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate,
             @RequestParam(defaultValue = "0") Integer pageNo,
