@@ -85,12 +85,20 @@ public class SalesInvoiceService {
         return salesInvoiceRepository.totalRevenue(startDate, endDate);
     }
 
-    public List<RevenueCustomer> revenueCustomer(Date startDate, Date endDate){
-        return salesInvoiceRepository.totalRevenueByCustomer(startDate, endDate);
+    public List<RevenueCustomer> revenueCustomers(Date startDate, Date endDate){
+        return salesInvoiceRepository.totalRevenueByCustomers(startDate, endDate);
     }
 
-    public List<RevenueStaff> revenueStaff(Date startDate, Date endDate){
-        return salesInvoiceRepository.totalRevenueByStaff(startDate, endDate);
+    public RevenueCustomer revenueByACustomer(Long id,Date startDate, Date endDate){
+        return salesInvoiceRepository.totalRevenueByACustomer(id,startDate, endDate);
+    }
+
+    public List<RevenueStaff> revenueStaffs(Date startDate, Date endDate){
+        return salesInvoiceRepository.totalRevenueByStaffs(startDate, endDate);
+    }
+
+    public RevenueStaff revenueByAStaff(Long id,Date startDate, Date endDate){
+        return salesInvoiceRepository.totalRevenueByAStaff(id, startDate, endDate);
     }
 
     // Filter by staff

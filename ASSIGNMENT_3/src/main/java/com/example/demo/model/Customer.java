@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -64,7 +62,7 @@ public class Customer implements Serializable {
 //        return String.format("Customer[id=%d, firstName='%s', lastName='%s']", id, firstName, lastName);
 //    }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

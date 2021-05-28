@@ -163,7 +163,7 @@ class SalesInvoiceControllerTest {
 
         List<RevenueCustomer> revenueCustomers = new ArrayList<>();
 
-        given(salesInvoiceService.revenueCustomer(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).willReturn(revenueCustomers);
+        given(salesInvoiceService.revenueCustomers(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).willReturn(revenueCustomers);
 
         mvc.perform(get("/api/v1/salesInvoices/revenueByCustomer").contentType(MediaType.APPLICATION_JSON)
                 .param("startDate", startDate)
@@ -179,7 +179,7 @@ class SalesInvoiceControllerTest {
 
         List<RevenueStaff> revenueStaffs = new ArrayList<>();
 
-        given(salesInvoiceService.revenueStaff(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).willReturn(revenueStaffs);
+        given(salesInvoiceService.revenueStaffs(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).willReturn(revenueStaffs);
 
         mvc.perform(get("/api/v1/salesInvoices/revenueByStaff").contentType(MediaType.APPLICATION_JSON)
                 .param("startDate", startDate)
@@ -201,5 +201,43 @@ class SalesInvoiceControllerTest {
                 .param("startDate", startDate)
                 .param("endDate", endDate))
                 .andExpect(jsonPath("$").value((float)revenue));
+    }
+
+    @Test
+    void fetchRevenueByACustomer() throws Exception {
+        String startDate = "2023-01-01";
+        String endDate  = "2024-01-01";
+
+        Customer customer = new Customer();
+        RevenueCustomer1 revenueCustomer1 = new RevenueCustomer1(customer.getId(), 200);
+
+        given(salesInvoiceService.revenueByACustomer(customer.getId(), dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).willReturn(revenueCustomer1);
+
+        mvc.perform(get("/api/v1/salesInvoices/revenueByACustomer").contentType(MediaType.APPLICATION_JSON)
+                .param("id", String.valueOf(customer.getId()))
+                .param("startDate", startDate)
+                .param("endDate", endDate))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(revenueCustomer1.getId()))
+                .andExpect(jsonPath("$.revenue").value(revenueCustomer1.getRevenue()));
+    }
+
+    @Test
+    void fetchRevenueByAStaff() throws Exception {
+        String startDate = "2023-01-01";
+        String endDate  = "2024-01-01";
+
+        Staff staff = new Staff();
+        RevenueStaff1 revenueStaff1 = new RevenueStaff1(staff.getId(), (float) 200);
+
+
+        given(salesInvoiceService.revenueByAStaff(staff.getId(),dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).willReturn(revenueStaff1);
+
+        mvc.perform(get("/api/v1/salesInvoices/revenueByAStaff").contentType(MediaType.APPLICATION_JSON)
+                .param("id", String.valueOf(staff.getId()))
+                .param("startDate", startDate)
+                .param("endDate", endDate))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.id").value(revenueStaff1.getId()))
+                .andExpect(jsonPath("$.revenue").value(revenueStaff1.getRevenue()));
     }
 }

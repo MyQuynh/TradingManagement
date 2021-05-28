@@ -150,8 +150,8 @@ class SalesInvoiceServiceTest {
         String endDate = "2024-01-01";
         List<RevenueCustomer> revenueCustomers = new ArrayList<>();
 
-        when(salesInvoiceRepository.totalRevenueByCustomer(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).thenReturn(revenueCustomers);
-        List<RevenueCustomer> actualRevenueCustomer = salesInvoiceService.revenueCustomer(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        when(salesInvoiceRepository.totalRevenueByCustomers(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).thenReturn(revenueCustomers);
+        List<RevenueCustomer> actualRevenueCustomer = salesInvoiceService.revenueCustomers(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
         assertEquals(actualRevenueCustomer.size(), revenueCustomers.size());
     }
 
@@ -172,8 +172,34 @@ class SalesInvoiceServiceTest {
         String startDate = "2023-01-01";
         String endDate = "2024-01-01";
         List<RevenueStaff> revenueStaffs = new ArrayList<>();
-        when(salesInvoiceRepository.totalRevenueByStaff(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).thenReturn(revenueStaffs);
-        List<RevenueStaff> actualRevenueStaff = salesInvoiceService.revenueStaff(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        when(salesInvoiceRepository.totalRevenueByStaffs(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).thenReturn(revenueStaffs);
+        List<RevenueStaff> actualRevenueStaff = salesInvoiceService.revenueStaffs(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
         assertEquals(actualRevenueStaff.size(), revenueStaffs.size());
+    }
+
+    @Test
+    void revenueByACustomer() {
+
+        String startDate = "2023-01-01";
+        String endDate = "2024-01-01";
+        Customer customer = new Customer();
+        RevenueCustomer1 revenueCustomer1 = new RevenueCustomer1(customer.getId(), 2001);
+        when(salesInvoiceRepository.totalRevenueByACustomer(customer.getId(),dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).thenReturn(revenueCustomer1);
+        // RevenueStaff actualRevenueStaff = salesInvoiceService.revenueByAStaff(customer.getId(),dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        RevenueCustomer actualRevenueCustomer = salesInvoiceService.revenueByACustomer(customer.getId(),dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        assertEquals(revenueCustomer1.getId(), actualRevenueCustomer.getId());
+
+
+    }
+
+    @Test
+    void revenueByAStaff() {
+        String startDate = "2023-01-01";
+        String endDate = "2024-01-01";
+        Staff staff = new Staff();
+        RevenueStaff1 revenueStaff1 = new RevenueStaff1(staff.getId(), (float) 2001);
+        when(salesInvoiceRepository.totalRevenueByAStaff(staff.getId(),dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate))).thenReturn(revenueStaff1);
+        RevenueStaff actualRevenueStaff = salesInvoiceService.revenueByAStaff(staff.getId(),dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        assertEquals(actualRevenueStaff.getId(), revenueStaff1.getId());
     }
 }
