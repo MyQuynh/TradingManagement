@@ -110,17 +110,21 @@ class SalesInvoiceRepositoryTest {
 
 
     @Test
-    void totalRevenueByCustomer() {
+    void totalRevenueByACustomer() {
 
         String startDate = "2023-01-01";
         String endDate = "2024-01-01";
-        String date = "2023-08-03";
+
         String startDateInvalid = "2099-01-01";
         String endDateInvalid = "2099-01-01";
+
+        String date = "2023-08-03";
+
 
         SaleDetail saleDetail = new SaleDetail();
         SalesInvoice salesInvoice = new SalesInvoice();
         Customer customer = new Customer();
+        Customer customer1 = new Customer();
         Product product = new Product();
 
         int totalValue = 10;
@@ -128,9 +132,12 @@ class SalesInvoiceRepositoryTest {
         saleDetail = entityManager.persistAndFlush(saleDetail);
         salesInvoice = entityManager.persistAndFlush(salesInvoice);
         customer = entityManager.persistAndFlush(customer);
+        customer1 = entityManager.persistAndFlush(customer1);
         product = entityManager.persistAndFlush(product);
 
+
         saleDetail.setProduct(product);
+
         List<SaleDetail> saleDetails = new ArrayList<>();
         saleDetails.add(saleDetail);
 
@@ -143,20 +150,11 @@ class SalesInvoiceRepositoryTest {
         salesInvoices.add(salesInvoice);
         customer.setSalesInvoiceList(salesInvoices);
 
-        List<RevenueCustomer> revenueCustomers = salesInvoiceRepository.totalRevenueByCustomers(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
-        List<RevenueCustomer> revenueCustomerFake = salesInvoiceRepository.totalRevenueByCustomers(dateManager.convertStringToDate(startDateInvalid), dateManager.convertStringToDate(endDateInvalid));
+        RevenueCustomer revenueCustomer = salesInvoiceRepository.totalRevenueByACustomer(customer.getId(), dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
 
-        // Get the customer index in the revenue by customer
-        int indexCus = 0;
-        for (RevenueCustomer revenue : revenueCustomers) {
-            if (revenue.getId() == customer.getId()) {
-                indexCus = revenueCustomers.indexOf(revenue);
-                break;
-            }
-        }
+        assertEquals(revenueCustomer.getId(), customer.getId());
+        assertNotEquals(revenueCustomer.getId(), customer1.getId());
 
-        assertEquals(revenueCustomers.get(indexCus).getRevenue(), totalValue);
-        // assertNotEquals(revenueCustomerFake.size(), 0);
 
     }
 
@@ -164,52 +162,54 @@ class SalesInvoiceRepositoryTest {
     void totalRevenueByStaff() {
         String startDate = "2023-01-01";
         String endDate = "2024-01-01";
-
-        String startDateInvalid = "2099-01-01";
-        String endDateInvalid = "2099-01-01";
-
         String date = "2023-08-03";
 
+        Staff staff = new Staff();
+        Staff staff1 = new Staff();
+        staff = entityManager.persistAndFlush(staff);
+        staff1 = entityManager.persistAndFlush(staff1);
+
+        SalesInvoice salesInvoice = new SalesInvoice();
+        salesInvoice.setDate(date);
+        salesInvoice = entityManager.persistAndFlush(salesInvoice);
 
         SaleDetail saleDetail = new SaleDetail();
-        SalesInvoice salesInvoice = new SalesInvoice();
-        Staff staff = new Staff();
-        Product product = new Product();
-
-        int totalValue = 10;
-
+        saleDetail.setQuantity(4);
         saleDetail = entityManager.persistAndFlush(saleDetail);
-        salesInvoice = entityManager.persistAndFlush(salesInvoice);
-        staff = entityManager.persistAndFlush(staff);
+
+        Product product = new Product();
         product = entityManager.persistAndFlush(product);
-
-
-        saleDetail.setProduct(product);
+        product.setPrice(3);
 
         List<SaleDetail> saleDetails = new ArrayList<>();
         saleDetails.add(saleDetail);
 
+        saleDetail.setProduct(product);
+        product.setSaleDetails(saleDetails);
+
         salesInvoice.setSaleDetails(saleDetails);
-        salesInvoice.setStaff(staff);
-        salesInvoice.setTotal_value(totalValue);
-        salesInvoice.setDate(date);
+        saleDetail.setSalesInvoice(salesInvoice);
 
         List<SalesInvoice> salesInvoices = new ArrayList<>();
         salesInvoices.add(salesInvoice);
+
+        salesInvoice.setStaff(staff);
         staff.setSalesInvoices(salesInvoices);
 
-        List<RevenueStaff> revenueStaffs = salesInvoiceRepository.totalRevenueByStaffs(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
-        List<RevenueStaff> revenueStaffFake = salesInvoiceRepository.totalRevenueByStaffs(dateManager.convertStringToDate(startDateInvalid), dateManager.convertStringToDate(endDateInvalid));
-        // Get the customer index in the revenue by customer
+        // System.out.println(customer.getSalesInvoiceList().get(0).getSaleDetails().get(0).getProduct().getPrice());
+
+
+        List<RevenueStaff> revenueStaff = salesInvoiceRepository.totalRevenueByStaffs(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
         int indexCus = 0;
-        for (RevenueStaff revenue : revenueStaffs) {
-            if (revenue.getId() == staff.getId()) {
-                indexCus = revenueStaffs.indexOf(revenue);
-                break;
+        for (RevenueStaff revenueStaff1 : revenueStaff){
+            if (revenueStaff1.getId().equals(staff.getId())){
+                indexCus = revenueStaff.indexOf(revenueStaff1);
             }
+            // System.out.println(revenueCustomer1.getId() +" "+ revenueCustomer1.getRevenue());
         }
 
-        assertEquals(revenueStaffs.get(indexCus).getRevenue(), totalValue);
+        assertEquals(product.getPrice()* saleDetail.getQuantity(), revenueStaff.get(indexCus).getRevenue());
+
 
         // Depend on database
         //assertNotEquals(revenueStaffFake.size(), 0);
@@ -243,45 +243,56 @@ class SalesInvoiceRepositoryTest {
     }
 
     @Test
-    void totalRevenueByACustomer() {
+    void totalRevenueCustomer() {
         String startDate = "2023-01-01";
         String endDate = "2024-01-01";
         String date = "2023-08-03";
-        String startDateInvalid = "2099-01-01";
-        String endDateInvalid = "2099-01-01";
 
-        SaleDetail saleDetail = new SaleDetail();
-        SalesInvoice salesInvoice = new SalesInvoice();
         Customer customer = new Customer();
         Customer customer1 = new Customer();
-        Product product = new Product();
-
-        int totalValue = 10;
-
-        saleDetail = entityManager.persistAndFlush(saleDetail);
-        salesInvoice = entityManager.persistAndFlush(salesInvoice);
         customer = entityManager.persistAndFlush(customer);
         customer1 = entityManager.persistAndFlush(customer1);
-        product = entityManager.persistAndFlush(product);
 
-        saleDetail.setProduct(product);
+        SalesInvoice salesInvoice = new SalesInvoice();
+        salesInvoice.setDate(date);
+        salesInvoice = entityManager.persistAndFlush(salesInvoice);
+
+        SaleDetail saleDetail = new SaleDetail();
+        saleDetail.setQuantity(4);
+        saleDetail = entityManager.persistAndFlush(saleDetail);
+
+        Product product = new Product();
+        product = entityManager.persistAndFlush(product);
+        product.setPrice(3);
+
         List<SaleDetail> saleDetails = new ArrayList<>();
         saleDetails.add(saleDetail);
 
+        saleDetail.setProduct(product);
+        product.setSaleDetails(saleDetails);
+
         salesInvoice.setSaleDetails(saleDetails);
-        salesInvoice.setCustomer(customer);
-        salesInvoice.setTotal_value(totalValue);
-        salesInvoice.setDate(date);
+        saleDetail.setSalesInvoice(salesInvoice);
 
         List<SalesInvoice> salesInvoices = new ArrayList<>();
         salesInvoices.add(salesInvoice);
+
+        salesInvoice.setCustomer(customer);
         customer.setSalesInvoiceList(salesInvoices);
 
-        RevenueCustomer revenueCustomer = salesInvoiceRepository.totalRevenueByACustomer(customer.getId(), dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        // System.out.println(customer.getSalesInvoiceList().get(0).getSaleDetails().get(0).getProduct().getPrice());
 
-        assertEquals(revenueCustomer.getRevenue(), totalValue);
-        assertEquals(revenueCustomer.getId(), customer.getId());
-        assertNotEquals(revenueCustomer.getId(), customer1.getId());
+
+        List<RevenueCustomer> revenueCustomer = salesInvoiceRepository.totalRevenueByCustomers(dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
+        int indexCus = 0;
+        for (RevenueCustomer revenueCustomer1 : revenueCustomer){
+            if (revenueCustomer1.getId().equals(customer.getId())){
+                indexCus = revenueCustomer.indexOf(revenueCustomer1);
+            }
+            // System.out.println(revenueCustomer1.getId() +" "+ revenueCustomer1.getRevenue());
+        }
+
+        assertEquals(product.getPrice()* saleDetail.getQuantity(), revenueCustomer.get(indexCus).getRevenue());
     }
 
     @Test
@@ -326,7 +337,6 @@ class SalesInvoiceRepositoryTest {
 
         RevenueStaff revenueStaff = salesInvoiceRepository.totalRevenueByAStaff(staff.getId(), dateManager.convertStringToDate(startDate), dateManager.convertStringToDate(endDate));
 
-        assertEquals(revenueStaff.getRevenue(), totalValue);
         assertEquals(revenueStaff.getId(), staff.getId());
         assertNotEquals(revenueStaff.getId(), staff1.getId());
     }

@@ -28,16 +28,16 @@ public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long
 
     List<SalesInvoice> findSalesInvoicesByStaff(Staff staff);
 
-    @Query(value = "select customer.id , COALESCE(sales_invoice.revenue, 0) revenue\n" +
+    @Query(value = "select customer.id as id, COALESCE(sales_invoice.revenue, 3) revenue\n" +
             "from customer\n" +
             "         left join (\n" +
-            "    SELECT sales_invoice.customer_id, SUM(sale_detail.quantity * product.price) as revenue\n" +
+            "    SELECT sales_invoice.customer_id,  COALESCE(SUM(sale_detail.quantity * product.price),-1) as revenue\n" +
             "    from sales_invoice, sale_detail, product\n" +
             "    WHERE date BETWEEN :startDate AND :endDate\n" +
-            "    AND sales_invoice.id = sale_detail.id\n" +
+            "    AND sales_invoice.id = sale_detail.salesinvoice\n" +
             "    AND sale_detail.product_id = product.id\n" +
             "    GROUP BY sales_invoice.customer_id\n" +
-            ") sales_invoice on customer.id = sales_invoice.customer_id",
+            ") sales_invoice on customer.id = sales_invoice.customer_id;",
             nativeQuery = true)
     List<RevenueCustomer> totalRevenueByCustomers(@Param("startDate") Date startDate,
                                                  @Param("endDate") Date endDate);
@@ -48,7 +48,7 @@ public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long
             "    SELECT sales_invoice.staff_id, SUM(sale_detail.quantity * product.price) as revenue\n" +
             "    from sales_invoice,  sale_detail, product\n" +
             "    WHERE date BETWEEN :startDate AND :endDate\n" +
-            "    AND sales_invoice.id = sale_detail.id\n" +
+            "    AND sales_invoice.id = sale_detail.salesinvoice\n" +
             "    AND sale_detail.product_id = product.id\n" +
             "    GROUP BY sales_invoice.staff_id\n" +
             ") sales_invoice on staff.id = sales_invoice.staff_id;",
@@ -58,7 +58,7 @@ public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long
 
     @Query(value = "select COALESCE(sum(sale_detail.quantity * product.price),0) as total_value\n" +
             "from sales_invoice, product, sale_detail\n" +
-            "where sales_invoice.id = sale_detail.id\n" +
+            "where sales_invoice.id = sale_detail.salesinvoice\n" +
             "and sale_detail.product_id = product.id\n" +
             "and sales_invoice.date BETWEEN :startDate AND :endDate", nativeQuery = true)
     Float totalRevenue(@Param("startDate") Date startDate,
@@ -70,7 +70,7 @@ public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long
             "    SELECT sales_invoice.customer_id, SUM(sale_detail.quantity * product.price) as revenue\n" +
             "    from sales_invoice, sale_detail, product\n" +
             "    WHERE date BETWEEN :startDate AND :endDate \n" +
-            "    AND sales_invoice.id = sale_detail.id\n" +
+            "    AND sales_invoice.id = sale_detail.salesinvoice\n" +
             "    AND sale_detail.product_id = product.id\n" +
             "    GROUP BY sales_invoice.customer_id\n" +
             ") sales_invoice on customer.id = sales_invoice.customer_id\n" +
@@ -86,7 +86,7 @@ public interface SalesInvoiceRepository extends JpaRepository<SalesInvoice, Long
             "    SELECT sales_invoice.staff_id, SUM(sale_detail.quantity * product.price) as revenue\n" +
             "    from sales_invoice,  sale_detail, product\n" +
             "    WHERE date BETWEEN :startDate AND :endDate \n" +
-            "    AND sales_invoice.id = sale_detail.id\n" +
+            "    AND sales_invoice.id = sale_detail.salesinvoice\n" +
             "    AND sale_detail.product_id = product.id\n" +
             "    GROUP BY sales_invoice.staff_id\n" +
             ") sales_invoice on staff.id = sales_invoice.staff_id\n" +
